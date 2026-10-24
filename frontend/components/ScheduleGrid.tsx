@@ -5,11 +5,11 @@ const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 const PALETTE = ["#0072B2", "#E69F00", "#009E73", "#CC79A7", "#D55E00", "#56B4E9", "#B8A800", "#7A7A7A"];
 const PX_PER_HOUR = 58;
 const mins = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
-// Okabe-Ito green / orange / vermillion; every level also has its own icon and word.
+// Okabe-Ito green / orange / vermillion with black text (contrast 6.1 / 9.3 / 5.4); every level also has its own icon and word.
 export const RISK = {
-  green: { icon: "✓", word: "OK", bg: "#009E73", fg: "#ffffff" },
+  green: { icon: "✓", word: "OK", bg: "#009E73", fg: "#000000" },
   amber: { icon: "▲", word: "Tight", bg: "#E69F00", fg: "#000000" },
-  red: { icon: "✕", word: "Risky", bg: "#D55E00", fg: "#ffffff" },
+  red: { icon: "✕", word: "Risky", bg: "#D55E00", fg: "#000000" },
 } as const;
 const LABEL = { lecture: "Lecture", lab: "Lab", discussion: "Discussion" } as const;
 

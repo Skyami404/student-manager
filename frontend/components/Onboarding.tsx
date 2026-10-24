@@ -104,7 +104,7 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
                   checked={hubDone.includes(u)}
                   onChange={(e) => setHubDone(e.target.checked ? [...hubDone, u] : hubDone.filter((x) => x !== u))}
                 />
-                <span aria-hidden="true">{hubDone.includes(u) ? "✓" : "○"}</span> {u}
+                {u}
               </label>
             </li>
           ))}

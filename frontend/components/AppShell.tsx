@@ -19,7 +19,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const { profile, ready } = useProfile();
   const [editing, setEditing] = useState(false);
-  const showOnboarding = ready && (!profile || editing);
+  // The About page must be readable before anyone enters personal details.
+  const showOnboarding = ready && (!profile || editing) && path !== "/about";
 
   return (
     <>
@@ -61,13 +62,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </ul>
         </nav>
       </header>
-      <main id="main" className="mx-auto max-w-5xl px-4 pb-40 pt-6">
+      <main id="main" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-6">
         {!ready ? null : showOnboarding ? (
           <Onboarding initial={profile} onDone={() => setEditing(false)} onCancel={profile ? () => setEditing(false) : undefined} />
         ) : (
           children
         )}
       </main>
+      <footer className="mx-auto max-w-5xl px-4 pb-40 pt-4 text-sm">
+        <Link href="/about" aria-current={path === "/about" ? "page" : undefined} className="text-accent underline">About and limitations</Link>
+      </footer>
       <PetWidget />
     </>
   );

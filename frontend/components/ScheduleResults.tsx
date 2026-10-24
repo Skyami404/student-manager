@@ -26,9 +26,9 @@ export default function ScheduleResults({ result, selectedId, onUse }: { result:
         const m = s.metrics;
         return (
           <article key={s.rank} aria-labelledby={`s${s.rank}`} className="rounded border border-line p-4">
-            <h3 id={`s${s.rank}`} className="text-lg font-semibold">
+            <h2 id={`s${s.rank}`} className="text-lg font-semibold">
               Schedule {s.rank} <span className="text-sm font-normal opacity-70">· {s.credits} credits{s.optimal ? "" : " · best found in time limit"}</span>
-            </h3>
+            </h2>
             <p className="text-sm opacity-80">{s.courses.map((c) => c.code).join(", ")}</p>
             <button type="button" onClick={() => onUse(s)} aria-pressed={selectedId === s.id} className="mt-2 rounded border border-accent px-3 py-1 text-sm font-medium text-accent">
               {selectedId === s.id ? "✓ Using this schedule (see Week tab)" : "Use this schedule"}

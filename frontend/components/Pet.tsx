@@ -66,7 +66,7 @@ export default function PetWidget() {
   const { state, note } = usePetState();
   if (hidden) return null;
   return (
-    <div className="fixed bottom-3 right-3 z-20 flex flex-col items-center" data-testid="pet" data-state={state}>
+    <aside aria-label="Pet" className="fixed bottom-3 right-3 z-20 flex flex-col items-center" data-testid="pet" data-state={state}>
       {note && (
         <span className="mb-1 rounded-full border border-line bg-background px-2 py-0.5 text-xs shadow" aria-live="polite">
           {state === "sleeping" ? "💤 " : state === "walking" ? "🚶 " : ""}{note}
@@ -76,6 +76,6 @@ export default function PetWidget() {
       <button type="button" onClick={() => setHidden(true)} className="mt-0.5 rounded border border-line bg-surface px-1.5 text-xs" aria-label="Hide pet">
         <span aria-hidden="true">✕</span> Hide
       </button>
-    </div>
+    </aside>
   );
 }

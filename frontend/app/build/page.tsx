@@ -67,7 +67,7 @@ export default function BuildPage() {
 
   const chips = (list: string[], set: (l: string[]) => void, title: string) => (
     <div>
-      <h3 className="text-sm font-medium">{title} ({list.length})</h3>
+      <h2 className="text-sm font-medium">{title} ({list.length})</h2>
       <ul className="mt-1 flex flex-wrap gap-1">
         {list.map((c) => (
           <li key={c} className="flex items-center rounded-full border border-line bg-surface pl-3 text-sm">
