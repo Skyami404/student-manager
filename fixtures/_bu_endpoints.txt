@@ -1,0 +1,7 @@
+GET /api/v1/transit/bus/routes  [transit]
+GET /api/v1/transit/bus/vehicles  [transit]
+GET /api/v1/transit/bus/stops/{stop_id}/arrivals  [transit]  NEEDS: /api/v1/transit/bus/stops/{stop_id}/arrivals []
+GET /api/v1/transit/bus/notices  [transit]
+GET /api/v1/dining/locations  [dining]
+GET /api/v1/dining/locations/{location}/menu  [dining]  NEEDS: /api/v1/dining/locations/{location}/menu []
+GET /api/v1/dining/locations/{location}/menu/items/{item_id}  [dining]  NEEDS: /api/v1/dining/locations/{location}/menu/items/{item_id} []
