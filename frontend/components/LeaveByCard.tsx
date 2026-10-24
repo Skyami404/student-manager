@@ -39,14 +39,23 @@ export default function LeaveByCard({ schedule, todayOnly = false, title }: { sc
           <p className="text-sm opacity-80">
             {data.course_code} · {data.day} {new Date(data.class_start).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: "America/New_York" })} · {data.destination}
           </p>
-          <p className="text-3xl font-bold">
-            <span aria-hidden="true">{data.mode === "bus" ? "🚌" : "🚶"}</span> Leave by {data.leave_at}
-            <span className="ml-2 text-base font-normal opacity-80">{data.mode === "bus" ? "(shuttle bus)" : "(walk)"}</span>
-          </p>
-          <p className="text-sm font-medium">
-            <span aria-hidden="true">{data.probability_on_time >= 0.85 ? "✓" : data.probability_on_time >= 0.5 ? "▲" : "✕"}</span>{" "}
-            {data.probability_label} chance of arriving on time
-          </p>
+          {data.mode === "unknown" || data.leave_at === null ? (
+            <p className="text-2xl font-bold">
+              <span aria-hidden="true">? </span>Location unknown
+              <span className="block text-sm font-normal opacity-80">No walking time, so no leave-by time or on-time chance.</span>
+            </p>
+          ) : (
+            <>
+              <p className="text-3xl font-bold">
+                <span aria-hidden="true">{data.mode === "bus" ? "🚌" : "🚶"}</span> Leave by {data.leave_at}
+                <span className="ml-2 text-base font-normal opacity-80">{data.mode === "bus" ? "(shuttle bus)" : "(walk)"}{data.approximate ? " · approximate ≈" : ""}</span>
+              </p>
+              <p className="text-sm font-medium">
+                <span aria-hidden="true">{(data.probability_on_time ?? 0) >= 0.85 ? "✓" : (data.probability_on_time ?? 0) >= 0.5 ? "▲" : "✕"}</span>{" "}
+                {data.probability_label} chance of arriving on time
+              </p>
+            </>
+          )}
           <p className="text-sm"><span className="font-medium">Why: </span>{data.why}</p>
           {data.delay_model?.synthetic && (
             <p className="text-xs text-warn"><span aria-hidden="true">⚠</span> Bus delay estimates use synthetic placeholder data until enough real predictions are logged.</p>

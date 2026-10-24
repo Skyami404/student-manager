@@ -90,7 +90,7 @@ export default function EatPage() {
               {d.gaps.map((g) => (
                 <li key={g.kind + g.start} className="rounded border border-line p-3 text-sm">
                   <div className="font-medium">
-                    <span aria-hidden="true">{g.fits ? "✓" : "✕"}</span> {g.start}–{g.end} ({g.kind.replace("_", " ")}) · {g.fits ? "a meal fits" : "no meal fits"}
+                    <span aria-hidden="true">{g.fits === null ? "?" : g.fits ? "✓" : "✕"}</span> {g.start}–{g.end} ({g.kind.replace("_", " ")}) · {g.fits === null ? "location unknown, can't tell if a meal fits" : g.fits ? "a meal fits" : "no meal fits"}
                   </div>
                   <p className="text-xs opacity-80">{g.why}</p>
                   <ul className="mt-2 space-y-1">

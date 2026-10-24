@@ -3,36 +3,36 @@
  "synthetic_catalog": true,
  "n_requests": 50,
  "seed": 42,
- "common_subset_size": 43,
+ "common_subset_size": 39,
  "summary_common_subset": {
   "optimizer": {
    "valid_schedules": "48/50",
    "tight_transitions": 0,
-   "travel_minutes": 130.58,
-   "meal_window_days": 4.3,
-   "class_days": 4.3,
+   "travel_minutes": 138.05,
+   "meal_window_days": 4.23,
+   "class_days": 4.23,
    "no_meal_window_days": 0,
-   "cost": -17.35,
-   "ms": 48.71
+   "cost": -59.69,
+   "ms": 51.81
   },
   "random": {
    "valid_schedules": "48/50",
-   "tight_transitions": 0.07,
-   "travel_minutes": 150,
-   "meal_window_days": 4.6,
-   "class_days": 4.65,
+   "tight_transitions": 0,
+   "travel_minutes": 148.79,
+   "meal_window_days": 4.56,
+   "class_days": 4.62,
    "no_meal_window_days": 0.05,
-   "cost": 473.51,
-   "ms": 0.08
+   "cost": 445.36,
+   "ms": 0.09
   },
   "greedy": {
-   "valid_schedules": "43/50",
-   "tight_transitions": 0.07,
-   "travel_minutes": 146.58,
-   "meal_window_days": 4.53,
-   "class_days": 4.58,
+   "valid_schedules": "39/50",
+   "tight_transitions": 0,
+   "travel_minutes": 146.28,
+   "meal_window_days": 4.49,
+   "class_days": 4.54,
    "no_meal_window_days": 0.05,
-   "cost": 489.51,
+   "cost": 451.28,
    "ms": 0.04
   }
  },
@@ -50,35 +50,35 @@
     "CS 105",
     "HI 250"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 36.75395809113979,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 42.83874994143844,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 276,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 232.0,
+    "cost": -140.0,
     "no_meal_window_days": 0,
-    "ms": 36.75395809113979
+    "ms": 42.83874994143844
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 270,
+    "travel_minutes": 130,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 931.0,
+    "cost": 535.0,
     "no_meal_window_days": 0,
-    "ms": 0.07316702976822853
+    "ms": 0.07654121145606041
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 336,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1228.0,
+    "cost": 730.0,
     "no_meal_window_days": 0,
-    "ms": 0.0410410575568676
+    "ms": 0.04283292219042778
    }
   },
   {
@@ -95,26 +95,26 @@
     "HI 250",
     "WR 110"
    ],
-   "dorm": "MYL",
-   "optimizer_ms": 34.57712475210428,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 35.39866581559181,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 115,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -185.0,
+    "cost": -120.0,
     "no_meal_window_days": 0,
-    "ms": 34.57712475210428
+    "ms": 35.39866581559181
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 133,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 559.0,
+    "cost": 610.0,
     "no_meal_window_days": 0,
-    "ms": 0.31900033354759216
+    "ms": 0.3261249512434006
    },
    "greedy": null
   },
@@ -130,35 +130,35 @@
     "EC 340",
     "MA 320"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 59.06362505629659,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 59.311042074114084,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 167,
+    "travel_minutes": 140,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -65.0,
+    "cost": -240.0,
     "no_meal_window_days": 0,
-    "ms": 59.06362505629659
+    "ms": 59.311042074114084
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 226,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1202.0,
+    "cost": 920.0,
     "no_meal_window_days": 0,
-    "ms": 0.058957841247320175
+    "ms": 0.06241723895072937
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 216,
+    "travel_minutes": 138,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1138.0,
+    "cost": 864.0,
     "no_meal_window_days": 0,
-    "ms": 0.040374696254730225
+    "ms": 0.039375387132167816
    }
   },
   {
@@ -176,35 +176,35 @@
     "PL 240",
     "EC 102"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 75.50720777362585,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 79.46591638028622,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 104,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -122.0,
+    "cost": -60.0,
     "no_meal_window_days": 0,
-    "ms": 75.50720777362585
+    "ms": 79.46591638028622
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 122,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 712.0,
+    "cost": 555.0,
     "no_meal_window_days": 0,
-    "ms": 0.06645778194069862
+    "ms": 0.06479118019342422
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 88,
+    "travel_minutes": 120,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": 411.0,
+    "cost": 250.0,
     "no_meal_window_days": 0,
-    "ms": 0.03587501123547554
+    "ms": 0.036499928683042526
    }
   },
   {
@@ -219,35 +219,35 @@
     "CS 105",
     "WR 250"
    ],
-   "dorm": "CLF",
-   "optimizer_ms": 29.817667324095964,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 29.76308297365904,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 176,
-    "meal_window_days": 3,
-    "class_days": 3,
-    "cost": -19.0,
+    "travel_minutes": 190,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": -70.0,
     "no_meal_window_days": 0,
-    "ms": 29.817667324095964
+    "ms": 29.76308297365904
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 224,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 460.0,
+    "cost": 260.0,
     "no_meal_window_days": 0,
-    "ms": 0.34020794555544853
+    "ms": 0.3471663221716881
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 223,
+    "travel_minutes": 230,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 234.0,
+    "cost": 255.0,
     "no_meal_window_days": 0,
-    "ms": 0.04750024527311325
+    "ms": 0.048416201025247574
    }
   },
   {
@@ -265,35 +265,35 @@
     "PS 240",
     "WR 300"
    ],
-   "dorm": "CLF",
-   "optimizer_ms": 58.80333296954632,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 65.34887524321675,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 140,
+    "travel_minutes": 190,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -134.0,
+    "cost": -90.0,
     "no_meal_window_days": 0,
-    "ms": 58.80333296954632
+    "ms": 65.34887524321675
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 131,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 217.0,
+    "cost": 240.0,
     "no_meal_window_days": 0,
-    "ms": 0.05737459287047386
+    "ms": 0.06324984133243561
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 106,
+    "travel_minutes": 120,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": -36.0,
+    "cost": -50.0,
     "no_meal_window_days": 0,
-    "ms": 0.02904096618294716
+    "ms": 0.02824980765581131
    }
   },
   {
@@ -310,8 +310,8 @@
     "PH 151",
     "AR 100"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 10.79075038433075,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 12.325709220021963,
    "optimizer_schedules": 0,
    "optimizer": null,
    "random": null,
@@ -332,26 +332,26 @@
     "PS 210",
     "WR 110"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 40.25795869529247,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 42.033915873616934,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 151,
+    "travel_minutes": 183,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 407.0,
+    "cost": 429.0,
     "no_meal_window_days": 0,
-    "ms": 40.25795869529247
+    "ms": 42.033915873616934
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 142,
+    "travel_minutes": 180,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 575.0,
+    "cost": 605.0,
     "no_meal_window_days": 0,
-    "ms": 0.07562479004263878
+    "ms": 0.07600011304020882
    },
    "greedy": null
   },
@@ -370,35 +370,35 @@
     "WR 300",
     "PS 240"
    ],
-   "dorm": "CLF",
-   "optimizer_ms": 64.16549999266863,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 67.14325025677681,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 81,
+    "travel_minutes": 120,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -305.0,
+    "cost": -260.0,
     "no_meal_window_days": 0,
-    "ms": 64.16549999266863
+    "ms": 67.14325025677681
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 119,
+    "travel_minutes": 140,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -63.0,
+    "cost": -90.0,
     "no_meal_window_days": 0,
-    "ms": 0.07691700011491776
+    "ms": 0.08283322677016258
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 89,
+    "travel_minutes": 110,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -213.0,
+    "cost": -210.0,
     "no_meal_window_days": 0,
-    "ms": 0.03029080107808113
+    "ms": 0.029917340725660324
    }
   },
   {
@@ -413,35 +413,35 @@
     "WR 110",
     "CS 210"
    ],
-   "dorm": "SHI",
-   "optimizer_ms": 50.40308414027095,
+   "dorm": "Student Village 2 (StuVi2)",
+   "optimizer_ms": 52.82283294945955,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 107,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -215.0,
+    "cost": -140.0,
     "no_meal_window_days": 0,
-    "ms": 50.40308414027095
+    "ms": 52.82283294945955
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 102,
+    "travel_minutes": 150,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": 301.0,
+    "cost": 325.0,
     "no_meal_window_days": 0,
-    "ms": 0.0677499920129776
+    "ms": 0.06662542000412941
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 137,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1151.0,
+    "cost": 1150.0,
     "no_meal_window_days": 0,
-    "ms": 0.03654090687632561
+    "ms": 0.037750229239463806
    }
   },
   {
@@ -457,35 +457,35 @@
     "CS 210",
     "WR 100"
    ],
-   "dorm": "SV2",
-   "optimizer_ms": 42.034124955534935,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 45.50595907494426,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 153,
+    "travel_minutes": 120,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": 124.0,
+    "cost": -5.0,
     "no_meal_window_days": 0,
-    "ms": 42.034124955534935
+    "ms": 45.50595907494426
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 196,
+    "travel_minutes": 170,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 569.0,
+    "cost": 455.0,
     "no_meal_window_days": 0,
-    "ms": 0.07245922461152077
+    "ms": 0.07337471470236778
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 189,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 703.0,
+    "cost": 550.0,
     "no_meal_window_days": 0,
-    "ms": 0.032084062695503235
+    "ms": 0.031750183552503586
    }
   },
   {
@@ -502,35 +502,35 @@
     "AR 100",
     "MA 320"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 30.154624953866005,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 31.387540977448225,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 256,
+    "travel_minutes": 120,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 645.0,
+    "cost": 155.0,
     "no_meal_window_days": 0,
-    "ms": 30.154624953866005
+    "ms": 31.387540977448225
    },
    "random": {
-    "tight_transitions": 3,
-    "travel_minutes": 340,
+    "tight_transitions": 0,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1688.0,
+    "cost": 720.0,
     "no_meal_window_days": 0,
-    "ms": 0.06633298471570015
+    "ms": 0.06308313459157944
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 256,
+    "travel_minutes": 120,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 905.0,
+    "cost": 525.0,
     "no_meal_window_days": 0,
-    "ms": 0.031041912734508514
+    "ms": 0.030749943107366562
    }
   },
   {
@@ -545,35 +545,35 @@
     "HI 150",
     "WR 300"
    ],
-   "dorm": "MYL",
-   "optimizer_ms": 36.03225015103817,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 39.97645806521177,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 62,
+    "travel_minutes": 130,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -39.0,
+    "cost": 155.0,
     "no_meal_window_days": 0,
-    "ms": 36.03225015103817
+    "ms": 39.97645806521177
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 79,
+    "travel_minutes": 200,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 862.0,
+    "cost": 1085.0,
     "no_meal_window_days": 0,
-    "ms": 0.08816597983241081
+    "ms": 0.09183399379253387
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 67,
+    "travel_minutes": 140,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 674.0,
+    "cost": 835.0,
     "no_meal_window_days": 0,
-    "ms": 0.05712499842047691
+    "ms": 0.055874697864055634
    }
   },
   {
@@ -590,35 +590,35 @@
     "PH 101",
     "MA 301"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 49.12204202264547,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 52.01820842921734,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 168,
+    "travel_minutes": 140,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 52.0,
+    "cost": -50.0,
     "no_meal_window_days": 0,
-    "ms": 49.12204202264547
+    "ms": 52.01820842921734
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 152,
+    "travel_minutes": 190,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 670.0,
+    "cost": 640.0,
     "no_meal_window_days": 0,
-    "ms": 0.07941713556647301
+    "ms": 0.08516572415828705
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 150,
+    "travel_minutes": 120,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 242.0,
+    "cost": 120.0,
     "no_meal_window_days": 0,
-    "ms": 0.03512529656291008
+    "ms": 0.03520818427205086
    }
   },
   {
@@ -633,35 +633,35 @@
     "MA 320",
     "MA 211"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 49.694042187184095,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 51.83612508699298,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 118,
+    "travel_minutes": 110,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -260.0,
+    "cost": -270.0,
     "no_meal_window_days": 0,
-    "ms": 49.694042187184095
+    "ms": 51.83612508699298
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 126,
+    "travel_minutes": 140,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": 117.0,
+    "cost": 95.0,
     "no_meal_window_days": 0,
-    "ms": 0.10566692799329758
+    "ms": 0.11633289977908134
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 104,
+    "travel_minutes": 156,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -92.0,
+    "cost": -2.0,
     "no_meal_window_days": 0,
-    "ms": 0.034333206713199615
+    "ms": 0.03320910036563873
    }
   },
   {
@@ -679,26 +679,26 @@
     "PH 101",
     "MA 320"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 45.02062499523163,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 47.873000148683786,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 214,
+    "travel_minutes": 148,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 693.0,
+    "cost": 429.0,
     "no_meal_window_days": 0,
-    "ms": 45.02062499523163
+    "ms": 47.873000148683786
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 214,
+    "travel_minutes": 148,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1183.0,
+    "cost": 919.0,
     "no_meal_window_days": 0,
-    "ms": 0.11420808732509613
+    "ms": 0.11229235678911209
    },
    "greedy": null
   },
@@ -715,35 +715,35 @@
     "EC 340",
     "CS 111"
    ],
-   "dorm": "MYL",
-   "optimizer_ms": 60.94424985349178,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 67.50587467104197,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 48,
+    "travel_minutes": 150,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -398.0,
+    "cost": -230.0,
     "no_meal_window_days": 0,
-    "ms": 60.94424985349178
+    "ms": 67.50587467104197
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 82,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -39.0,
+    "cost": 95.0,
     "no_meal_window_days": 0,
-    "ms": 0.06445823237299919
+    "ms": 0.06341561675071716
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 93,
+    "travel_minutes": 150,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": 145.0,
+    "cost": 220.0,
     "no_meal_window_days": 0,
-    "ms": 0.0399579294025898
+    "ms": 0.03745919093489647
    }
   },
   {
@@ -760,26 +760,26 @@
     "PS 220",
     "PL 240"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 38.680334109812975,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 40.5887090601027,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 283,
+    "travel_minutes": 143,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 406.0,
+    "cost": -56.0,
     "no_meal_window_days": 0,
-    "ms": 38.680334109812975
+    "ms": 40.5887090601027
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 283,
+    "travel_minutes": 143,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1216.0,
+    "cost": 754.0,
     "no_meal_window_days": 0,
-    "ms": 0.06025005131959915
+    "ms": 0.06416579708456993
    },
    "greedy": null
   },
@@ -796,35 +796,35 @@
     "MA 211",
     "CS 330"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 35.459292121231556,
+   "dorm": "Student Village 2 (StuVi2)",
+   "optimizer_ms": 37.637250032275915,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 82,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -171.0,
+    "cost": -45.0,
     "no_meal_window_days": 0,
-    "ms": 35.459292121231556
+    "ms": 37.637250032275915
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 100,
+    "travel_minutes": 166,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 361.0,
+    "cost": 523.0,
     "no_meal_window_days": 0,
-    "ms": 0.06174994632601738
+    "ms": 0.06191665306687355
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 106,
+    "travel_minutes": 196,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 237.0,
+    "cost": 423.0,
     "no_meal_window_days": 0,
-    "ms": 0.0488748773932457
+    "ms": 0.04529207944869995
    }
   },
   {
@@ -840,35 +840,35 @@
     "EC 101",
     "CS 365"
    ],
-   "dorm": "WAR",
-   "optimizer_ms": 31.620167195796967,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 32.80029119923711,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 54,
+    "travel_minutes": 145,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -39.0,
+    "cost": 150.0,
     "no_meal_window_days": 0,
-    "ms": 31.620167195796967
+    "ms": 32.80029119923711
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 56,
+    "travel_minutes": 140,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -39.0,
+    "cost": 155.0,
     "no_meal_window_days": 0,
-    "ms": 0.06245775148272514
+    "ms": 0.06600003689527512
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 54,
+    "travel_minutes": 115,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1026.0,
+    "cost": 1185.0,
     "no_meal_window_days": 0,
-    "ms": 0.038458965718746185
+    "ms": 0.03712531179189682
    }
   },
   {
@@ -886,35 +886,35 @@
     "MA 320",
     "CS 350"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 42.7666250616312,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 44.242999982088804,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 105,
-    "meal_window_days": 3,
-    "class_days": 3,
-    "cost": -59.0,
+    "travel_minutes": 110,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": -140.0,
     "no_meal_window_days": 0,
-    "ms": 42.7666250616312
+    "ms": 44.242999982088804
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 135,
+    "travel_minutes": 130,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 470.0,
+    "cost": 395.0,
     "no_meal_window_days": 0,
-    "ms": 0.07816683501005173
+    "ms": 0.07445923984050751
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 135,
+    "travel_minutes": 130,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 470.0,
+    "cost": 395.0,
     "no_meal_window_days": 0,
-    "ms": 0.04483293741941452
+    "ms": 0.04612468183040619
    }
   },
   {
@@ -929,35 +929,35 @@
     "MA 201",
     "MA 310"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 31.598791014403105,
+   "dorm": "Student Village 2 (StuVi2)",
+   "optimizer_ms": 33.052791841328144,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 64,
+    "travel_minutes": 100,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -284.0,
+    "cost": -220.0,
     "no_meal_window_days": 0,
-    "ms": 31.598791014403105
+    "ms": 33.052791841328144
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 146,
+    "travel_minutes": 140,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 0.0,
+    "cost": -50.0,
     "no_meal_window_days": 0,
-    "ms": 0.06933370605111122
+    "ms": 0.060167163610458374
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 134,
+    "travel_minutes": 140,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 90.0,
+    "cost": 80.0,
     "no_meal_window_days": 0,
-    "ms": 0.040708109736442566
+    "ms": 0.03912486135959625
    }
   },
   {
@@ -973,35 +973,35 @@
     "PS 220",
     "EC 340"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 42.35500004142523,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 43.570166919380426,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 170,
+    "travel_minutes": 160,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 302.0,
+    "cost": 160.0,
     "no_meal_window_days": 0,
-    "ms": 42.35500004142523
+    "ms": 43.570166919380426
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 187,
+    "travel_minutes": 140,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1273.0,
+    "cost": 1070.0,
     "no_meal_window_days": 0,
-    "ms": 0.0743749551475048
+    "ms": 0.08320808410644531
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 198,
+    "travel_minutes": 154,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 946.0,
+    "cost": 732.0,
     "no_meal_window_days": 0,
-    "ms": 0.050708185881376266
+    "ms": 0.0516669824719429
    }
   },
   {
@@ -1018,35 +1018,35 @@
     "MA 310",
     "PH 201"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 68.05670820176601,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 68.30895924940705,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 116,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": -180.0,
+    "travel_minutes": 100,
+    "meal_window_days": 2,
+    "class_days": 2,
+    "cost": -210.0,
     "no_meal_window_days": 0,
-    "ms": 68.05670820176601
+    "ms": 68.30895924940705
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 186,
+    "travel_minutes": 168,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 218.0,
+    "cost": 104.0,
     "no_meal_window_days": 0,
-    "ms": 0.06229197606444359
+    "ms": 0.07250020280480385
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 194,
+    "travel_minutes": 210,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 354.0,
+    "cost": 350.0,
     "no_meal_window_days": 0,
-    "ms": 0.031000003218650818
+    "ms": 0.03187544643878937
    }
   },
   {
@@ -1063,35 +1063,35 @@
     "PH 201",
     "CS 111"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 38.01237512379885,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 38.71124982833862,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 196,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 151.0,
+    "cost": 25.0,
     "no_meal_window_days": 0,
-    "ms": 38.01237512379885
+    "ms": 38.71124982833862
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 273,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1747.0,
+    "cost": 1420.0,
     "no_meal_window_days": 0,
-    "ms": 0.06712507456541061
+    "ms": 0.06287498399615288
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 203,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 570.0,
+    "cost": 375.0,
     "no_meal_window_days": 0,
-    "ms": 0.030332710593938828
+    "ms": 0.03045797348022461
    }
   },
   {
@@ -1108,35 +1108,35 @@
     "PH 201",
     "MA 211"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 61.07445899397135,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 62.86870827898383,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 221,
+    "travel_minutes": 136,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 69.0,
+    "cost": -172.0,
     "no_meal_window_days": 0,
-    "ms": 61.07445899397135
+    "ms": 62.86870827898383
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 231,
+    "travel_minutes": 176,
     "meal_window_days": 3,
     "class_days": 5,
-    "cost": 362.0,
+    "cost": 123.0,
     "no_meal_window_days": 2,
-    "ms": 0.07837498560547829
+    "ms": 0.08066603913903236
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 220,
+    "travel_minutes": 146,
     "meal_window_days": 3,
     "class_days": 5,
-    "cost": 671.0,
+    "cost": 413.0,
     "no_meal_window_days": 2,
-    "ms": 0.03350013867020607
+    "ms": 0.03133388236165047
    }
   },
   {
@@ -1153,35 +1153,35 @@
     "PL 100",
     "PS 101"
    ],
-   "dorm": "WAR",
-   "optimizer_ms": 55.47166662290692,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 55.78154185786843,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 60,
+    "travel_minutes": 135,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -136.0,
+    "cost": 15.0,
     "no_meal_window_days": 0,
-    "ms": 55.47166662290692
+    "ms": 55.78154185786843
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 48,
+    "travel_minutes": 129,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1085.0,
+    "cost": 1262.0,
     "no_meal_window_days": 0,
-    "ms": 0.11754175648093224
+    "ms": 0.1233336515724659
    },
    "greedy": {
-    "tight_transitions": 3,
-    "travel_minutes": 93,
+    "tight_transitions": 0,
+    "travel_minutes": 149,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1269.0,
+    "cost": 937.0,
     "no_meal_window_days": 0,
-    "ms": 0.03945920616388321
+    "ms": 0.04120822995901108
    }
   },
   {
@@ -1198,35 +1198,35 @@
     "CS 112",
     "MA 211"
    ],
-   "dorm": "CLF",
-   "optimizer_ms": 80.05133410915732,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 77.37716613337398,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 127,
-    "meal_window_days": 3,
-    "class_days": 3,
-    "cost": -95.0,
+    "travel_minutes": 120,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": -160.0,
     "no_meal_window_days": 0,
-    "ms": 80.05133410915732
+    "ms": 77.37716613337398
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 169,
+    "travel_minutes": 180,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 595.0,
+    "cost": 540.0,
     "no_meal_window_days": 0,
-    "ms": 0.08770916610956192
+    "ms": 0.08612498641014099
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 160,
+    "travel_minutes": 140,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 492.0,
+    "cost": 400.0,
     "no_meal_window_days": 0,
-    "ms": 0.03412459045648575
+    "ms": 0.033542048186063766
    }
   },
   {
@@ -1243,35 +1243,35 @@
     "CS 330",
     "CS 350"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 79.20812489464879,
+   "dorm": "Student Village 2 (StuVi2)",
+   "optimizer_ms": 78.4007920883596,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 83,
+    "travel_minutes": 130,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -271.0,
+    "cost": -170.0,
     "no_meal_window_days": 0,
-    "ms": 79.20812489464879
+    "ms": 78.4007920883596
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 86,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 39.0,
+    "cost": 165.0,
     "no_meal_window_days": 0,
-    "ms": 0.07120799273252487
+    "ms": 0.07083406671881676
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 117,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 782.0,
+    "cost": 845.0,
     "no_meal_window_days": 0,
-    "ms": 0.04091719165444374
+    "ms": 0.0399160198867321
    }
   },
   {
@@ -1289,35 +1289,35 @@
     "PS 260",
     "PH 151"
    ],
-   "dorm": "MYL",
-   "optimizer_ms": 57.161249686032534,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 57.69929103553295,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 61,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": -173.0,
+    "travel_minutes": 200,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 40.0,
     "no_meal_window_days": 0,
-    "ms": 57.161249686032534
+    "ms": 57.69929103553295
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 71,
+    "travel_minutes": 140,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 595.0,
+    "cost": 730.0,
     "no_meal_window_days": 0,
-    "ms": 0.07154187187552452
+    "ms": 0.06791669875383377
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 88,
+    "travel_minutes": 166,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 354.0,
+    "cost": 528.0,
     "no_meal_window_days": 0,
-    "ms": 0.040207989513874054
+    "ms": 0.03950018435716629
    }
   },
   {
@@ -1333,8 +1333,8 @@
     "MA 310",
     "WR 150"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 6.5315840765833855,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 7.041582837700844,
    "optimizer_schedules": 0,
    "optimizer": null,
    "random": null,
@@ -1353,35 +1353,35 @@
     "WR 110",
     "WR 100"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 50.61033274978399,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 48.007665667682886,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 90,
+    "travel_minutes": 100,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -109.0,
+    "cost": -135.0,
     "no_meal_window_days": 0,
-    "ms": 50.61033274978399
+    "ms": 48.007665667682886
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 132,
+    "travel_minutes": 156,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -26.0,
+    "cost": 18.0,
     "no_meal_window_days": 0,
-    "ms": 0.12812484055757523
+    "ms": 0.12475019320845604
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 108,
+    "travel_minutes": 116,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -38.0,
+    "cost": -42.0,
     "no_meal_window_days": 0,
-    "ms": 0.03950018435716629
+    "ms": 0.03645941615104675
    }
   },
   {
@@ -1396,35 +1396,35 @@
     "HI 250",
     "CS 365"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 33.534166403114796,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 34.08387489616871,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 84,
+    "travel_minutes": 120,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -194.0,
+    "cost": -170.0,
     "no_meal_window_days": 0,
-    "ms": 33.534166403114796
+    "ms": 34.08387489616871
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 83,
+    "travel_minutes": 110,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -26.0,
+    "cost": -15.0,
     "no_meal_window_days": 0,
-    "ms": 0.06741611286997795
+    "ms": 0.0638752244412899
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 143,
+    "travel_minutes": 168,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 227.0,
+    "cost": 244.0,
     "no_meal_window_days": 0,
-    "ms": 0.035624951124191284
+    "ms": 0.03641704097390175
    }
   },
   {
@@ -1442,35 +1442,35 @@
     "WR 300",
     "EC 301"
    ],
-   "dorm": "SV2",
-   "optimizer_ms": 52.66245827078819,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 72.24766723811626,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 158,
+    "travel_minutes": 100,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -26.0,
+    "cost": -200.0,
     "no_meal_window_days": 0,
-    "ms": 52.66245827078819
+    "ms": 72.24766723811626
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 158,
+    "travel_minutes": 100,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -26.0,
+    "cost": -200.0,
     "no_meal_window_days": 0,
-    "ms": 0.10729208588600159
+    "ms": 0.10929116979241371
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 137,
+    "travel_minutes": 90,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 151.0,
+    "cost": 30.0,
     "no_meal_window_days": 0,
-    "ms": 0.0355839729309082
+    "ms": 0.03454182296991348
    }
   },
   {
@@ -1487,35 +1487,35 @@
     "EC 301",
     "EC 102"
    ],
-   "dorm": "MYL",
-   "optimizer_ms": 39.5949580706656,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 38.262167014181614,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 74,
+    "travel_minutes": 128,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -226.0,
+    "cost": -96.0,
     "no_meal_window_days": 0,
-    "ms": 39.5949580706656
+    "ms": 38.262167014181614
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 84,
+    "travel_minutes": 124,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 290.0,
+    "cost": 382.0,
     "no_meal_window_days": 0,
-    "ms": 0.07133278995752335
+    "ms": 0.0689174048602581
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 56,
+    "travel_minutes": 104,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": -54.0,
+    "cost": 62.0,
     "no_meal_window_days": 0,
-    "ms": 0.035791657865047455
+    "ms": 0.034125056117773056
    }
   },
   {
@@ -1533,35 +1533,35 @@
     "HI 150",
     "EC 320"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 100.88454186916351,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 101.88333317637444,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 218,
+    "travel_minutes": 170,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 80.0,
+    "cost": -170.0,
     "no_meal_window_days": 0,
-    "ms": 100.88454186916351
+    "ms": 101.88333317637444
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 206,
+    "travel_minutes": 130,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 233.0,
+    "cost": -45.0,
     "no_meal_window_days": 0,
-    "ms": 0.07591722533106804
+    "ms": 0.07466599345207214
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 275,
+    "travel_minutes": 173,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1340.0,
+    "cost": 944.0,
     "no_meal_window_days": 0,
-    "ms": 0.03879191353917122
+    "ms": 0.03916630521416664
    }
   },
   {
@@ -1576,35 +1576,35 @@
     "MA 320",
     "PS 220"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 41.571208741515875,
+   "dorm": "Student Village 2 (StuVi2)",
+   "optimizer_ms": 43.89391699805856,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 114,
+    "travel_minutes": 150,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -254.0,
+    "cost": -230.0,
     "no_meal_window_days": 0,
-    "ms": 41.571208741515875
+    "ms": 43.89391699805856
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 96,
+    "travel_minutes": 120,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -101.0,
+    "cost": -95.0,
     "no_meal_window_days": 0,
-    "ms": 0.0633331947028637
+    "ms": 0.06991717964410782
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 112,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -53.0,
+    "cost": 25.0,
     "no_meal_window_days": 0,
-    "ms": 0.03358302637934685
+    "ms": 0.03437511622905731
    }
   },
   {
@@ -1622,383 +1622,372 @@
     "PH 151",
     "CS 350"
    ],
-   "dorm": "SHI",
-   "optimizer_ms": 38.50933304056525,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 42.54970792680979,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 206,
+    "travel_minutes": 144,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 562.0,
+    "cost": 612.0,
     "no_meal_window_days": 0,
-    "ms": 38.50933304056525
+    "ms": 42.54970792680979
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 206,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 562.0,
+    "cost": 660.0,
     "no_meal_window_days": 0,
-    "ms": 0.10566692799329758
+    "ms": 0.1127920113503933
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 203,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 818.0,
+    "cost": 735.0,
     "no_meal_window_days": 0,
-    "ms": 0.04233280196785927
+    "ms": 0.04316680133342743
    }
   },
   {
    "request": 38,
    "required": [
-    "CS 111",
+    "CS 105",
     "WR 110",
-    "PS 240",
-    "PS 300"
+    "CS 111"
    ],
    "optional": [
-    "EC 301",
-    "PS 101",
     "HI 150",
-    "WR 300",
-    "PL 240"
+    "PL 100",
+    "EC 320",
+    "PS 210"
    ],
-   "dorm": "SHI",
-   "optimizer_ms": 52.85975011065602,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 34.438875038176775,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 154,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -54.0,
+    "cost": 225.0,
     "no_meal_window_days": 0,
-    "ms": 52.85975011065602
+    "ms": 34.438875038176775
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 154,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 76.0,
+    "cost": 225.0,
     "no_meal_window_days": 0,
-    "ms": 0.26570772752165794
+    "ms": 0.10037468746304512
    },
-   "greedy": null
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 126,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 653.0,
+    "no_meal_window_days": 0,
+    "ms": 0.048582907766103745
+   }
   },
   {
    "request": 39,
    "required": [
-    "PH 102",
-    "AR 100",
-    "PH 201",
-    "PS 240"
+    "CS 210",
+    "PS 101",
+    "WR 300",
+    "PH 151"
    ],
    "optional": [
-    "PH 151",
     "EC 101",
-    "PS 101",
-    "MA 301"
+    "HI 250",
+    "PS 300"
    ],
-   "dorm": "CLF",
-   "optimizer_ms": 78.1748746521771,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 44.94437528774142,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 138,
+    "travel_minutes": 172,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": -152.0,
+    "cost": -164.0,
     "no_meal_window_days": 0,
-    "ms": 78.1748746521771
+    "ms": 44.94437528774142
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 178,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": 155.0,
+    "travel_minutes": 172,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": -164.0,
     "no_meal_window_days": 0,
-    "ms": 0.07187481969594955
+    "ms": 0.12483308091759682
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 165,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": 399.0,
+    "travel_minutes": 158,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 254.0,
     "no_meal_window_days": 0,
-    "ms": 0.04204176366329193
+    "ms": 0.038207974284887314
    }
   },
   {
    "request": 40,
    "required": [
-    "PS 260",
-    "MA 310",
-    "CS 111",
-    "CS 112"
+    "PH 102",
+    "PH 201",
+    "EC 301",
+    "EC 102"
    ],
    "optional": [
-    "WR 250",
-    "CS 350",
-    "PH 151"
+    "MA 310",
+    "CS 111",
+    "CS 112",
+    "PH 101",
+    "WR 300"
    ],
-   "dorm": "SV1",
-   "optimizer_ms": 31.817249953746796,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 58.011208195239305,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 212,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": 412.0,
+    "travel_minutes": 210,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 285.0,
     "no_meal_window_days": 0,
-    "ms": 31.817249953746796
+    "ms": 58.011208195239305
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 233,
+    "travel_minutes": 180,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 817.0,
+    "cost": 1015.0,
     "no_meal_window_days": 0,
-    "ms": 0.07499987259507179
+    "ms": 0.18079113215208054
    },
-   "greedy": {
-    "tight_transitions": 0,
-    "travel_minutes": 215,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": 715.0,
-    "no_meal_window_days": 0,
-    "ms": 0.04024989902973175
-   }
+   "greedy": null
   },
   {
    "request": 41,
    "required": [
     "WR 200",
-    "MA 211",
-    "CS 365",
-    "WR 100"
+    "EC 301",
+    "PS 260",
+    "WR 110"
    ],
    "optional": [
-    "MA 102",
-    "AR 100",
+    "MA 211",
+    "CS 365",
     "WR 300",
-    "PS 260",
-    "MA 101"
+    "WR 150"
    ],
-   "dorm": "RCH",
-   "optimizer_ms": 46.61295795813203,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 56.71200016513467,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 172,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -66.0,
+    "cost": 260.0,
     "no_meal_window_days": 0,
-    "ms": 46.61295795813203
+    "ms": 56.71200016513467
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 135,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 382.0,
+    "cost": 1760.0,
     "no_meal_window_days": 0,
-    "ms": 0.05733361467719078
+    "ms": 0.060375314205884933
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 169,
+    "travel_minutes": 140,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 96.0,
+    "cost": 1200.0,
     "no_meal_window_days": 0,
-    "ms": 0.031542032957077026
+    "ms": 0.03520771861076355
    }
   },
   {
    "request": 42,
    "required": [
-    "PS 210",
-    "PH 101",
-    "PH 201"
+    "PS 101",
+    "MA 101",
+    "EC 320",
+    "EC 101"
    ],
    "optional": [
-    "PS 260",
-    "MA 102",
-    "WR 200",
-    "EC 340"
+    "WR 110",
+    "PL 100",
+    "PH 102",
+    "PS 300"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 39.05141679570079,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 55.65258301794529,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 88,
+    "travel_minutes": 100,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 123.0,
+    "cost": -20.0,
     "no_meal_window_days": 0,
-    "ms": 39.05141679570079
+    "ms": 55.65258301794529
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 88,
+    "travel_minutes": 100,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 318.0,
+    "cost": 600.0,
     "no_meal_window_days": 0,
-    "ms": 0.10970793664455414
+    "ms": 0.08283322677016258
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 64,
+    "travel_minutes": 130,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 212.0,
+    "cost": 260.0,
     "no_meal_window_days": 0,
-    "ms": 0.04695914685726166
+    "ms": 0.04574982449412346
    }
   },
   {
    "request": 43,
    "required": [
-    "PL 240",
-    "PS 260",
-    "MA 102"
+    "WR 100",
+    "EC 301",
+    "WR 150"
    ],
    "optional": [
-    "AR 100",
-    "PL 100",
-    "MA 201",
-    "MA 320"
+    "CS 210",
+    "PS 220",
+    "CS 111",
+    "HI 250",
+    "MA 102"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 33.651540987193584,
+   "dorm": "Student Village 2 (StuVi2)",
+   "optimizer_ms": 58.49229171872139,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 180,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -80.0,
+    "cost": -90.0,
     "no_meal_window_days": 0,
-    "ms": 33.651540987193584
+    "ms": 58.49229171872139
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 211,
+    "travel_minutes": 214,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 391.0,
+    "cost": 1037.0,
     "no_meal_window_days": 0,
-    "ms": 0.06924988701939583
+    "ms": 0.06700027734041214
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 179,
+    "travel_minutes": 204,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 71.0,
+    "cost": 672.0,
     "no_meal_window_days": 0,
-    "ms": 0.02695806324481964
+    "ms": 0.03204215317964554
    }
   },
   {
    "request": 44,
    "required": [
-    "PH 151",
-    "WR 100",
-    "EC 102"
+    "CS 111",
+    "WR 110",
+    "CS 330",
+    "MA 211"
    ],
    "optional": [
-    "PS 220",
-    "EC 320",
-    "EC 340"
+    "WR 250",
+    "EC 340",
+    "PH 151",
+    "PS 240"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 37.00749995186925,
+   "dorm": "Student Village 1 (StuVi1)",
+   "optimizer_ms": 49.39583316445351,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 97,
-    "meal_window_days": 4,
-    "class_days": 4,
-    "cost": 87.0,
+    "travel_minutes": 167,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 76.0,
     "no_meal_window_days": 0,
-    "ms": 37.00749995186925
+    "ms": 49.39583316445351
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 108,
+    "travel_minutes": 167,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 136.0,
+    "cost": 76.0,
     "no_meal_window_days": 0,
-    "ms": 0.06312504410743713
+    "ms": 0.09341724216938019
    },
-   "greedy": {
-    "tight_transitions": 0,
-    "travel_minutes": 141,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": 809.0,
-    "no_meal_window_days": 0,
-    "ms": 0.04374980926513672
-   }
+   "greedy": null
   },
   {
    "request": 45,
    "required": [
+    "PH 151",
+    "MA 310",
     "PS 101",
-    "MA 102",
-    "PS 260"
+    "MA 102"
    ],
    "optional": [
-    "EC 340",
-    "PH 102",
-    "MA 310"
+    "PL 100",
+    "MA 301",
+    "WR 150",
+    "PH 201",
+    "MA 320"
    ],
-   "dorm": "WAR",
-   "optimizer_ms": 28.68016716092825,
+   "dorm": "Kilachand Hall",
+   "optimizer_ms": 35.2934580296278,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 102,
+    "travel_minutes": 146,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 34.0,
+    "cost": 188.0,
     "no_meal_window_days": 0,
-    "ms": 28.68016716092825
+    "ms": 35.2934580296278
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 145,
-    "meal_window_days": 4,
-    "class_days": 4,
-    "cost": 205.0,
-    "no_meal_window_days": 0,
-    "ms": 0.07758289575576782
-   },
-   "greedy": {
-    "tight_transitions": 0,
-    "travel_minutes": 127,
+    "travel_minutes": 146,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 406.0,
+    "cost": 188.0,
     "no_meal_window_days": 0,
-    "ms": 0.03924965858459473
-   }
+    "ms": 0.09137485176324844
+   },
+   "greedy": null
   },
   {
    "request": 46,
@@ -2012,35 +2001,35 @@
     "CS 105",
     "PL 100"
    ],
-   "dorm": "MYL",
-   "optimizer_ms": 52.56591597571969,
+   "dorm": "Myles Standish Hall",
+   "optimizer_ms": 35.743165761232376,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 69,
+    "travel_minutes": 130,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": -9.0,
+    "cost": 150.0,
     "no_meal_window_days": 0,
-    "ms": 52.56591597571969
+    "ms": 35.743165761232376
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 89,
+    "travel_minutes": 164,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 827.0,
+    "cost": 982.0,
     "no_meal_window_days": 0,
-    "ms": 0.09741727262735367
+    "ms": 0.09216694161295891
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 79,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 720.0,
+    "cost": 885.0,
     "no_meal_window_days": 0,
-    "ms": 0.037458259612321854
+    "ms": 0.03879191353917122
    }
   },
   {
@@ -2056,124 +2045,107 @@
     "MA 102",
     "EC 301"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 37.685375194996595,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 38.14541734755039,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 95,
+    "travel_minutes": 84,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -297.0,
+    "cost": -328.0,
     "no_meal_window_days": 0,
-    "ms": 37.685375194996595
+    "ms": 38.14541734755039
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 106,
+    "travel_minutes": 84,
     "meal_window_days": 4,
     "class_days": 4,
-    "cost": 32.0,
+    "cost": -48.0,
     "no_meal_window_days": 0,
-    "ms": 0.052833929657936096
+    "ms": 0.05958275869488716
    },
    "greedy": {
     "tight_transitions": 0,
-    "travel_minutes": 93,
+    "travel_minutes": 86,
     "meal_window_days": 3,
     "class_days": 3,
-    "cost": -149.0,
+    "cost": -222.0,
     "no_meal_window_days": 0,
-    "ms": 0.03300001844763756
+    "ms": 0.03279093652963638
    }
   },
   {
    "request": 48,
    "required": [
-    "MA 320",
-    "EC 101",
-    "PL 100"
+    "MA 301",
+    "HI 250",
+    "AR 100"
    ],
    "optional": [
-    "PL 240",
-    "MA 201",
-    "WR 100"
+    "CS 105",
+    "EC 102",
+    "CS 111"
    ],
-   "dorm": "DAN",
-   "optimizer_ms": 49.17641682550311,
+   "dorm": "Warren Towers",
+   "optimizer_ms": 39.699040818959475,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 132,
+    "travel_minutes": 136,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -212.0,
+    "no_meal_window_days": 0,
+    "ms": 39.699040818959475
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 160,
     "meal_window_days": 5,
     "class_days": 5,
     "cost": -140.0,
     "no_meal_window_days": 0,
-    "ms": 49.17641682550311
+    "ms": 0.06404193118214607
    },
-   "random": {
-    "tight_transitions": 0,
-    "travel_minutes": 152,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": 425.0,
-    "no_meal_window_days": 0,
-    "ms": 0.0733332708477974
-   },
-   "greedy": {
-    "tight_transitions": 0,
-    "travel_minutes": 110,
-    "meal_window_days": 4,
-    "class_days": 4,
-    "cost": 620.0,
-    "no_meal_window_days": 0,
-    "ms": 0.041458290070295334
-   }
+   "greedy": null
   },
   {
    "request": 49,
    "required": [
-    "MA 101",
-    "WR 200",
-    "PS 210",
-    "MA 320"
+    "EC 340",
+    "MA 301",
+    "PS 220",
+    "EC 301"
    ],
    "optional": [
-    "WR 150",
-    "PS 240",
-    "CS 330",
-    "PS 101"
+    "WR 110",
+    "PS 300",
+    "CS 105"
    ],
-   "dorm": "SV2",
-   "optimizer_ms": 37.45370777323842,
+   "dorm": "Student Village 2 (StuVi2)",
+   "optimizer_ms": 43.95312489941716,
    "optimizer_schedules": 3,
    "optimizer": {
     "tight_transitions": 0,
-    "travel_minutes": 191,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": 899.0,
+    "travel_minutes": 140,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -180.0,
     "no_meal_window_days": 0,
-    "ms": 37.45370777323842
+    "ms": 43.95312489941716
    },
    "random": {
     "tight_transitions": 0,
-    "travel_minutes": 183,
+    "travel_minutes": 150,
     "meal_window_days": 5,
     "class_days": 5,
-    "cost": 1434.0,
+    "cost": 715.0,
     "no_meal_window_days": 0,
-    "ms": 0.06420817226171494
+    "ms": 0.0842907465994358
    },
-   "greedy": {
-    "tight_transitions": 0,
-    "travel_minutes": 171,
-    "meal_window_days": 5,
-    "class_days": 5,
-    "cost": 1008.0,
-    "no_meal_window_days": 0,
-    "ms": 0.037999823689460754
-   }
+   "greedy": null
   }
  ],
  "delay_model": {

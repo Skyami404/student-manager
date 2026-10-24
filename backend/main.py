@@ -85,6 +85,17 @@ def dorms(s: Session = Depends(db.get_session)):
 _status_cache: tuple[float, dict] = (0.0, {})
 
 
+def _location_quality() -> dict:
+    """How trustworthy walking times are: unverified or missing buildings make them approximate."""
+    from locations import LocationInfo
+    with db.SessionLocal() as s:
+        coords = {b.code: (b.lat, b.lon) for b in s.scalars(select(db.Building))}
+    info = LocationInfo(coords)
+    return {"buildings_in_table": len(coords), "buildings_verified": len(info.verified & set(coords)),
+            "approximate": len(info.verified & set(coords)) < len(coords),
+            "medical_or_no_room_codes": sorted(info.medical | info.no_room)}
+
+
 @app.get("/data-status")
 def data_status():
     """Per-source status: live | cached | sample | unavailable. Probed at most once a minute."""
@@ -99,7 +110,7 @@ def data_status():
         "catalog": {"status": "sample" if catalog.synthetic else "live", "synthetic": catalog.synthetic, "label": catalog.label},
         "transit": {"status": t},
         "dining": {"status": d},
-        "locations": {"status": "sample", "source": locs, "synthetic": locs != "csv"},
+        "locations": {"status": "sample", "source": locs, "synthetic": locs != "csv", **_location_quality()},
         "delay_model": delay_model.status() | {"logger": transit_logger.STATE | {"rows": transit_logger.total_rows()}},
     }
     _status_cache = (time.time(), result)

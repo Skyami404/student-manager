@@ -60,10 +60,10 @@ export default function DataBadge() {
           </Pill>
         </li>
       )}
-      {status.locations.synthetic && (
+      {(status.locations.synthetic || status.locations.approximate) && (
         <li>
           <Pill>
-            <span aria-hidden="true">◆</span> Locations: approximate (synthetic)
+            <span aria-hidden="true">◆</span> Locations: approximate ({status.locations.synthetic ? "synthetic" : "unverified"})
           </Pill>
         </li>
       )}

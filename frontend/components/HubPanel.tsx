@@ -49,9 +49,10 @@ export default function HubPanel({ maxCredits }: { maxCredits: number }) {
               <li key={s.course.code} className="rounded border border-line p-2">
                 <div className="font-medium">{s.course.code} · {s.course.title} · {s.course.credits} cr</div>
                 <div className="text-xs"><span aria-hidden="true">✓</span> Covers: {s.covers.join(", ")}</div>
+                {s.location_unknown && <div className="text-xs font-medium"><span aria-hidden="true">? </span>Location unknown: walking can&apos;t be checked for this one</div>}
                 <ul className="mt-1 text-xs">
                   {s.sections.map((x) => (
-                    <li key={x.id}>{x.component} {x.section_label}: {x.days.length ? `${x.days.join("/")} ${x.start}–${x.end} · ${x.building_code}` : "TBA / online"}{x.seats_open !== null && x.seats_open <= 5 ? ` · ${x.seats_open} seats left` : ""}</li>
+                    <li key={x.id}>{x.component} {x.section_label}: {x.days.length ? `${x.days.join("/")} ${x.start}–${x.end} · ${x.location_status === "unknown" ? "location unknown" : x.building_code}` : "TBA / online"}{x.seats_open !== null && x.seats_open <= 5 ? ` · ${x.seats_open} seats left` : ""}</li>
                   ))}
                 </ul>
                 <p className="mt-1 text-xs opacity-80">{s.why}</p>

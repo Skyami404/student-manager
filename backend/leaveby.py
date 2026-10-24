@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo
 
 from clients import transit
 from clients.bu_http import CACHE_DIR
-from locations import walking_seconds
+from locations import LocationInfo, walking_seconds
 from optimizer import PACE, hm
 from transit_net import near_stops
 
@@ -27,6 +27,7 @@ BUS_MIN_WALK_MIN = 12
 BUS_HORIZON_H = 4
 ASSUMED_BUS_MPS, STOP_DWELL_S = 4.2, 20
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+FALLBACK_WALK_MIN_LB = 10  # used (and flagged approximate) when a building is missing from the table
 STORE = CACHE_DIR / "schedules.json"
 
 
@@ -69,12 +70,24 @@ def risk_level(p: float) -> str:
 
 
 def add_transition_risk(transitions: list[dict]) -> None:
+    """Adds risk fields in place. Transitions with no usable location get risk 'unknown' (not assessed)."""
     for t in transitions:
+        if t.get("location_unknown") or t.get("walk_minutes") is None:
+            t.update(p_on_time=None, risk="unknown", risk_why=(
+                f"Location unknown ({t.get('unknown_why') or 'no walking time available'}), so the {t['gap_minutes']}-minute gap "
+                "between these classes was not assessed."))
+            continue
         p = p_walk_ok(t["gap_minutes"], t["walk_minutes"])
         t["p_on_time"] = round(p, 2)
         t["risk"] = risk_level(p)
-        t["risk_why"] = (f"{t['gap_minutes']} min between classes vs a walk of about {t['walk_minutes']} min "
+        approx = " (approximate: a building is missing from the table or unverified)" if t.get("approximate") else ""
+        t["risk_why"] = (f"{t['gap_minutes']} min between classes vs a walk of about {t['walk_minutes']} min{approx} "
                          f"({t['from_building'] or '?'} to {t['to_building'] or '?'}): {label(p)} chance of arriving on time.")
+
+
+def _dorm_verified(code: str | None) -> bool:
+    from locations import _csv_rows, _has_coords, _is_verified
+    return any(r["code"].strip() == code and (r.get("kind") or "").strip().lower() == "dorm" and _is_verified(r) and _has_coords(r) for r in _csv_rows())
 
 
 def label(p: float) -> str:
@@ -133,19 +146,44 @@ def leave_by(entry: dict, class_id: str, day: str | None, now: datetime, buildin
 
     prev = max((s for s in sched["sections"] if s["id"] != class_id and s["start"] and day in s["days"] and hm(s["end"]) <= hm(target["start"])),
                key=lambda s: hm(s["end"]), default=None)
+    info = LocationInfo(buildings)
+
+    def unknown_result(why: str):
+        return {"class_id": class_id, "course_code": target["course_code"], "day": day, "class_start": start_at.isoformat(),
+                "leave_at": None, "leave_at_iso": None, "mode": "unknown", "probability_on_time": None, "probability_label": None,
+                "location_unknown": True, "approximate": False, "origin": None, "destination": target["building_code"],
+                "walk_minutes": None, "bus": None, "delay_model": None, "warnings": [],
+                "why": f"Location unknown: {why}. There is no walking time, so no leave-by time or on-time chance can be given."}
+
+    reason = info.unknown_reason(target["building_code"], target.get("room"))
+    if reason:
+        return unknown_result(f"{target['course_code']} {reason}")
+    if prev:
+        preason = info.unknown_reason(prev["building_code"], prev.get("room"))
+        if preason:
+            return unknown_result(f"you would be coming from {prev['course_code']}, but {preason}")
     if prev and prev["building_code"] in buildings:
         o_kind, o_code, o_pt = "class", prev["building_code"], buildings[prev["building_code"]]
         earliest_leave = start_at.replace(hour=0, minute=0) + timedelta(minutes=hm(prev["end"]))
+        o_status = info.status(prev["building_code"], prev.get("room"))
     else:
         o_kind, o_code, o_pt, earliest_leave = "dorm", entry.get("dorm_id"), dorms.get(entry.get("dorm_id")), None
+        o_status = "approximate" if o_kind == "dorm" and not _dorm_verified(o_code) else "ok"
     dest_code = target["building_code"]
     dest_pt = buildings.get(dest_code)
-    if o_pt is None or dest_pt is None:
-        raise ValueError("Missing location for the start or destination, so a walking time cannot be estimated.")
-
-    W = _walk_min(o_pt, dest_pt, pace)
+    dest_status = info.status(dest_code, target.get("room"))
+    approximate = "approximate" in (o_status, dest_status) and o_code != dest_code
+    coords_missing = o_pt is None or dest_pt is None
+    if coords_missing:
+        # building (or dorm) missing from the table: still estimate, but flag it
+        approximate = True
+        o_pt = o_pt or dest_pt or (0.0, 0.0)
+        W = float(FALLBACK_WALK_MIN_LB)
+    else:
+        W = _walk_min(o_pt, dest_pt, pace)
     lo, hi = W * math.exp(-SIGMA * Z90), W * math.exp(SIGMA * Z90)
     origin_txt = f"your dorm ({o_code})" if o_kind == "dorm" else f"{o_code} (after {prev['course_code']})"
+    ap_txt = " This is an approximate estimate: a location is missing from the buildings table or unverified." if approximate else ""
 
     def mk_walk():
         leave = start_at - timedelta(minutes=math.ceil(max(W, 1) * math.exp(SIGMA * Z90)))
@@ -153,13 +191,15 @@ def leave_by(entry: dict, class_id: str, day: str | None, now: datetime, buildin
             leave = earliest_leave
         p = p_walk_ok((start_at - leave).total_seconds() / 60, W)
         return {"mode": "walk", "leave": leave, "p": p, "why": (
-            f"Walking from {origin_txt} to {dest_code} takes about {W:.0f} min (plausible range {lo:.0f}-{hi:.0f} min). "
+            f"Walking from {origin_txt} to {dest_code} takes about {W:.0f} min{' (approximate)' if approximate else ''} (plausible range {lo:.0f}-{hi:.0f} min). "
             f"Leaving then gives {(start_at - leave).total_seconds() / 60:.0f} min, which is {label(p)} likely to be enough.")}
 
     options = [mk_walk()]
     bus_note = None
     mins_ahead = (start_at - now).total_seconds() / 3600
-    if W < BUS_MIN_WALK_MIN:
+    if coords_missing:
+        bus_note = "A location is missing from the buildings table, so a bus was not considered."
+    elif W < BUS_MIN_WALK_MIN:
         bus_note = f"The walk is short ({W:.0f} min), so a bus was not considered."
     elif net is None:
         bus_note = "Bus network data is unavailable, so only walking was considered."
@@ -179,7 +219,7 @@ def leave_by(entry: dict, class_id: str, day: str | None, now: datetime, buildin
     if best["leave"] < now:
         warnings.append("The recommended leave time has already passed; leave now.")
         best = {**best, "leave": now}
-    why = best["why"]
+    why = best["why"] + ap_txt
     if best["mode"] == "bus":
         why += f" Walking instead would mean leaving at {options[0]['leave'].strftime('%H:%M')}."
     if bus_note:
@@ -189,7 +229,8 @@ def leave_by(entry: dict, class_id: str, day: str | None, now: datetime, buildin
         "class_start": start_at.isoformat(), "leave_at": best["leave"].strftime("%H:%M"), "leave_at_iso": best["leave"].isoformat(),
         "mode": best["mode"], "probability_on_time": round(best["p"], 2), "probability_label": label(best["p"]),
         "origin": {"kind": o_kind, "code": o_code}, "destination": dest_code,
-        "walk_minutes": {"median": round(W, 1), "low": round(lo, 1), "high": round(hi, 1)},
+        "walk_minutes": {"median": round(W, 1), "low": round(lo, 1), "high": round(hi, 1), "approximate": approximate},
+        "approximate": approximate, "location_unknown": False,
         "bus": best.get("bus"), "delay_model": best.get("delay_model"), "why": why, "warnings": warnings,
     }
 

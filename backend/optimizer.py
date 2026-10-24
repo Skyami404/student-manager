@@ -21,7 +21,7 @@ from ortools.sat.python import cp_model
 from pydantic import BaseModel
 
 from clients.catalog import Course, Section
-from locations import walking_seconds
+from locations import LocationInfo, walking_seconds
 
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"]
 PACE = {"slow": 1.3, "normal": 1.0, "fast": 0.8}  # multiplies the 1.3 m/s base walking time
@@ -37,6 +37,7 @@ class Weights(BaseModel):
     long_gap: float = 1          # per minute of a gap beyond long_gap_minutes
     time_pref: float = 1         # per minute a class falls outside earliest_start..latest_end
     meal: float = 100            # reward per day with a >=30 min free block in 11:00-14:00
+    unknown_location: float = 20 # per meeting of a class with no usable location, so "no walk time" is not a free pass
 
 
 class ScheduleRequest(BaseModel):
@@ -79,8 +80,10 @@ class Ctx:
         self.pace = PACE[req.walking_pace]
         self.earliest, self.latest = hm(req.earliest_start), hm(req.latest_end)
         self.w = {k: round(v * SCALE) for k, v in req.weights.model_dump().items()}
-        self.unknown: set[str] = set()
+        self.unknown: set[str] = set()  # building codes missing from the table (approximate fallback walk)
         self._cache: dict = {}
+        self.info = LocationInfo(building_coords)
+        self.dorm_approx = req.dorm_id not in self.info.verified_dorms
 
     def _min(self, p1, p2) -> int:
         return math.ceil(walking_seconds(*p1, *p2) * self.pace / 60)
@@ -107,6 +110,25 @@ class Ctx:
             return FALLBACK_WALK_MIN
         return self._min(self.dorm, self.coords[b])
 
+    def sec_status(self, s: Section) -> str:
+        """ok | approximate | unknown (see locations.LocationInfo)."""
+        return self.info.status(s.building_code, s.room)
+
+    def leg(self, a: Section, b: Section) -> tuple[int | None, bool]:
+        """(walk minutes, approximate). minutes is None when either class has no usable location."""
+        sa, sb = self.sec_status(a), self.sec_status(b)
+        if "unknown" in (sa, sb):
+            return None, False
+        if a.building_code == b.building_code:
+            return 0, False
+        return self.walk(a.building_code, b.building_code), sa != "ok" or sb != "ok"
+
+    def dorm_leg(self, s: Section) -> tuple[int | None, bool]:
+        st = self.sec_status(s)
+        if st == "unknown":
+            return None, False
+        return self.dorm_walk(s.building_code), st != "ok" or self.dorm_approx
+
     def time_pen(self, s: Section) -> int:
         if not timed(s):
             return 0
@@ -123,30 +145,46 @@ def score(sections: list[Section], ctx: Ctx) -> dict:
     req, w = ctx.req, ctx.w
     tight = between = dorm = gap_excess = meal_class_days = empty_days = 0
     longest_gap, class_days, transitions, meal_missing = 0, 0, [], []
+    approx, unknown_trans = False, 0
     for d in ctx.days:
         todays = sorted((s for s in sections if timed(s) and d in s.days), key=lambda s: hm(s.start))
         if not todays:
             empty_days += 1
             continue
         class_days += 1
-        dorm += ctx.dorm_walk(todays[0].building_code) + ctx.dorm_walk(todays[-1].building_code)
+        for s in (todays[0], todays[-1]):
+            m, ap = ctx.dorm_leg(s)
+            if m is not None:
+                dorm += m
+                approx |= ap
         free = [(0, hm(todays[0].start)), (hm(todays[-1].end), 1440)]
         for a, b in zip(todays, todays[1:]):
-            gap, walk = hm(b.start) - hm(a.end), ctx.walk(a.building_code, b.building_code)
-            is_tight = gap < walk + req.buffer_minutes
+            gap = hm(b.start) - hm(a.end)
+            walk, ap = ctx.leg(a, b)
+            # no usable location -> no walk time: not counted as tight and left out of travel totals
+            is_tight = walk is not None and gap < walk + req.buffer_minutes
+            if walk is None:
+                unknown_trans += 1
+            else:
+                between += walk
+                approx |= ap
             tight += is_tight
-            between += walk
             gap_excess += max(0, gap - req.long_gap_minutes)
             longest_gap = max(longest_gap, gap)
             free.append((hm(a.end), hm(b.start)))
             transitions.append(dict(day=d, from_section=a.id, to_section=b.id, from_building=a.building_code,
-                                    to_building=b.building_code, gap_minutes=gap, walk_minutes=walk, tight=is_tight))
+                                    to_building=b.building_code, gap_minutes=gap, walk_minutes=walk, tight=is_tight,
+                                    approximate=ap, location_unknown=walk is None,
+                                    unknown_why=None if walk is not None else (
+                                        ctx.info.unknown_reason(a.building_code, a.room) or ctx.info.unknown_reason(b.building_code, b.room))))
         if any(_meal_ok(lo, hi) for lo, hi in free):
             meal_class_days += 1
         else:
             meal_missing.append(d)
     time_pen = sum(ctx.time_pen(s) for s in sections)
-    cost10 = (w["tight"] * tight + w["dorm_travel"] * dorm + w["between_travel"] * between
+    unknown_secs = [s for s in sections if timed(s) and ctx.sec_status(s) == "unknown"]
+    unknown_meetings = sum(len(s.days) for s in unknown_secs)
+    cost10 = (w["unknown_location"] * unknown_meetings + w["tight"] * tight + w["dorm_travel"] * dorm + w["between_travel"] * between
               + w["long_gap"] * gap_excess + w["time_pref"] * time_pen
               - w["meal"] * (meal_class_days + empty_days))
     travel = between + dorm
@@ -157,6 +195,7 @@ def score(sections: list[Section], ctx: Ctx) -> dict:
         meal_window_days=meal_class_days, class_days=class_days, meal_missing_days=meal_missing,
         longest_gap_minutes=longest_gap, off_window_minutes=time_pen,
         credits=0, cost=cost10 / SCALE, _cost10=cost10, transitions=transitions,
+        approximate=approx, unknown_transitions=unknown_trans, unknown_location_sections=[s.id for s in unknown_secs],
     )
 
 
@@ -242,7 +281,7 @@ def generate(courses_list: list[Course], sections_list: list[Section], req: Sche
         sched = _describe(rank, f, courses, req, ctx, found[0] if rank > 1 else None)
         out.append(sched)
     if ctx.unknown:
-        warnings.append(f"No coordinates for building(s) {', '.join(sorted(ctx.unknown))}; a {FALLBACK_WALK_MIN}-min walk was assumed.")
+        warnings.append(f"Building(s) {', '.join(sorted(ctx.unknown))} are missing from the buildings table, so walks to or from them use an approximate {FALLBACK_WALK_MIN}-min estimate.")
     return {**base, "status": "ok", "schedules": out,
             "note": None if len(out) == req.top_n else f"Only {len(out)} distinct schedule(s) exist for this request."}
 
@@ -267,7 +306,9 @@ def _solve(courses, candidates, optional, req, ctx, previous: list[frozenset], m
         m.Add(sum(x[i] for i in ids if i in x) <= len(ids) - min_diff)
 
     all_secs = {s.id: s for secs in candidates.values() for s in secs}
-    terms: list[tuple[cp_model.IntVar, int]] = [(x[i], w["time_pref"] * ctx.time_pen(s)) for i, s in all_secs.items()]
+    terms: list[tuple[cp_model.IntVar, int]] = [
+        (x[i], w["time_pref"] * ctx.time_pen(s) + (w["unknown_location"] * len(s.days) if timed(s) and ctx.sec_status(s) == "unknown" else 0))
+        for i, s in all_secs.items()]
     const = 0
     for d in ctx.days:
         nodes = [s for s in all_secs.values() if timed(s) and d in s.days]
@@ -282,8 +323,8 @@ def _solve(courses, candidates, optional, req, ctx, previous: list[frozenset], m
             arcs.append((i, i, x[a.id].Not()))
             first, last = m.NewBoolVar(""), m.NewBoolVar("")
             arcs += [(0, i, first), (i, 0, last)]
-            terms += [(first, w["dorm_travel"] * ctx.dorm_walk(a.building_code)),
-                      (last, w["dorm_travel"] * ctx.dorm_walk(a.building_code))]
+            dm = ctx.dorm_leg(a)[0] or 0  # unknown location -> no dorm travel counted
+            terms += [(first, w["dorm_travel"] * dm), (last, w["dorm_travel"] * dm)]
             if _meal_ok(0, sa):
                 qual.append(first)
             if _meal_ok(ea, 1440):
@@ -293,8 +334,8 @@ def _solve(courses, candidates, optional, req, ctx, previous: list[frozenset], m
                     continue
                 lit = m.NewBoolVar("")
                 arcs.append((i, j, lit))
-                gap, walk = hm(b.start) - ea, ctx.walk(a.building_code, b.building_code)
-                coef = (w["tight"] * (gap < walk + req.buffer_minutes) + w["between_travel"] * walk
+                gap, walk = hm(b.start) - ea, ctx.leg(a, b)[0]
+                coef = (w["tight"] * (walk is not None and gap < walk + req.buffer_minutes) + w["between_travel"] * (walk or 0)
                         + w["long_gap"] * max(0, gap - req.long_gap_minutes))
                 terms.append((lit, coef))
                 if _meal_ok(ea, hm(b.start)):
@@ -330,7 +371,9 @@ def _describe(rank, f, courses, req, ctx, best) -> dict:
     return dict(
         rank=rank, optimal=f["optimal"], credits=met["credits"],
         courses=[dict(code=c, title=courses[c].title, credits=courses[c].credits, required=c in req.required) for c in chosen],
-        sections=[s.model_dump() for s in secs], metrics=met, flags=flags, explanation=explanation,
+        sections=[s.model_dump() | {"location_status": ctx.sec_status(s) if timed(s) else "n/a",
+                                      "location_reason": ctx.info.unknown_reason(s.building_code, s.room) if timed(s) else None} for s in secs],
+        metrics=met, flags=flags, explanation=explanation,
     )
 
 
@@ -350,6 +393,14 @@ def _flags(secs, met, req, ctx):
             flags.append(dict(kind="low_seats", level="info", why=f"{s.course_code} {s.section_label} shows only {s.seats_open} open seat(s) in the sample data; it may fill before you register."))
         if not timed(s):
             flags.append(dict(kind="tba_online", level="info", why=f"{s.course_code} {s.section_label} is TBA/online, so it is assumed to cause no conflicts or travel."))
+    for s in secs:
+        why = ctx.info.unknown_reason(s.building_code, s.room) if timed(s) else None
+        if why:
+            flags.append(dict(kind="location_unknown", level="warn", why=(
+                f"{s.course_code} {s.section_label}: location unknown ({why}). It has no walking time and is left out of transition-risk checks.")))
+    if met["approximate"]:
+        flags.append(dict(kind="approximate_walk", level="info", why=(
+            "Some walking times are approximate: a building is missing from the buildings table or its coordinates are unverified.")))
     for d in met["meal_missing_days"]:
         flags.append(dict(kind="no_meal_window", level="warn", why=f"{d}: no free block of 30+ minutes between 11:00 and 14:00, so lunch may be rushed."))
     if met["longest_gap_minutes"] > req.long_gap_minutes:
@@ -370,6 +421,10 @@ def _explain(rank, secs, met, req, ctx, best) -> str:
     lo, hi = met["travel_minutes_range"]
     p.append(f"Estimated walking is about {lo}-{hi} min per week in total ({met['dorm_travel_minutes']} min nominal to and from your dorm).")
     p.append(f"A 30+ min free block during 11:00-14:00 exists on {met['meal_window_days']} of {met['class_days']} class days.")
+    if met["unknown_location_sections"]:
+        p.append(f"{len(met['unknown_location_sections'])} class(es) have an unknown location (no building, \"No Room\", or medical campus), so they are left out of walking and transition-risk checks.")
+    if met["approximate"]:
+        p.append("Some walking times are approximate (building missing from the table or unverified).")
     if met["off_window_minutes"]:
         p.append(f"{met['off_window_minutes']} class-minutes per week fall outside your {req.earliest_start}-{req.latest_end} window.")
     if best is not None:

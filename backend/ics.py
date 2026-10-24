@@ -11,7 +11,7 @@ import math
 from datetime import date, datetime, timedelta, timezone
 
 from leaveby import SIGMA, TZ, Z90, _walk_min
-from locations import dining_coords
+from locations import LocationInfo, dining_coords
 from optimizer import hm
 
 BYDAY = {"Mon": "MO", "Tue": "TU", "Wed": "WE", "Thu": "TH", "Fri": "FR", "Sat": "SA", "Sun": "SU"}
@@ -69,6 +69,7 @@ def build(entry: dict, buildings: dict, dorms: dict, include_meals: bool, weeks:
     pace = entry.get("walking_pace", "normal")
     dorm = dorms.get(entry.get("dorm_id"))
     halls = dining_coords()
+    info = LocationInfo(buildings)
     stamp = now.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Compass//Schedule export//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
          f"X-WR-CALNAME:{esc(CAL_NAME)}", "X-WR-TIMEZONE:America/New_York", *VTIMEZONE]
@@ -94,21 +95,28 @@ def build(entry: dict, buildings: dict, dorms: dict, include_meals: bool, weeks:
             prev = todays[i - 1] if i else None
             o_pt = buildings.get(prev["building_code"]) if prev else dorm
             d_pt = buildings.get(s["building_code"])
-            if o_pt and d_pt:
+            why_unknown = info.unknown_reason(s["building_code"], s.get("room")) or (info.unknown_reason(prev["building_code"], prev.get("room")) if prev else None)
+            if why_unknown:
+                lead, basis = None, f"location unknown ({why_unknown})"  # no walking time, so no leave-by alarm
+            elif o_pt and d_pt:
                 w = _walk_min(o_pt, d_pt, pace)
                 lead, basis = math.ceil(max(w, 1) * math.exp(SIGMA * Z90)), f"~{w:.0f} min walk from {'your previous class' if prev else 'your dorm'}"
+                if info.status(s["building_code"], s.get("room")) != "ok" or not prev:
+                    basis += ", approximate"
             else:
-                lead, basis = 10, "walking time unknown (10 min assumed)"
+                lead, basis = 10, "approximate: a location is missing from the buildings table, 10 min assumed"
             title = f"{s['course_code']} {LABEL.get(s['component'], '')} {s['section_label']}".replace("  ", " ")
             loc = " ".join(x for x in (s["building_code"], s["room"]) if x)
             event(f"class|{s['id']}|{day}", title, d0, hm(s["start"]), hm(s["end"]),
-                  f"Sample (synthetic) course from Compass. Leave-by alarm is {lead} min before class ({basis}, ~90% on-time walking estimate).",
-                  loc or None, day, alarm=(lead, f"Leave now for {s['course_code']} ({basis})"))
+                  ("Sample (synthetic) course from Compass. " + (f"Leave-by alarm is {lead} min before class ({basis}, ~90% on-time walking estimate)." if lead else f"No leave-by alarm: {basis}.")),
+                  loc or None, day, alarm=(lead, f"Leave now for {s['course_code']} ({basis})") if lead else None)
         if include_meals:
             for a, b in zip(todays, todays[1:]):
                 pa, pb = buildings.get(a["building_code"]), buildings.get(b["building_code"])
                 if not (pa and pb and halls):
                     continue
+                if info.unknown_reason(a["building_code"], a.get("room")) or info.unknown_reason(b["building_code"], b.get("room")):
+                    continue  # no walking time to a dining hall
                 gap = hm(b["start"]) - hm(a["end"])
                 name, best = min(((n, _walk_min(pa, c, pace) + _walk_min(c, pb, pace)) for n, c in halls.items()), key=lambda x: x[1])
                 if gap >= 30 + math.ceil(best):

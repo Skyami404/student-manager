@@ -34,8 +34,9 @@ function usePetState(): { state: PetState; note: string } {
       }
       try {
         const lb = await apiGet<LeaveBy>(`/leave-by?schedule_id=${sel.schedule.id}&class_id=${encodeURIComponent(next.id)}&day=${next.day}`);
-        const m = Math.round((new Date(lb.leave_at_iso).getTime() - Date.now()) / 60000);
         if (!live) return;
+        if (!lb.leave_at_iso) return setS({ state: "idle", note: "Location unknown" });
+        const m = Math.round((new Date(lb.leave_at_iso).getTime() - Date.now()) / 60000);
         setS(m <= 15 ? { state: "walking", note: m <= 0 ? "Leave now" : `Leave in ${m} min` } : { state: "idle", note: `Leave by ${lb.leave_at}` });
       } catch {
         if (live) setS({ state: "idle", note: "" });

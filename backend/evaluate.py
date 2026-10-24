@@ -18,7 +18,7 @@ LABEL = "evaluated on synthetic sample catalog"
 N, SEED = 50, 42
 
 
-def make_requests(courses, rng):
+def make_requests(courses, rng, dorm_ids):
     codes = [c.code for c in courses]
     cred = {c.code: c.credits for c in courses}
     reqs = []
@@ -29,7 +29,7 @@ def make_requests(courses, rng):
         optional = rng.sample([c for c in codes if c not in required], rng.choice([3, 4, 5]))
         reqs.append(ScheduleRequest(
             required=required, optional=optional, min_credits=14, max_credits=18,
-            dorm_id=rng.choice(["WAR", "SV1", "SV2", "MYL", "CLF", "RCH", "DAN", "SHI"]),
+            dorm_id=rng.choice(dorm_ids),
             earliest_start=rng.choice(["08:00", "09:00", "10:00"]), latest_end=rng.choice(["17:00", "18:00"]),
             walking_pace=rng.choice(["slow", "normal", "fast"]), time_limit_s=5))
     return reqs
@@ -72,7 +72,7 @@ def main():
     rng = random.Random(SEED)
     rows, check_fail = [], 0
 
-    for i, req in enumerate(make_requests(courses, rng)):
+    for i, req in enumerate(make_requests(courses, rng, sorted(dorms))):
         ctx = Ctx(req, coords, dorms[req.dorm_id], sections)
         row = {"request": i, "required": req.required, "optional": req.optional, "dorm": req.dorm_id}
         t = time.perf_counter()

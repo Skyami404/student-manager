@@ -3,9 +3,12 @@
 SYNTHETIC/APPROXIMATE SEED: names are real-campus-style but every coordinate below is a
 rough estimate and NEEDS HUMAN VERIFICATION before being trusted. If
 fixtures/locations.csv exists it is loaded instead
-(columns: code,name,lat,lon and optional kind = building|dorm; no kind => building).
+(columns: code,name,lat,lon and optional kind = building|dorm|dining, verified = YES/NO, campus = medical).
+Rows without numeric lat/lon are skipped. Unverified rows, buildings missing from the table, and any
+section the app cannot place (no building, "No Room", medical campus) are handled by LocationInfo below.
 """
 import csv
+import re
 from math import asin, cos, radians, sin, sqrt
 from pathlib import Path
 
@@ -56,16 +59,92 @@ DORMS = [
 ]
 
 
+# ---- location classification (used by scoring, risk, leave-by, meals, Hub, ICS) -------------------
+# "ok"          building is in the table and its coordinates are verified (fixtures/locations.csv)
+# "approximate" building missing from the table, or its coordinates are unverified (the synthetic seed):
+#               a walking time is still estimated but flagged approximate
+# "unknown"     no building, "No Room", or medical campus: NO walking time; excluded from transition risk
+MEDICAL_CAMPUS_CODES = {"SPH"}  # seed; fixtures/locations.csv may add rows with campus=medical
+_MEDICAL_NAME = re.compile(r"\bbumc\b|medical", re.I)
+_NO_ROOM = re.compile(r"^\s*no[\s_-]*room", re.I)
+
+
+def _csv_rows() -> list[dict]:
+    if not CSV_PATH.exists():
+        return []
+    with CSV_PATH.open(newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def _has_coords(r: dict) -> bool:
+    try:
+        float(r["lat"])
+        float(r["lon"])
+        return True
+    except (KeyError, TypeError, ValueError):
+        return False
+
+
+def _is_verified(r: dict) -> bool:
+    return (r.get("verified") or "1").strip().lower() not in ("0", "false", "no", "n")
+
+
+def using_csv() -> bool:
+    return CSV_PATH.exists()
+
+
+class LocationInfo:
+    """Classifies a (building_code, room) pair. coords = the buildings table as {code: (lat, lon)}.
+    From fixtures/locations.csv it also learns which codes are medical-campus or "No Room" placeholders
+    (even when they have no coordinates) and which rows are verified."""
+
+    def __init__(self, coords: dict):
+        self.coords = coords
+        rows = [r for r in _csv_rows() if (r.get("kind") or "building").strip().lower() == "building"]
+        self.verified = {r["code"].strip() for r in rows if _is_verified(r) and _has_coords(r)}
+        self.verified_dorms = {r["code"].strip() for r in _csv_rows()
+                               if (r.get("kind") or "").strip().lower() == "dorm" and _is_verified(r) and _has_coords(r)}
+        self.medical = set(MEDICAL_CAMPUS_CODES)
+        self.no_room: set[str] = set()
+        names = {c: n for c, n, *_ in BUILDINGS}
+        for r in rows:
+            code, name = r["code"].strip(), (r.get("name") or "")
+            names[code] = name
+            if (r.get("campus") or "").strip().lower() == "medical":
+                self.medical.add(code)
+            if _NO_ROOM.match(name):
+                self.no_room.add(code)
+        self.medical |= {c for c, n in names.items() if _MEDICAL_NAME.search(n)}
+
+    def unknown_reason(self, code: str | None, room: str | None = None) -> str | None:
+        if not code or not code.strip():
+            return "no building is listed"
+        if code in self.no_room or _NO_ROOM.match(code) or (room and _NO_ROOM.match(room)):
+            return "the section has no room assigned (\"No Room\")"
+        if code in self.medical:
+            return f"{code} is on the medical campus, which has no walking estimate"
+        return None
+
+    def status(self, code: str | None, room: str | None = None) -> str:
+        if self.unknown_reason(code, room):
+            return "unknown"
+        if code not in self.coords or code not in self.verified:
+            return "approximate"
+        return "ok"
+
+
 def load_locations() -> tuple[list[tuple], list[tuple], str]:
-    """Returns (buildings, dorms, source) where source is 'csv' or 'synthetic-seed'."""
+    """Returns (buildings, dorms, source) where source is 'csv' or 'synthetic-seed'.
+    CSV rows without numeric lat/lon are left out of the table on purpose: such buildings are then
+    "missing" and get an approximate walking time instead of a made-up location."""
     if CSV_PATH.exists():
         b, d = [], []
-        with CSV_PATH.open(newline="") as f:
-            for r in csv.DictReader(f):
-                row = (r["code"].strip(), r["name"].strip(), float(r["lat"]), float(r["lon"]))
-                kind = (r.get("kind") or "").strip().lower()
-                if kind != "dining":
-                    (d if kind == "dorm" else b).append(row)
+        for r in _csv_rows():
+            kind = (r.get("kind") or "").strip().lower()
+            if kind == "dining" or not _has_coords(r):
+                continue
+            row = (r["code"].strip(), r["name"].strip(), float(r["lat"]), float(r["lon"]))
+            (d if kind == "dorm" else b).append(row)
         return b, d, "csv"
     return BUILDINGS, DORMS, "synthetic-seed"
 
@@ -82,11 +161,9 @@ DINING = {
 def dining_coords() -> dict[str, tuple[float, float]]:
     """fixtures/locations.csv rows with kind=dining override the seed (columns code,name,lat,lon,kind)."""
     out = dict(DINING)
-    if CSV_PATH.exists():
-        with CSV_PATH.open(newline="") as f:
-            for r in csv.DictReader(f):
-                if (r.get("kind") or "").strip().lower() == "dining":
-                    out[r["code"].strip()] = (float(r["lat"]), float(r["lon"]))
+    for r in _csv_rows():
+        if (r.get("kind") or "").strip().lower() == "dining" and _has_coords(r):
+            out[r["code"].strip()] = (float(r["lat"]), float(r["lon"]))
     return out
 
 

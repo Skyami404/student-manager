@@ -44,7 +44,13 @@ const items: { id: string; title: string; body: React.ReactNode }[] = [
   {
     id: "coords",
     title: "Approximate building coordinates",
-    body: <p>Building, dorm, and dining hall locations are an approximate seed list that has not been verified. Walking times (straight-line distance with a detour factor, adjusted for pace) and leave-by times are estimates and can be off, especially for short walks and the Medical Campus.</p>,
+    body: (
+      <ul className="list-disc space-y-1 pl-5">
+        <li>Building, dorm, and dining hall locations come from a list that has not been verified. Walking times (straight-line distance with a detour factor, adjusted for pace) and leave-by times are estimates and can be off, especially for short walks.</li>
+        <li>If a section&apos;s building is missing from the buildings table, or its coordinates are unverified, the walking time is still estimated but marked approximate (≈).</li>
+        <li>Sections on the medical campus, sections with no building, and sections listed as “No Room” have no walking time. They are marked “location unknown” and are left out of transition-risk, tight-transition, and travel calculations. Leave-by times, meal-fit checks, and calendar alarms are not given for them.</li>
+      </ul>
+    ),
   },
   {
     id: "advising",

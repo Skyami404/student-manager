@@ -10,6 +10,8 @@ export const RISK = {
   green: { icon: "✓", word: "OK", bg: "#009E73", fg: "#000000" },
   amber: { icon: "▲", word: "Tight", bg: "#E69F00", fg: "#000000" },
   red: { icon: "✕", word: "Risky", bg: "#D55E00", fg: "#000000" },
+  // not assessed: neutral grey with its own "?" icon, black text 9:1
+  unknown: { icon: "?", word: "Unknown", bg: "#BDBDBD", fg: "#000000" },
 } as const;
 const LABEL = { lecture: "Lecture", lab: "Lab", discussion: "Discussion" } as const;
 
@@ -55,7 +57,14 @@ export default function ScheduleGrid({ schedule, from, to, showRisk = false }: {
                 >
                   <div className="font-semibold">{s.course_code}</div>
                   <div>{LABEL[s.component]} {s.section_label}</div>
-                  <div className="opacity-80">{s.start}–{s.end} · {s.building_code}</div>
+                  <div className="truncate opacity-80" title={s.location_status === "unknown" ? `Location unknown: ${s.location_reason ?? ""}` : undefined}>
+                    {s.start}–{s.end}
+                    {s.location_status === "unknown" ? (
+                      <> · <span className="font-medium"><span aria-hidden="true">? </span>Location unknown</span></>
+                    ) : (
+                      <> · {s.building_code}</>
+                    )}
+                  </div>
                   {r && (
                     <span
                       title={r.risk_why}
@@ -63,7 +72,8 @@ export default function ScheduleGrid({ schedule, from, to, showRisk = false }: {
                       style={{ background: RISK[r.risk].bg, color: RISK[r.risk].fg }}
                     >
                       <span aria-hidden="true">{RISK[r.risk].icon}</span> {RISK[r.risk].word}
-                      <span className="sr-only">. Transition into this class: {r.risk_why}</span>
+                      {r.approximate && r.risk !== "unknown" && <span aria-hidden="true"> ≈</span>}
+                      <span className="sr-only">. Transition into this class{r.approximate && r.risk !== "unknown" ? " (approximate walking time)" : ""}: {r.risk_why}</span>
                     </span>
                   )}
                 </div>
@@ -85,7 +95,7 @@ export default function ScheduleGrid({ schedule, from, to, showRisk = false }: {
           {schedule.sections.map((s) => (
             <li key={s.id}>
               {s.course_code} {LABEL[s.component]} {s.section_label}:{" "}
-              {s.days.length ? `${s.days.join("/")} ${s.start}–${s.end}, ${s.building_code ?? "?"} ${s.room ?? ""}` : "TBA / online"}
+              {s.days.length ? `${s.days.join("/")} ${s.start}–${s.end}, ${s.location_status === "unknown" ? "location unknown" : `${s.building_code ?? "?"} ${s.room ?? ""}`}` : "TBA / online"}
             </li>
           ))}
         </ul>

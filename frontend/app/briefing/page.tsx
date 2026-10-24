@@ -31,8 +31,8 @@ function MealsToday({ sid, day }: { sid: string; day: string }) {
           const o = g.options[0];
           return (
             <li key={g.kind + g.start}>
-              <span aria-hidden="true">{g.fits ? "✓" : "✕"}</span> <span className="font-medium">{g.start}–{g.end}</span>{" "}
-              {o ? <>· {o.hall} {o.meal.toLowerCase()}, start {o.start_between[0]}–{o.start_between[1]} (walk {o.walk_to_min}{o.walk_from_min ? `+${o.walk_from_min}` : ""} min)</> : "· no open hall fits"}
+              <span aria-hidden="true">{g.fits === null ? "?" : g.fits ? "✓" : "✕"}</span> <span className="font-medium">{g.start}–{g.end}</span>{" "}
+              {g.location_unknown ? "· location unknown, can't tell if a meal fits" : o ? <>· {o.hall} {o.meal.toLowerCase()}, start {o.start_between[0]}–{o.start_between[1]} (walk {o.walk_to_min}{o.walk_from_min ? `+${o.walk_from_min}` : ""} min)</> : "· no open hall fits"}
             </li>
           );
         })}
@@ -61,9 +61,10 @@ export default function BriefingPage() {
   const today = classesOn(s.sections, day);
   const nowMin = now.getHours() * 60 + now.getMinutes();
   const trs = s.metrics.transitions.filter((t) => t.day === day);
-  const count = (k: "green" | "amber" | "red") => trs.filter((t) => t.risk === k).length;
-  const level = count("red") ? "red" : count("amber") ? "amber" : "green";
-  const verdict = { green: "Low", amber: "Medium", red: "High" }[level];
+  const count = (k: "green" | "amber" | "red" | "unknown") => trs.filter((t) => t.risk === k).length;
+  const assessed = trs.length - count("unknown");
+  const level = count("red") ? "red" : count("amber") ? "amber" : assessed > 0 ? "green" : "unknown";
+  const verdict = { green: "Low", amber: "Medium", red: "High", unknown: "Not assessed" }[level];
 
   return (
     <section aria-labelledby="h" className="mx-auto max-w-xl space-y-4">
@@ -81,7 +82,7 @@ export default function BriefingPage() {
               <li key={c.id} className="flex items-baseline justify-between gap-2 text-sm">
                 <span><span className="font-medium">{c.start}–{c.end}</span> · {c.course_code} <span className="opacity-70">{c.component} {c.section_label}</span></span>
                 <span className="whitespace-nowrap text-xs">
-                  {c.building_code} {c.room} <span aria-hidden="true">{state === "done" ? "✓" : state === "now" ? "●" : "○"}</span>
+                  {c.location_status === "unknown" ? <><span aria-hidden="true">? </span>location unknown</> : <>{c.building_code} {c.room}</>} <span aria-hidden="true">{state === "done" ? "✓" : state === "now" ? "●" : "○"}</span>
                   <span className="sr-only">{state === "done" ? "finished" : state === "now" ? "in progress" : "upcoming"}</span>
                 </span>
               </li>
@@ -97,9 +98,9 @@ export default function BriefingPage() {
         <h2 id="tr" className="text-lg font-semibold">Transit risk today</h2>
         <p className="mt-1 text-sm font-medium">
           <span className="rounded px-2 py-0.5 font-bold" style={{ background: RISK[level].bg, color: RISK[level].fg }}>
-            <span aria-hidden="true">{RISK[level].icon}</span> {verdict} risk
+            <span aria-hidden="true">{RISK[level].icon}</span> {verdict}{level === "unknown" ? "" : " risk"}
           </span>{" "}
-          {trs.length === 0 ? "· no back-to-back walks today" : `· ${trs.length} walk(s): ${count("green")} OK, ${count("amber")} tight, ${count("red")} risky`}
+          {trs.length === 0 ? "· no back-to-back walks today" : `· ${trs.length} walk(s): ${count("green")} OK, ${count("amber")} tight, ${count("red")} risky${count("unknown") ? `, ${count("unknown")} not assessed (location unknown)` : ""}`}
         </p>
         <ul className="mt-2 space-y-1 text-sm">
           {trs.filter((t) => t.risk !== "green").map((t, i) => (

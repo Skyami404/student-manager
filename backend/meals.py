@@ -14,7 +14,7 @@ from zoneinfo import ZoneInfo
 
 from clients import dining
 from clients.bu_http import CACHE_DIR
-from locations import dining_coords, walking_seconds
+from locations import LocationInfo, dining_coords, walking_seconds
 from optimizer import PACE, fmt, hm, timed
 
 TZ = ZoneInfo("America/New_York")
@@ -123,7 +123,7 @@ def find_meals(entry: dict | None, day: str, diet: list[str], meal_minutes: int,
     if entry:
         secs = [s for s in entry["schedule"]["sections"] if timed_dict(s) and day in s["days"]]
         secs.sort(key=lambda s: hm(s["start"]))
-        gaps = _gaps(secs, day, entry, halls, hours, coords, buildings, dorms, diet, is_today, today, meal_minutes, pace, notes)
+        gaps = _gaps(secs, day, entry, halls, hours, coords, buildings, dorms, diet, is_today, today, meal_minutes, pace, notes, LocationInfo(buildings))
     return {
         "day": day, "hours_source": hours_source, "hours_date": hours_date, "data_status": today["status"],
         "diet": diet, "diet_filters_available": [{"id": k, "label": v} for k, v in DIETS.items()],
@@ -138,19 +138,32 @@ def timed_dict(s: dict) -> bool:
     return bool(s["days"] and s["start"] and s["end"])
 
 
-def _gaps(secs, day, entry, halls, hours, coords, buildings, dorms, diet, is_today, today, M, pace, notes):
+def _gaps(secs, day, entry, halls, hours, coords, buildings, dorms, diet, is_today, today, M, pace, notes, info):
     dorm = dorms.get(entry.get("dorm_id"))
     windows = []
     if secs:
         first, last = secs[0], secs[-1]
-        windows.append(("before_first", hm(first["start"]) - BEFORE_FIRST_MIN, hm(first["start"]), ("dorm", entry.get("dorm_id"), dorm), ("class", first["building_code"], buildings.get(first["building_code"]))))
+        windows.append(("before_first", hm(first["start"]) - BEFORE_FIRST_MIN, hm(first["start"]), ("dorm", entry.get("dorm_id"), dorm, None), ("class", first["building_code"], buildings.get(first["building_code"]), first)))
         for a, b in zip(secs, secs[1:]):
-            windows.append(("between", hm(a["end"]), hm(b["start"]), ("class", a["building_code"], buildings.get(a["building_code"])), ("class", b["building_code"], buildings.get(b["building_code"]))))
-        windows.append(("after_last", hm(last["end"]), min(hm(last["end"]) + AFTER_LAST_MIN, 23 * 60), ("class", last["building_code"], buildings.get(last["building_code"])), None))
+            windows.append(("between", hm(a["end"]), hm(b["start"]), ("class", a["building_code"], buildings.get(a["building_code"]), a), ("class", b["building_code"], buildings.get(b["building_code"]), b)))
+        windows.append(("after_last", hm(last["end"]), min(hm(last["end"]) + AFTER_LAST_MIN, 23 * 60), ("class", last["building_code"], buildings.get(last["building_code"]), last), None))
     out = []
     for kind, gs, ge, origin, dest in windows:
         gs = max(gs, 0)
         if ge - gs < M:
+            continue
+        # a class with no usable location (no building, "No Room", medical campus) has no walking time
+        why_unknown = None
+        for end in (origin, dest):
+            if end and end[3] is not None:
+                r = info.unknown_reason(end[3]["building_code"], end[3].get("room"))
+                if r:
+                    why_unknown = f"{end[3]['course_code']}: {r}"
+                    break
+        if why_unknown:
+            out.append({"kind": kind, "start": fmt(gs), "end": fmt(ge), "minutes": ge - gs, "from": origin[1], "to": dest[1] if dest else None,
+                        "fits": None, "location_unknown": True, "options": [],
+                        "why": f"Location unknown ({why_unknown}). Walking time to a dining hall can't be estimated, so whether a meal fits is unknown."})
             continue
         options = []
         for h in halls:
@@ -175,5 +188,5 @@ def _gaps(secs, day, entry, halls, hours, coords, buildings, dorms, diet, is_tod
         elif kind == "after_last":
             why = "After your last class. " + why
         out.append({"kind": kind, "start": fmt(max(gs, 0)), "end": fmt(ge), "minutes": raw, "from": origin[1], "to": dest[1] if dest else None,
-                    "fits": bool(options), "options": options, "why": why})
+                    "fits": bool(options), "location_unknown": False, "options": options, "why": why})
     return out

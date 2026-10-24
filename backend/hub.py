@@ -81,6 +81,10 @@ def suggestions(entry: dict, completed: list[str], courses: list[Course], sectio
         why = [f"Covers {', '.join(gain)}.", "No time overlaps and no tight transitions.",
                f"Keeps a lunch window on every day that already had one ({m['meal_window_days']} of {m['class_days']} class days).",
                f"Adds about {max(added, 0)} min of walking per week (estimate)."]
+        unk = [s for s in new if timed(s) and ctx.sec_status(s) == "unknown"]
+        if unk:
+            why.append("Location unknown for " + ", ".join(f"{s.section_label} ({ctx.info.unknown_reason(s.building_code, s.room)})" for s in unk)
+                        + ": walking and tight transitions could not be checked for it.")
         off = sum(ctx.time_pen(s) for s in new)
         if off:
             why.append(f"Note: meets outside a typical {req.earliest_start}-{req.latest_end} day ({off} class-minutes per week).")
@@ -93,12 +97,14 @@ def suggestions(entry: dict, completed: list[str], courses: list[Course], sectio
             why.append("Few open seats in the sample data: " + ", ".join(f"{s.section_label} ({s.seats_open})" for s in low) + ".")
         out.append({
             "course": {"code": c.code, "title": c.title, "credits": c.credits, "hub_units": c.hub_units, "prerequisites": c.prerequisites},
-            "covers": gain, "sections": [s.model_dump() for s in new],
+            "covers": gain,
+            "sections": [s.model_dump() | {"location_status": ctx.sec_status(s) if timed(s) else "n/a",
+                                           "location_reason": ctx.info.unknown_reason(s.building_code, s.room) if timed(s) else None} for s in new],
             "after": {"tight_transitions": m["tight_transitions"], "meal_window_days": m["meal_window_days"], "class_days": m["class_days"],
                       "added_travel_minutes": max(added, 0), "credits": base_credits + c.credits},
-            "why": " ".join(why), "_off": off,
+            "why": " ".join(why), "_off": off, "location_unknown": bool(unk),
         })
-    out.sort(key=lambda s: (-len(s["covers"]), s["_off"] > 0, s["after"]["added_travel_minutes"], s["course"]["credits"]))
+    out.sort(key=lambda s: (-len(s["covers"]), s["location_unknown"], s["_off"] > 0, s["after"]["added_travel_minutes"], s["course"]["credits"]))
     for s in out:
         s.pop("_off")
     return {

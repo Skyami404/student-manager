@@ -40,11 +40,11 @@ export default function WeekPage() {
         <ul className="mt-2 flex flex-wrap gap-3 text-xs" aria-label="Risk legend">
           {(Object.keys(RISK) as (keyof typeof RISK)[]).map((k) => (
             <li key={k} className="rounded px-2 py-0.5 font-bold" style={{ background: RISK[k].bg, color: RISK[k].fg }}>
-              <span aria-hidden="true">{RISK[k].icon}</span> {RISK[k].word}: {k === "green" ? "≥85% on time" : k === "amber" ? "50–85%" : "<50%"}
+              <span aria-hidden="true">{RISK[k].icon}</span> {RISK[k].word}: {k === "green" ? "≥85% on time" : k === "amber" ? "50–85%" : k === "red" ? "<50%" : "location unknown, not assessed"}
             </li>
           ))}
         </ul>
-        <p className="mt-1 text-xs opacity-70">Risk badge sits on the class you are walking to. It reflects walking time only (an assumed ±20% spread); the dorm-to-first-class leg is in the Leave-by card.</p>
+        <p className="mt-1 text-xs opacity-70">Risk badge sits on the class you are walking to. It reflects walking time only (an assumed ±20% spread); the dorm-to-first-class leg is in the Leave-by card. ≈ marks an approximate walking time (a building is missing from the buildings table or its location is unverified). Classes with no building, “No Room”, or on the medical campus have no walking time, so they show “Unknown” and are left out of the risk checks.</p>
       </div>
 
       {tr.some((t) => t.risk !== "green") && (
