@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AlertsCard from "@/components/AlertsCard";
+import CatalogTag from "@/components/CatalogTag";
 import LeaveByCard from "@/components/LeaveByCard";
 import { RISK } from "@/components/ScheduleGrid";
 import { apiGet, type Meals } from "@/lib/api";
@@ -76,7 +77,7 @@ export default function BriefingPage() {
 
   return (
     <section aria-labelledby="h" className="mx-auto max-w-xl space-y-4">
-      <h1 id="h" className="text-xl font-semibold">Briefing <span className="block text-sm font-normal opacity-70 sm:inline">· {label} · sample (synthetic) catalog</span></h1>
+      <h1 id="h" className="text-xl font-semibold">Briefing <span className="block text-sm font-normal opacity-70 sm:inline">· {label} · <CatalogTag /></span></h1>
 
       <LeaveByCard schedule={s} todayOnly title="Leave-by: next class today" />
 

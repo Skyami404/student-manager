@@ -30,19 +30,19 @@ export default function DataBadge() {
   if (!status) return <Pill>Checking data sources…</Pill>;
   return (
     <ul className="flex flex-wrap items-center gap-2" aria-label="Data sources">
-      {status.catalog.synthetic ? (
-        <li>
+      <li>
+        {status.catalog.synthetic ? (
           <Pill strong>
             <span aria-hidden="true">⚠</span> Sample catalog (synthetic)
           </Pill>
-        </li>
-      ) : (
-        <li>
-          <Pill>
-            <span aria-hidden="true">{ICON[status.catalog.status]}</span> Catalog: {WORD[status.catalog.status]}
-          </Pill>
-        </li>
-      )}
+        ) : (
+          <span title={`${status.catalog.label}${status.catalog.as_of ? `, data refreshed ${status.catalog.as_of}` : ""}`}>
+            <Pill strong={status.catalog.status !== "live"}>
+              <span aria-hidden="true">{ICON[status.catalog.status]}</span> {status.catalog.term ?? "BU"} catalog: {WORD[status.catalog.status]}
+            </Pill>
+          </span>
+        )}
+      </li>
       <li>
         <Pill>
           <span aria-hidden="true">{ICON[status.transit.status]}</span> Transit: {WORD[status.transit.status]}

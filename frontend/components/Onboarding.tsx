@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { apiGet, type Course, type Dorm } from "@/lib/api";
+import { useDataStatus } from "@/lib/useDataStatus";
 import { saveProfile, type Profile } from "@/lib/profile";
 
 export default function Onboarding({ initial, onDone, onCancel }: { initial: Profile | null; onDone: () => void; onCancel?: () => void }) {
@@ -16,16 +17,20 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
   useEffect(() => {
     const ac = new AbortController();
     apiGet<Dorm[]>("/dorms", ac.signal).then(setDorms).catch(() => !ac.signal.aborted && setDorms([]));
-    apiGet<Course[]>("/courses", ac.signal).then(setCatalog).catch(() => {});
+    apiGet<Course[]>("/courses?limit=0", ac.signal).then(setCatalog).catch(() => {});
     return () => ac.abort();
   }, []);
 
+  const { status } = useDataStatus();
   const known = new Set((catalog ?? []).map((c) => c.code));
   const hubUnits = [...new Set((catalog ?? []).flatMap((c) => c.hub_units))].sort();
   const norm = (s: string) => s.trim().toUpperCase().replace(/\s+/g, " ");
+  // "casma123", "CAS MA123" and "cas ma 123" all resolve to the catalog's own spelling, "CAS MA 123"
+  const squash = (s: string) => s.replace(/\s+/g, "").toUpperCase();
+  const resolve = (s: string) => (catalog ?? []).find((c) => squash(c.code) === squash(s))?.code ?? norm(s);
 
   function add() {
-    const c = norm(draft);
+    const c = resolve(draft);
     if (!c) return;
     if (!codes.includes(c)) setCodes([...codes, c]);
     setDraft("");
@@ -65,7 +70,7 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), add())}
             aria-label="Course code"
-            placeholder="e.g. MA 101"
+            placeholder="e.g. CAS MA 123"
             className="flex-1 rounded border border-line bg-surface p-2"
           />
           <button type="button" onClick={add} className="rounded border border-line bg-surface px-3">Add</button>
@@ -76,7 +81,7 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
               <span>
                 <span aria-hidden="true">☐</span> {c}
                 {catalog && !known.has(c) && (
-                  <span className="ml-2 text-warn"><span aria-hidden="true">⚠</span> not in sample catalog</span>
+                  <span className="ml-2 text-warn"><span aria-hidden="true">⚠</span> not in the catalog</span>
                 )}
               </span>
               <button type="button" onClick={() => setCodes(codes.filter((x) => x !== c))} aria-label={`Remove ${c}`} className="px-2">✕</button>
@@ -93,7 +98,9 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
 
       <fieldset>
         <legend className="text-sm font-medium">Hub tracker: check the Hub areas you have already completed</legend>
-        <p className="text-xs opacity-70">Area names come from the sample (synthetic) catalog.</p>
+        <p className="text-xs opacity-70">
+          Area names are read from the course descriptions in the {status?.catalog.synthetic ? "sample (synthetic) catalog" : "BU catalog"}.
+        </p>
         {catalog === null && <p className="mt-1 text-sm opacity-70">Loading Hub areas…</p>}
         <ul className="mt-2 grid gap-1 sm:grid-cols-2">
           {hubUnits.map((u) => (

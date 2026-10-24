@@ -207,8 +207,8 @@ def validate(sections: list[Section], courses: dict[str, Course], all_sections: 
     cred = sum(courses[c].credits for c in chosen)
     if not req.min_credits <= cred <= req.max_credits:
         return f"credits {cred} out of range"
-    need = {(s.course_code, s.component) for s in all_sections if s.course_code in chosen}
-    got = [(s.course_code, s.component) for s in sections]
+    need = {(s.course_code, s.component) for s in all_sections if s.course_code in chosen and s.linked_to is None}
+    got = [(s.course_code, s.component) for s in sections if s.linked_to is None]
     if len(got) != len(set(got)) or set(got) != need:
         return "component coverage wrong"
     for d in WEEKDAYS:
@@ -250,14 +250,17 @@ def generate(courses_list: list[Course], sections_list: list[Section], req: Sche
     for s in sections_list:
         by_course.setdefault(s.course_code, []).append(s)
     candidates: dict[tuple[str, str], list[Section]] = {}
+    extras: dict[str, list[Section]] = {}  # main section id -> its extra meeting records (always chosen together)
     for c in [*req.required, *optional]:
         for s in by_course.get(c, []):
-            if s.seats_open != 0:  # full sections cannot be enrolled in
+            if s.linked_to:
+                extras.setdefault(s.linked_to, []).append(s)
+            elif s.seats_open != 0:  # full sections cannot be enrolled in
                 candidates.setdefault((c, s.component), []).append(s)
     if dorm_coord is None:
         warnings.append("Dorm not found: dorm-to-class travel was left out of the scoring.")
 
-    base = dict(label="Sample data (synthetic)", warnings=warnings)
+    base = dict(warnings=warnings)  # the catalog label is added by the API layer, which knows the source
     bad = _diagnose(req, courses, by_course, candidates)
     if any(c not in courses for c in req.required):
         return {**base, "status": "infeasible", "reason": bad, "schedules": []}
@@ -267,7 +270,7 @@ def generate(courses_list: list[Course], sections_list: list[Section], req: Sche
         diff_try = [req.min_diff, 1] if req.min_diff > 1 else [1]
         sol = None
         for diff in diff_try:
-            sol = _solve(courses, candidates, optional, req, ctx, [f["_ids"] for f in found], diff)
+            sol = _solve(courses, candidates, extras, optional, req, ctx, [f["_ids"] for f in found], diff)
             if sol is not None:
                 break
         if sol is None:
@@ -286,7 +289,7 @@ def generate(courses_list: list[Course], sections_list: list[Section], req: Sche
             "note": None if len(out) == req.top_n else f"Only {len(out)} distinct schedule(s) exist for this request."}
 
 
-def _solve(courses, candidates, optional, req, ctx, previous: list[frozenset], min_diff: int) -> dict | None:
+def _solve(courses, candidates, extras, optional, req, ctx, previous: list[frozenset], min_diff: int) -> dict | None:
     m = cp_model.CpModel()
     w = ctx.w
     codes = [*req.required, *optional]
@@ -306,8 +309,12 @@ def _solve(courses, candidates, optional, req, ctx, previous: list[frozenset], m
         m.Add(sum(x[i] for i in ids if i in x) <= len(ids) - min_diff)
 
     all_secs = {s.id: s for secs in candidates.values() for s in secs}
+    for main_id in list(all_secs):  # every meeting record of a chosen section is on the timeline
+        for e in extras.get(main_id, []):
+            all_secs[e.id] = e
+    owner = lambda s: s.linked_to or s.id  # the decision variable of a record is its main section's
     terms: list[tuple[cp_model.IntVar, int]] = [
-        (x[i], w["time_pref"] * ctx.time_pen(s) + (w["unknown_location"] * len(s.days) if timed(s) and ctx.sec_status(s) == "unknown" else 0))
+        (x[owner(s)], w["time_pref"] * ctx.time_pen(s) + (w["unknown_location"] * len(s.days) if timed(s) and ctx.sec_status(s) == "unknown" else 0))
         for i, s in all_secs.items()]
     const = 0
     for d in ctx.days:
@@ -320,7 +327,7 @@ def _solve(courses, candidates, optional, req, ctx, previous: list[frozenset], m
         qual = []
         for i, a in enumerate(nodes, 1):
             sa, ea = hm(a.start), hm(a.end)
-            arcs.append((i, i, x[a.id].Not()))
+            arcs.append((i, i, x[owner(a)].Not()))
             first, last = m.NewBoolVar(""), m.NewBoolVar("")
             arcs += [(0, i, first), (i, 0, last)]
             dm = ctx.dorm_leg(a)[0] or 0  # unknown location -> no dorm travel counted
@@ -354,7 +361,8 @@ def _solve(courses, candidates, optional, req, ctx, previous: list[frozenset], m
     if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         return None
     ids = frozenset(i for i in x if solver.Value(x[i]))
-    secs = sorted((all_secs[i] for i in ids), key=lambda s: (s.course_code, s.component))
+    recs = [all_secs[i] for i in ids] + [e for i in ids for e in extras.get(i, [])]
+    secs = sorted(recs, key=lambda s: (s.course_code, s.component, owner(s), s.linked_to is not None))
     return dict(_ids=ids, sections=secs, objective10=round(solver.ObjectiveValue()),
                 optimal=status == cp_model.OPTIMAL)
 
@@ -389,15 +397,21 @@ def _flags(secs, met, req, ctx):
             flags.append(dict(kind="early_class", level="warn", why=f"{s.course_code} {s.section_label} starts at {s.start}, before your preferred {req.earliest_start}."))
         if timed(s) and hm(s.end) > ctx.latest:
             flags.append(dict(kind="late_class", level="warn", why=f"{s.course_code} {s.section_label} ends at {s.end}, after your preferred {req.latest_end}."))
-        if s.seats_open is not None and 0 < s.seats_open <= 5:
-            flags.append(dict(kind="low_seats", level="info", why=f"{s.course_code} {s.section_label} shows only {s.seats_open} open seat(s) in the sample data; it may fill before you register."))
-        if not timed(s):
+        if s.linked_to is None and s.seats_open is not None and 0 < s.seats_open <= 5:
+            flags.append(dict(kind="low_seats", level="info", why=f"{s.course_code} {s.section_label} shows only {s.seats_open} open seat(s); it may fill before you register."))
+        if s.linked_to is None and not timed(s):
             flags.append(dict(kind="tba_online", level="info", why=f"{s.course_code} {s.section_label} is TBA/online, so it is assumed to cause no conflicts or travel."))
+    unknown: dict[str, list[str]] = {}  # reason -> "CODE label", one flag per reason (most rooms are unassigned)
     for s in secs:
         why = ctx.info.unknown_reason(s.building_code, s.room) if timed(s) else None
-        if why:
-            flags.append(dict(kind="location_unknown", level="warn", why=(
-                f"{s.course_code} {s.section_label}: location unknown ({why}). It has no walking time and is left out of transition-risk checks.")))
+        name = f"{s.course_code} {s.section_label}"
+        if why and name not in unknown.setdefault(why, []):
+            unknown[why].append(name)
+    for why, names in unknown.items():
+        shown = ", ".join(names[:6]) + (f" and {len(names) - 6} more" if len(names) > 6 else "")
+        flags.append(dict(kind="location_unknown", level="warn", why=(
+            f"Location unknown for {shown} ({why}). {'They have' if len(names) > 1 else 'It has'} no walking time and "
+            f"{'are' if len(names) > 1 else 'is'} left out of transition-risk checks.")))
     if met["approximate"]:
         flags.append(dict(kind="approximate_walk", level="info", why=(
             "Some walking times are approximate: a building is missing from the buildings table or its coordinates are unverified.")))
@@ -405,7 +419,12 @@ def _flags(secs, met, req, ctx):
         flags.append(dict(kind="no_meal_window", level="warn", why=f"{d}: no free block of 30+ minutes between 11:00 and 14:00, so lunch may be rushed."))
     if met["longest_gap_minutes"] > req.long_gap_minutes:
         flags.append(dict(kind="long_gap", level="info", why=f"Longest wait between two classes is {met['longest_gap_minutes']} min."))
-    return flags
+    seen, unique = set(), []
+    for f in flags:  # the extra meetings of one section would repeat its notes
+        if f["why"] not in seen:
+            seen.add(f["why"])
+            unique.append(f)
+    return unique
 
 
 def _explain(rank, secs, met, req, ctx, best) -> str:

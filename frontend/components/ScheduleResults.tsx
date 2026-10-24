@@ -17,7 +17,7 @@ export default function ScheduleResults({ result, selectedId, onUse }: { result:
 
   return (
     <div className="space-y-6">
-      <p className="text-xs opacity-80"><span aria-hidden="true">◆</span> {result.label}. Fictional courses; results are illustrative.</p>
+      <p className="text-xs opacity-80"><span aria-hidden="true">◆</span> {result.label}.{result.synthetic_catalog ? " Fictional courses; results are illustrative." : " Seat availability is not in the catalog data, so confirm sections are open before registering."}</p>
       {result.warnings.map((w) => (
         <p key={w} className="text-sm text-warn"><span aria-hidden="true">⚠</span> {w}</p>
       ))}

@@ -15,18 +15,22 @@ def _clash(a: Section, b: Section) -> bool:
 
 def _components(code: str, sections: list[Section]) -> list[list[Section]]:
     """Open (non-full) sections of a course grouped by component, lecture first."""
-    open_ = [s for s in sections if s.course_code == code and s.seats_open != 0]
-    allc = {s.component for s in sections if s.course_code == code}
+    open_ = [s for s in sections if s.course_code == code and s.seats_open != 0 and s.linked_to is None]
+    allc = {s.component for s in sections if s.course_code == code and s.linked_to is None}
     return [[s for s in open_ if s.component == k] for k in sorted(allc, key=ORDER.get)]
+
+
+def _with_extras(s: Section, sections: list[Section]) -> list[Section]:
+    return [s] + [x for x in sections if x.linked_to == s.id]
 
 
 def _place(code, sections, chosen, pick) -> list[Section] | None:
     added = []
     for group in _components(code, sections):
-        ok = [s for s in group if not any(_clash(s, o) for o in chosen + added)]
+        ok = [s for s in group if not any(_clash(r, o) for r in _with_extras(s, sections) for o in chosen + added)]
         if not ok:
             return None
-        added.append(pick(ok))
+        added += _with_extras(pick(ok), sections)
     return added
 
 

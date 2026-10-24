@@ -1,7 +1,7 @@
 """Internal catalog format + CatalogSource interface.
 
-All app code talks to CatalogSource only. SampleCatalogSource reads SYNTHETIC data;
-DbCatalogSource (stub) will be filled in later against the real read-only database.
+All app code talks to CatalogSource only. DbCatalogSource reads the real BU catalog from the read-only database;
+SampleCatalogSource reads SYNTHETIC data and is only the fallback when neither the database nor its cache exists.
 """
 import json
 from abc import ABC, abstractmethod
@@ -33,11 +33,16 @@ class Section(BaseModel):
     room: str | None = None
     seats_open: int | None = None  # None = unknown
     component: Component = "lecture"
+    # A section that meets at more than one time/place is stored as one record per meeting. The extra records
+    # point at the main one (this holds its id) and are always chosen together with it.
+    linked_to: str | None = None
 
 
 class CatalogSource(ABC):
     synthetic: bool
     label: str
+    status: str = "live"        # live | cached | sample
+    as_of: str | None = None    # when the underlying data was last refreshed (real catalog only)
 
     @abstractmethod
     def courses(self) -> list[Course]: ...
@@ -55,6 +60,7 @@ class SampleCatalogSource(CatalogSource):
     def __init__(self, path: Path = SAMPLE_PATH):
         raw = json.loads(Path(path).read_text())
         self.synthetic = bool(raw.get("synthetic", True))
+        self.status = "sample"
         self.label = raw.get("label", "Sample data (synthetic)")
         self._courses = [Course(**c) for c in raw["courses"]]
         self._sections = [Section(**s) for s in raw["sections"]]
@@ -66,28 +72,42 @@ class SampleCatalogSource(CatalogSource):
         return self._sections
 
 
-class DbCatalogSource(CatalogSource):
-    """Stub for the real private, read-only SQL catalog database (not reachable yet).
+class CatalogUnavailable(RuntimeError):
+    pass
 
-    Must map, READ-ONLY, from the real schema to:
-      Course:  code ("DEPT NNN" form), title, credits (int), hub_units (list of Hub area
-               names), prerequisites (list of course codes)
-      Section: id (stable unique string), course_code, section_label, days (Mon..Fri list),
-               start/end ("HH:MM" 24h; None if TBA/online), building_code (must match
-               codes in the buildings lookup table), room, seats_open (None if unknown),
-               component (lecture | lab | discussion)
-    Set synthetic = False once implemented. Never write to the external database.
-    """
+
+class DbCatalogSource(CatalogSource):
+    """The real BU course catalog, read from the private READ-ONLY database (see clients/catalog_db.py for exactly
+    what is listed and how the free-text Hub areas and prerequisites are parsed). Falls back to a disk copy of the
+    last successful read when the database is unreachable; raises CatalogUnavailable if there is neither."""
 
     synthetic = False
-    label = "Course catalog database"
+
+    def __init__(self, term: str | None = None):
+        from clients.catalog_db import load_snapshot  # imported here: catalog_db imports this module
+
+        got = load_snapshot(term)
+        if got is None:
+            raise CatalogUnavailable("catalog database unreachable and no disk cache")
+        snap, self.status = got
+        self.term_label = snap["term_label"]
+        self.label = f"BU course catalog, {self.term_label}"
+        self.as_of = snap.get("as_of")
+        self.stats = snap.get("stats", {})
+        self._courses = [Course(**c) for c in snap["courses"]]
+        self._sections = [Section(**s) for s in snap["sections"]]
 
     def courses(self) -> list[Course]:
-        raise NotImplementedError("DbCatalogSource: map real catalog tables to Course")
+        return self._courses
 
     def sections(self) -> list[Section]:
-        raise NotImplementedError("DbCatalogSource: map real catalog tables to Section")
+        return self._sections
 
 
 def get_catalog_source() -> CatalogSource:
-    return SampleCatalogSource()
+    """Real catalog (live database, else its disk cache); the SYNTHETIC sample catalog only as a last resort,
+    so the app always starts offline. The sample is labelled as such wherever it is shown."""
+    try:
+        return DbCatalogSource()
+    except CatalogUnavailable:
+        return SampleCatalogSource()

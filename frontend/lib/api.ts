@@ -40,7 +40,7 @@ export type Dorm = {
 };
 export type SourceState = "live" | "cached" | "sample" | "unavailable";
 export type DataStatus = {
-  catalog: { status: SourceState; synthetic: boolean; label: string };
+  catalog: { status: SourceState; synthetic: boolean; label: string; term?: string | null; as_of?: string | null };
   transit: { status: SourceState };
   dining: { status: SourceState };
   locations: {

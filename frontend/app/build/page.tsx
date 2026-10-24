@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import CatalogTag from "@/components/CatalogTag";
 import HubPanel from "@/components/HubPanel";
 import ScheduleResults from "@/components/ScheduleResults";
 import {
@@ -130,7 +131,7 @@ export default function BuildPage() {
       <div className="grid gap-6 md:grid-cols-2">
         <div>
           <label htmlFor="q" className="block text-sm font-medium">
-            Search courses (sample catalog)
+            Search courses (<CatalogTag />)
           </label>
           <input
             id="q"
@@ -141,7 +142,11 @@ export default function BuildPage() {
             className={`${field} w-full`}
           />
           <p aria-live="polite" className="mt-1 text-xs opacity-70">
-            {results ? `${results.length} course(s)` : "Loading…"}
+            {results
+              ? results.length >= 100
+                ? "Showing the first 100 matches. Type more to narrow the list."
+                : `${results.length} course(s)`
+              : "Loading…"}
           </p>
           <ul className="mt-2 max-h-80 space-y-1 overflow-y-auto">
             {(results ?? []).map((c) => (
@@ -156,6 +161,11 @@ export default function BuildPage() {
                 {c.hub_units.length > 0 && (
                   <div className="text-xs opacity-70">
                     Hub: {c.hub_units.join(", ")}
+                  </div>
+                )}
+                {c.prerequisites.length > 0 && (
+                  <div className="text-xs opacity-70">
+                    Prerequisites (from the catalog text, not checked): {c.prerequisites.join("; ")}
                   </div>
                 )}
                 <div className="mt-1 flex gap-2">

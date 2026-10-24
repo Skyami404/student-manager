@@ -36,8 +36,11 @@ def suggestions(entry: dict, completed: list[str], courses: list[Course], sectio
     base = score(sched, ctx)
     base_credits = sum(cmap[c].credits for c in in_sched if c in cmap)
     by_course: dict[str, list[Section]] = {}
+    extras: dict[str, list[Section]] = {}
     for s in sections:
         by_course.setdefault(s.course_code, []).append(s)
+        if s.linked_to:
+            extras.setdefault(s.linked_to, []).append(s)
 
     rejected = {"credits": 0, "no_open_section": 0, "overlap": 0, "tight_transition": 0, "lunch_window": 0}
     out = []
@@ -50,14 +53,14 @@ def suggestions(entry: dict, completed: list[str], courses: list[Course], sectio
             continue
         comps: dict[str, list[Section]] = {}
         for s in by_course.get(c.code, []):
-            if s.seats_open != 0:
+            if s.linked_to is None and s.seats_open != 0:
                 comps.setdefault(s.component, []).append(s)
-        if not comps or len(comps) < len({s.component for s in by_course.get(c.code, [])}):
+        if not comps or len(comps) < len({s.component for s in by_course.get(c.code, []) if s.linked_to is None}):
             rejected["no_open_section"] += 1
             continue
         best, why_not = None, set()
         for bundle in list(product(*comps.values()))[:MAX_COMBOS]:
-            new = list(bundle)
+            new = [r for s in bundle for r in [s, *extras.get(s.id, [])]]  # extra meetings come along
             if any(_clash(a, b) for i, a in enumerate(new) for b in [*sched, *new[i + 1:]]):
                 why_not.add("overlap")
                 continue
@@ -83,7 +86,7 @@ def suggestions(entry: dict, completed: list[str], courses: list[Course], sectio
                f"Adds about {max(added, 0)} min of walking per week (estimate)."]
         unk = [s for s in new if timed(s) and ctx.sec_status(s) == "unknown"]
         if unk:
-            why.append("Location unknown for " + ", ".join(f"{s.section_label} ({ctx.info.unknown_reason(s.building_code, s.room)})" for s in unk)
+            why.append("Location unknown for " + ", ".join(f"{lbl} ({r})" for lbl, r in {s.section_label: ctx.info.unknown_reason(s.building_code, s.room) for s in unk}.items())
                         + ": walking and tight transitions could not be checked for it.")
         off = sum(ctx.time_pen(s) for s in new)
         if off:
@@ -92,9 +95,9 @@ def suggestions(entry: dict, completed: list[str], courses: list[Course], sectio
             why.append("Adds a new class day.")
         if c.prerequisites:
             why.append(f"Prerequisites: {', '.join(c.prerequisites)}. Confirm you have met them.")
-        low = [s for s in new if s.seats_open is not None and s.seats_open <= 5]
+        low = [s for s in new if s.linked_to is None and s.seats_open is not None and s.seats_open <= 5]
         if low:
-            why.append("Few open seats in the sample data: " + ", ".join(f"{s.section_label} ({s.seats_open})" for s in low) + ".")
+            why.append("Few open seats: " + ", ".join(f"{s.section_label} ({s.seats_open})" for s in low) + ".")
         out.append({
             "course": {"code": c.code, "title": c.title, "credits": c.credits, "hub_units": c.hub_units, "prerequisites": c.prerequisites},
             "covers": gain,
@@ -112,5 +115,4 @@ def suggestions(entry: dict, completed: list[str], courses: list[Course], sectio
         "remaining": remaining, "current": {"tight_transitions": base["tight_transitions"], "meal_window_days": base["meal_window_days"],
                                            "class_days": base["class_days"], "credits": base_credits},
         "suggestions": out[:limit], "total_found": len(out), "rejected_courses": rejected,
-        "label": "Sample data (synthetic): fictional courses",
     }

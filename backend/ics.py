@@ -17,7 +17,8 @@ from optimizer import hm
 BYDAY = {"Mon": "MO", "Tue": "TU", "Wed": "WE", "Thu": "TH", "Fri": "FR", "Sat": "SA", "Sun": "SU"}
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 LABEL = {"lecture": "Lecture", "lab": "Lab", "discussion": "Discussion"}
-CAL_NAME = "Compass schedule (sample data, synthetic)"
+CAL_NAME = "Compass schedule"
+CAL_NAME_SAMPLE = "Compass schedule (sample data, synthetic)"
 VTIMEZONE = """BEGIN:VTIMEZONE
 TZID:America/New_York
 BEGIN:DAYLIGHT
@@ -62,7 +63,8 @@ def _next(day: str, today: date) -> date:
     return today + timedelta(days=(DAYS.index(day) - today.weekday()) % 7)
 
 
-def build(entry: dict, buildings: dict, dorms: dict, include_meals: bool, weeks: int, now: datetime | None = None) -> str:
+def build(entry: dict, buildings: dict, dorms: dict, include_meals: bool, weeks: int, synthetic: bool = False,
+          now: datetime | None = None) -> str:
     now = now or datetime.now(TZ)
     today = now.date()
     secs = [s for s in entry["schedule"]["sections"] if s["days"] and s["start"] and s["end"]]
@@ -72,7 +74,7 @@ def build(entry: dict, buildings: dict, dorms: dict, include_meals: bool, weeks:
     info = LocationInfo(buildings)
     stamp = now.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Compass//Schedule export//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
-         f"X-WR-CALNAME:{esc(CAL_NAME)}", "X-WR-TIMEZONE:America/New_York", *VTIMEZONE]
+         f"X-WR-CALNAME:{esc(CAL_NAME_SAMPLE if synthetic else CAL_NAME)}", "X-WR-TIMEZONE:America/New_York", *VTIMEZONE]
 
     def event(uid_key, summary, d, start, end, desc, location=None, rrule_day=None, transparent=False, alarm=None):
         uid = hashlib.sha1(uid_key.encode()).hexdigest()[:20] + "@compass.local"
@@ -108,7 +110,7 @@ def build(entry: dict, buildings: dict, dorms: dict, include_meals: bool, weeks:
             title = f"{s['course_code']} {LABEL.get(s['component'], '')} {s['section_label']}".replace("  ", " ")
             loc = " ".join(x for x in (s["building_code"], s["room"]) if x)
             event(f"class|{s['id']}|{day}", title, d0, hm(s["start"]), hm(s["end"]),
-                  ("Sample (synthetic) course from Compass. " + (f"Leave-by alarm is {lead} min before class ({basis}, ~90% on-time walking estimate)." if lead else f"No leave-by alarm: {basis}.")),
+                  (("Sample (synthetic) course from Compass. " if synthetic else "Class from the BU course catalog, via Compass. ") + (f"Leave-by alarm is {lead} min before class ({basis}, ~90% on-time walking estimate)." if lead else f"No leave-by alarm: {basis}.")),
                   loc or None, day, alarm=(lead, f"Leave now for {s['course_code']} ({basis})") if lead else None)
         if include_meals:
             for a, b in zip(todays, todays[1:]):

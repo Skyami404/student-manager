@@ -38,8 +38,17 @@ const items: { id: string; title: string; body: React.ReactNode }[] = [
   },
   {
     id: "catalog",
-    title: "Synthetic sample catalog",
-    body: <p>All courses, sections, seat counts, and Hub units are fictional sample data (labelled &quot;Sample data&quot;), not real BU offerings. The app only talks to a catalog interface, so using the real catalog means implementing one adapter (<code>DbCatalogSource</code> in <code>backend/clients/catalog.py</code>) that maps the real data to the same course and section models. Its building codes must also exist in the buildings lookup table.</p>,
+    title: "Course catalog",
+    body: (
+      <ul className="list-disc space-y-1 pl-5">
+        <li>Courses and sections are read from the BU course catalog database (read-only) for Spring 2027. The header badge shows whether the catalog is live, or cached from the last successful read. If the database cannot be reached and nothing is cached, the app falls back to a fictional <strong>sample catalog</strong> and says so in the badge.</li>
+        <li>Only some of the catalog is listed: undergraduate courses on the Charles River campus, regular full-term sessions, with a weekday meeting time. Independent and directed study, applied music, unscheduled sections, weekend meetings, courses with zero or fractional credits, and courses whose lab or discussion cannot be placed are left out, so a course you expect may be missing.</li>
+        <li>The catalog has no Hub or prerequisite fields. Hub areas are read from the sentence in each course description (&quot;fulfills a single unit in … BU Hub areas&quot;), and prerequisites are shown as the description&apos;s own text and are not checked against what you have taken. Either can be missed or out of date.</li>
+        <li>The catalog has no seat counts, so full sections are not excluded. It also does not say which discussion or lab belongs to which lecture, so the optimizer may pair a lecture with a discussion section you cannot actually register for together. Check the official registration system.</li>
+        <li>A section that meets at more than one time (for example a regular lecture plus an evening session) is scheduled with all of its meetings.</li>
+        <li>Using a different catalog source means implementing one adapter (<code>DbCatalogSource</code> in <code>backend/clients/catalog.py</code>) that maps it to the same course and section models.</li>
+      </ul>
+    ),
   },
   {
     id: "coords",
@@ -48,6 +57,7 @@ const items: { id: string; title: string; body: React.ReactNode }[] = [
       <ul className="list-disc space-y-1 pl-5">
         <li>Building, dorm, and dining hall locations come from a list that has not been verified. Walking times (straight-line distance with a detour factor, adjusted for pace) and leave-by times are estimates and can be off, especially for short walks.</li>
         <li>If a section&apos;s building is missing from the buildings table, or its coordinates are unverified, the walking time is still estimated but marked approximate (≈).</li>
+        <li>Most Spring 2027 sections have no room assigned in the catalog yet, so most classes show as location unknown for now.</li>
         <li>Sections on the medical campus, sections with no building, and sections listed as “No Room” have no walking time. They are marked “location unknown” and are left out of transition-risk, tight-transition, and travel calculations. Leave-by times, meal-fit checks, and calendar alarms are not given for them.</li>
       </ul>
     ),

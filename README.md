@@ -2,7 +2,7 @@
 
 A BU student manager and schedule optimizer, built as a hackathon prototype. It builds class schedules that avoid tight walks and keep a lunch window, tells you when to leave for class using live shuttle data, finds meal gaps at open dining halls, suggests classes for Hub areas you still need, and exports your week to a calendar.
 
-> **Prototype with sample data.** The course catalog is fictional (labelled "Sample data"), building coordinates are approximate and unverified, and the shuttle delay model trains on synthetic placeholder data until enough real predictions have been logged. Read the in-app **About and limitations** page (or the [Known limitations](#known-limitations) section below) before relying on any output.
+> **Prototype.** Courses come from the real BU catalog for Spring 2027, but only part of it is listed (see [Course catalog](#course-catalog)), most rooms are not assigned yet, building coordinates are approximate and unverified, and the shuttle delay model trains on synthetic placeholder data until enough real predictions have been logged. Read the in-app **About and limitations** page (or the [Known limitations](#known-limitations) section below) before relying on any output.
 
 ## What it does
 
@@ -19,7 +19,7 @@ Also: onboarding (dorm, required course codes, target credits, completed Hub are
 
 - **Backend:** FastAPI, SQLAlchemy + SQLite, OR-Tools CP-SAT, scikit-learn (quantile gradient boosting), APScheduler. Python 3.11+ (developed on 3.12).
 - **Frontend:** Next.js (App Router, TypeScript) and Tailwind CSS.
-- **Data:** BU API gateway for shuttle and dining data (read-only). Course catalog from a swappable `CatalogSource` interface; currently a synthetic JSON file.
+- **Data:** BU API gateway for shuttle and dining data (read-only). Course catalog from a swappable `CatalogSource` interface: the private read-only catalog database (PostgreSQL), with a disk cache and a synthetic sample file as fallbacks.
 
 ## Repository layout
 
@@ -40,11 +40,12 @@ backend/
   locations.py        building/dorm lookup, location classification, walking-time helper
   db.py               SQLAlchemy models (SQLite, compass.db)
   clients/
-    catalog.py        CatalogSource interface, SampleCatalogSource, DbCatalogSource stub
+    catalog.py        CatalogSource interface, DbCatalogSource, SampleCatalogSource (fallback)
+    catalog_db.py     read-only SELECTs, filtering, Hub/prerequisite parsing, disk cache
     transit.py        BU transit adapter (disk cache, falls back to cache/fixtures)
     dining.py         BU dining adapter (same)
     bu_http.py        shared GET + cache + fallback
-  data/sample_catalog.json   SYNTHETIC catalog (~40 fictional courses)
+  data/sample_catalog.json   SYNTHETIC fallback catalog (~40 fictional courses)
 frontend/             Next.js app (app/, components/, lib/)
 fixtures/             locations.csv (buildings/dorms) and data-pull output; optional offline fallback files
 scripts/              one-off data-pull helpers (see below)
@@ -57,7 +58,7 @@ Requirements: Python 3.11+, Node 20+, and a virtualenv at the repo root (`.venv`
 
 ```bash
 python3 -m venv .venv                                  # once
-cp backend/.env.example backend/.env                   # then fill in BU_BASE / BU_API_KEY
+cp backend/.env.example backend/.env                   # then fill in BU_BASE / BU_API_KEY and DB_*
 cp frontend/.env.example frontend/.env.local           # optional for local dev
 ./dev.sh                                               # installs deps, starts both servers
 ```
@@ -78,7 +79,7 @@ cd backend && ../.venv/bin/uvicorn main:app --reload --port 8000
 cd frontend && npm install && npm run dev
 ```
 
-**The app runs offline.** Without BU credentials, or when the gateway is unreachable, shuttle and dining data fall back to disk cache (`backend/.cache/`), then to files in `fixtures/`, then to "unavailable". The header badges show which sources are live, cached or sample.
+**The app runs offline.** Without BU credentials, or when the gateway is unreachable, shuttle and dining data fall back to disk cache (`backend/.cache/`), then to files in `fixtures/`, then to "unavailable". The course catalog falls back to its disk copy of the last successful read, and only then to the synthetic sample catalog. The header badges show which sources are live, cached or sample.
 
 ## Configuration
 
@@ -91,7 +92,8 @@ Secrets come only from environment variables; never commit real values. See `bac
 | `COMPASS_LOGGER` | backend | Set to `0` to turn off the 2-minute transit logger |
 | `NEXT_PUBLIC_API_URL` | frontend | Backend URL. Baked in at **build** time |
 | `BU_SPEC_URL` | scripts only | Optional OpenAPI spec URL for `scripts/pull_bu_api.py` |
-| `DB_*` | scripts only | Read-only catalog database settings used by `scripts/pull_catalog_db.py`; not read by the app |
+| `DB_ENGINE`, `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_SSL` | backend, scripts | Read-only catalog database (PostgreSQL). The app only runs SELECTs, in a read-only session |
+| `CATALOG_TERM` | backend | Term to list: `2271` = Spring 2027 (default), `2268` = Fall 2026 |
 
 ## API overview
 
@@ -100,7 +102,7 @@ Interactive docs are at `/docs` when the backend is running. The frontend also h
 | Route | Purpose |
 |---|---|
 | `GET /health`, `GET /data-status` | Liveness; which sources are live, cached or sample |
-| `GET /courses?q=`, `GET /sections?course_id=` | Catalog search and sections |
+| `GET /courses?q=&limit=`, `GET /sections?course_id=` | Catalog search (codes match with or without spaces; `limit=0` returns all) and sections |
 | `GET /buildings`, `GET /dorms` | Lookup tables |
 | `POST /schedules/generate` | Top 3 schedules with metrics, flags and explanations |
 | `GET /leave-by?schedule_id=&class_id=` | Leave time, on-time probability, and why |
@@ -112,9 +114,20 @@ Interactive docs are at `/docs` when the backend is running. The frontend also h
 | `POST /auth/register`, `/auth/login`, `/auth/logout`, `GET /me`, `POST /me/settings`, `POST /me/schedule` | Optional accounts (`@bu.edu` email, hashed password, bearer session) |
 | `POST /friends/request`, `/friends/accept`, `GET /friends`, `GET /friends/free-gaps?friend_id=` | Friends: shared free windows only, never course names |
 
-## Using the real course catalog
+## Course catalog
 
-All app code talks to the `CatalogSource` interface in `backend/clients/catalog.py`. To use the real catalog, implement `DbCatalogSource` (a stub documents the exact fields it must map to `Course` and `Section`; it must only ever read) and change `get_catalog_source()` to return it. Building codes in the catalog must also exist in the buildings table, or those sections get approximate or unknown walking times (see below).
+All app code talks to the `CatalogSource` interface in `backend/clients/catalog.py`. `DbCatalogSource` reads the BU catalog (schema `catalog`: `courses`, `sections`, `meetings`) with SELECT-only queries in a read-only session, once at startup, and saves a copy to `backend/.cache/catalog_<term>.json` (git-ignored). The header badge shows `live` or `cached`; if neither the database nor a cache exists, the synthetic sample catalog is used and the badge says so.
+
+Only part of the catalog is listed, because the optimizer needs a fixed weekly time for every section:
+
+- Spring 2027 (`2271`), undergraduate, regular full-term session, Charles River campus.
+- Class-like section types (lecture, discussion, laboratory and variants) that meet Monday to Friday. In this catalog `Independent` is the ordinary class type, not independent study; real independent study, directed study, applied music and unscheduled sections are left out.
+- A section that meets at more than one time (a regular lecture plus an evening session) becomes one record per meeting, linked so the optimizer always chooses them together.
+- Courses with zero or fractional credits, and courses where a lab or discussion cannot be placed, are left out.
+
+Things the catalog does not provide: **Hub areas and prerequisites** exist only as free text in the description, so Hub areas are parsed from the sentence "fulfills a single unit in ... BU Hub areas" (latest "Effective" sentence wins) and prerequisites are shown as the description's own text, unchecked. There are **no seat counts**, and **no link between a lecture and its discussion or lab sections**, so a pairing may not be registrable together. Course codes are shown as `CAS MA 123`.
+
+For Spring 2027 most meetings have no room assigned yet (about 84% of timed meetings), so most classes show as location unknown (see below). Set `CATALOG_TERM=2268` for Fall 2026, where rooms are assigned.
 
 ## Locations and walking times
 
@@ -129,7 +142,7 @@ Walking time is haversine distance x 1.3 / 1.3 m/s, scaled by your pace setting.
 cd backend && ../.venv/bin/python evaluate.py
 ```
 
-Runs 50 simulated course requests through the optimizer and two baselines (random valid, greedy first-fit), prints a metrics table, evaluates the delay model with a time-based split (MAE against the posted schedule, plus a calibration check), and writes `eval_results.json`. Output is labelled "evaluated on synthetic sample catalog". There is no separate automated test suite.
+Runs 50 simulated course requests through the optimizer and two baselines (random valid, greedy first-fit), prints a metrics table, evaluates the delay model with a time-based split (MAE against the posted schedule, plus a calibration check), and writes `eval_results.json`. It always uses the synthetic sample catalog so results are reproducible without the database, and is labelled "evaluated on synthetic sample catalog". There is no separate automated test suite.
 
 ## Deployment
 
@@ -160,7 +173,7 @@ Set the backend's `CORS_ORIGINS` to the frontend's public URL. **Most endpoints 
 
 ## Known limitations
 
-- **Synthetic catalog:** all courses, sections, seat counts and Hub units are fictional.
+- **Partial catalog:** only the courses described in [Course catalog](#course-catalog) are listed. Hub areas and prerequisites are parsed from description text and can be wrong or missing; there are no seat counts and no lecture-to-discussion pairing. The sample catalog (fallback only) is fictional.
 - **Approximate locations:** most building coordinates are missing or unverified, so many walking times are flagged approximate. Medical-campus, "No Room" and no-building sections show as location unknown.
 - **Non-production API:** the BU gateway used is a non-production environment. Dining hours and menus are published for today only, and the gateway has no route-tagged alerts.
 - **Small transit sample:** the delay model uses synthetic placeholder delays until at least 500 real trips over 3 days are logged. The gateway publishes no realized arrival time, so the "actual" delay is the last prediction seen before arrival.

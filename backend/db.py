@@ -41,6 +41,7 @@ class Section(Base):
     room: Mapped[str | None]
     seats_open: Mapped[int | None]
     component: Mapped[str] = mapped_column(default="lecture")
+    linked_to: Mapped[str | None]  # extra meeting of another section record (chosen together with it)
 
 
 class Building(Base):
@@ -122,6 +123,9 @@ def init_db():
     if insp.has_table("users") and "email" not in {c["name"] for c in insp.get_columns("users")}:
         Friendship.__table__.drop(engine, checkfirst=True)
         User.__table__.drop(engine)
+    # sections gained a column; the table is reloaded from the catalog at every start, so just rebuild it
+    if insp.has_table("sections") and "linked_to" not in {c["name"] for c in insp.get_columns("sections")}:
+        Section.__table__.drop(engine)
     Base.metadata.create_all(engine)
 
 
