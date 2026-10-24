@@ -53,6 +53,13 @@ export default function DataBadge() {
           <span aria-hidden="true">{ICON[status.dining.status]}</span> Dining: {WORD[status.dining.status]}
         </Pill>
       </li>
+      {status.delay_model?.synthetic && (
+        <li>
+          <Pill strong>
+            <span aria-hidden="true">⚠</span> Delay model: synthetic data ({status.delay_model.real_trips} real trips logged)
+          </Pill>
+        </li>
+      )}
       {status.locations.synthetic && (
         <li>
           <Pill>

@@ -5,3 +5,7 @@ pydantic==2.14.1
 requests==2.34.2
 python-dotenv==1.2.4
 ortools==9.15.6755
+APScheduler==3.11.3
+scikit-learn==1.9.1
+pandas==3.1.0
+numpy==2.5.4

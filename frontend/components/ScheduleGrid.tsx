@@ -1,13 +1,20 @@
-import type { Schedule, Section } from "@/lib/api";
+import type { Schedule, Section, Transition } from "@/lib/api";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 // Okabe-Ito (color-blind-safe). Course identity is also carried by the code text in every block.
 const PALETTE = ["#0072B2", "#E69F00", "#009E73", "#CC79A7", "#D55E00", "#56B4E9", "#B8A800", "#7A7A7A"];
 const PX_PER_HOUR = 58;
 const mins = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
+// Okabe-Ito green / orange / vermillion; every level also has its own icon and word.
+export const RISK = {
+  green: { icon: "✓", word: "OK", bg: "#009E73", fg: "#ffffff" },
+  amber: { icon: "▲", word: "Tight", bg: "#E69F00", fg: "#000000" },
+  red: { icon: "✕", word: "Risky", bg: "#D55E00", fg: "#ffffff" },
+} as const;
 const LABEL = { lecture: "Lecture", lab: "Lab", discussion: "Discussion" } as const;
 
-export default function ScheduleGrid({ schedule, from, to }: { schedule: Schedule; from: number; to: number }) {
+export default function ScheduleGrid({ schedule, from, to, showRisk = false }: { schedule: Schedule; from: number; to: number; showRisk?: boolean }) {
+  const risk = new Map<string, Transition>(showRisk ? schedule.metrics.transitions.map((t) => [`${t.day}|${t.to_section}`, t]) : []);
   const codes = schedule.courses.map((c) => c.code);
   const color = (code: string) => PALETTE[codes.indexOf(code) % PALETTE.length];
   const timed = schedule.sections.filter((s): s is Section & { start: string; end: string } => s.days.length > 0 && !!s.start && !!s.end);
@@ -33,7 +40,9 @@ export default function ScheduleGrid({ schedule, from, to }: { schedule: Schedul
                 <div key={h} className="absolute inset-x-0 border-t border-line/50" style={{ top: i * PX_PER_HOUR }} />
               ))}
               <div className="absolute inset-x-0 bg-accent/10" style={{ top: ((11 - from) * PX_PER_HOUR), height: 3 * PX_PER_HOUR }} aria-hidden="true" />
-              {timed.filter((s) => s.days.includes(d)).map((s) => (
+              {timed.filter((s) => s.days.includes(d)).map((s) => {
+                const r = risk.get(`${d}|${s.id}`);
+                return (
                 <div
                   key={s.id}
                   className="absolute inset-x-0.5 overflow-hidden rounded-sm border-l-4 px-1 leading-tight"
@@ -47,8 +56,19 @@ export default function ScheduleGrid({ schedule, from, to }: { schedule: Schedul
                   <div className="font-semibold">{s.course_code}</div>
                   <div>{LABEL[s.component]} {s.section_label}</div>
                   <div className="opacity-80">{s.start}–{s.end} · {s.building_code}</div>
+                  {r && (
+                    <span
+                      title={r.risk_why}
+                      className="absolute right-0.5 top-0.5 rounded px-1 text-[10px] font-bold"
+                      style={{ background: RISK[r.risk].bg, color: RISK[r.risk].fg }}
+                    >
+                      <span aria-hidden="true">{RISK[r.risk].icon}</span> {RISK[r.risk].word}
+                      <span className="sr-only">. Transition into this class: {r.risk_why}</span>
+                    </span>
+                  )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           ))}
         </div>

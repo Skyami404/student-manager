@@ -1,15 +1,22 @@
 import time
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
 
 import db
 from clients import dining, transit
 from clients.catalog import get_catalog_source
+import delay_model
+import leaveby
+import transit_logger
 from locations import load_locations
+from transit_net import get_watch, network, set_watch, watched
 from optimizer import ScheduleRequest, generate
 
 catalog = get_catalog_source()
@@ -19,7 +26,10 @@ catalog = get_catalog_source()
 async def lifespan(app: FastAPI):
     db.init_db()
     db.seed(catalog, load_locations())
+    sched = transit_logger.start()
     yield
+    if sched:
+        sched.shutdown(wait=False)
 
 
 app = FastAPI(title="Compass API", lifespan=lifespan)
@@ -84,6 +94,7 @@ def data_status():
         "transit": {"status": t},
         "dining": {"status": d},
         "locations": {"status": "sample", "source": locs, "synthetic": locs != "csv"},
+        "delay_model": delay_model.status() | {"logger": transit_logger.STATE | {"rows": transit_logger.total_rows()}},
     }
     _status_cache = (time.time(), result)
     return result
@@ -98,4 +109,64 @@ def schedules_generate(req: ScheduleRequest, s: Session = Depends(db.get_session
     dorm = s.get(db.Dorm, req.dorm_id) if req.dorm_id else None
     res = generate(catalog.courses(), catalog.sections(), req, coords, (dorm.lat, dorm.lon) if dorm else None)
     res["synthetic_catalog"] = catalog.synthetic
+    for sch in res["schedules"]:
+        leaveby.add_transition_risk(sch["metrics"]["transitions"])
+        sch["id"] = leaveby.save_schedule(sch, req.dorm_id, req.walking_pace)
     return res
+
+
+class WatchBody(BaseModel):
+    dorm_id: str | None = None
+    building_codes: list[str] = []
+
+
+def _coords(s: Session):
+    return ({d.code: (d.lat, d.lon) for d in s.scalars(select(db.Dorm))},
+            {b.code: (b.lat, b.lon) for b in s.scalars(select(db.Building))})
+
+
+@app.post("/watch")
+def watch(body: WatchBody, s: Session = Depends(db.get_session)):
+    """Tell the transit logger which dorm/buildings matter (stops near them get logged)."""
+    set_watch(body.dorm_id, body.building_codes)
+    net, (dorms, blds) = network(), _coords(s)
+    w = watched(net, dorms, blds) if net else {"physical_stops": [], "routes": []}
+    return {"physical_stops": w["physical_stops"], "routes": w["routes"]}
+
+
+def _model():
+    net = network()
+    pairs = []
+    if net:
+        with db.SessionLocal() as s:
+            d, b = _coords(s)
+        pairs = [(r["route_id"], r["physical_id"]) for r in watched(net, d, b)["route_stops"]]
+    return delay_model.get_model(pairs)
+
+
+@app.get("/leave-by")
+def leave_by(schedule_id: str, class_id: str, day: str | None = None, now: str | None = None, s: Session = Depends(db.get_session)):
+    entry = leaveby.load_schedule(schedule_id)
+    if entry is None:
+        raise HTTPException(404, "Unknown schedule_id (generate schedules first).")
+    tz = ZoneInfo("America/New_York")
+    when = datetime.fromisoformat(now).astimezone(tz) if now else datetime.now(tz)
+    dorms, blds = _coords(s)
+    try:
+        return leaveby.leave_by(entry, class_id, day, when, blds, dorms, network(), _model)
+    except KeyError:
+        raise HTTPException(404, "class_id is not in that schedule")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+
+
+@app.get("/alerts")
+def alerts(routes: str | None = None, s: Session = Depends(db.get_session)):
+    """Service alerts for the user's shuttle routes (or ?routes=1,4). Empty list if none."""
+    net = network()
+    if routes:
+        ids = [r for r in routes.split(",") if r]
+    else:
+        d, b = _coords(s)
+        ids = watched(net, d, b)["routes"] if net else []
+    return leaveby.alerts_for(ids, net)

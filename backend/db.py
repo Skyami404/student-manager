@@ -81,18 +81,30 @@ class Friendship(Base):
 
 
 class TransitLog(Base):
-    # Observations of BU transit responses, for later delay statistics. Fields beyond the
-    # identifiers are kept as raw JSON because real response shapes are not yet known.
+    # One row per observation of an upcoming bus arrival that has BOTH a live prediction
+    # (estimate_at) and a posted time (scheduled_at). Datetimes are naive UTC.
     __tablename__ = "transit_log"
     id: Mapped[int] = mapped_column(primary_key=True)
     observed_at: Mapped[datetime] = mapped_column(default=now, index=True)
     endpoint: Mapped[str]
-    stop_id: Mapped[str | None] = mapped_column(index=True)
-    route_id: Mapped[str | None]
-    payload: Mapped[str | None]  # raw JSON text
+    stop_id: Mapped[str | None] = mapped_column(index=True)   # physical stop id
+    route_id: Mapped[str | None] = mapped_column(index=True)
+    route_stop_id: Mapped[str | None]                          # id used by the arrivals endpoint
+    vehicle_id: Mapped[str | None]
+    scheduled_at: Mapped[datetime | None] = mapped_column(index=True)
+    predicted_at: Mapped[datetime | None]
+    lead_seconds: Mapped[int | None]                           # predicted_at - observed_at (gateway 'seconds' is time to SCHEDULED, kept in payload)
+    delay_seconds: Mapped[int | None]                          # predicted_at - scheduled_at (negative = early)
+    is_live: Mapped[bool] = mapped_column(default=False)
+    payload: Mapped[str | None]                                # raw arrival JSON
 
 
 def init_db():
+    from sqlalchemy import inspect
+    insp = inspect(engine)
+    # transit_log changed shape; it only ever held nothing useful before, so rebuild it.
+    if insp.has_table("transit_log") and "scheduled_at" not in {c["name"] for c in insp.get_columns("transit_log")}:
+        TransitLog.__table__.drop(engine)
     Base.metadata.create_all(engine)
 
 

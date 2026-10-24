@@ -1,9 +1,9 @@
-import type { GenerateResult } from "@/lib/api";
+import type { GenerateResult, Schedule } from "@/lib/api";
 import ScheduleGrid from "./ScheduleGrid";
 
 const mins = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
 
-export default function ScheduleResults({ result }: { result: GenerateResult }) {
+export default function ScheduleResults({ result, selectedId, onUse }: { result: GenerateResult; selectedId?: string; onUse: (s: Schedule) => void }) {
   if (result.status === "infeasible") {
     return (
       <div role="alert" className="rounded border border-warn p-3 text-sm">
@@ -30,6 +30,9 @@ export default function ScheduleResults({ result }: { result: GenerateResult }) 
               Schedule {s.rank} <span className="text-sm font-normal opacity-70">· {s.credits} credits{s.optimal ? "" : " · best found in time limit"}</span>
             </h3>
             <p className="text-sm opacity-80">{s.courses.map((c) => c.code).join(", ")}</p>
+            <button type="button" onClick={() => onUse(s)} aria-pressed={selectedId === s.id} className="mt-2 rounded border border-accent px-3 py-1 text-sm font-medium text-accent">
+              {selectedId === s.id ? "✓ Using this schedule (see Week tab)" : "Use this schedule"}
+            </button>
             <dl className="my-3 grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
               <div className="rounded bg-surface p-2">
                 <dt className="opacity-70">Tight transitions</dt>

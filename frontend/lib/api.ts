@@ -13,6 +13,7 @@ export type DataStatus = {
   transit: { status: SourceState };
   dining: { status: SourceState };
   locations: { status: SourceState; source: string; synthetic: boolean };
+  delay_model?: { source: "real" | "synthetic"; synthetic: boolean; real_trips: number; note: string };
 };
 
 export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
@@ -21,14 +22,19 @@ export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> 
   return r.json();
 }
 
+export type Transition = {
+  day: string; from_section: string; to_section: string; from_building: string | null; to_building: string | null;
+  gap_minutes: number; walk_minutes: number; tight: boolean; p_on_time: number; risk: "green" | "amber" | "red"; risk_why: string;
+};
 export type Metrics = {
+  transitions: Transition[];
   tight_transitions: number; travel_minutes: number; travel_minutes_range: [number, number];
   dorm_travel_minutes: number; meal_window_days: number; class_days: number; meal_missing_days: string[];
   longest_gap_minutes: number; off_window_minutes: number; credits: number; cost: number;
 };
 export type Flag = { kind: string; level: "warn" | "info"; why: string };
 export type Schedule = {
-  rank: number; optimal: boolean; credits: number;
+  id: string; rank: number; optimal: boolean; credits: number;
   courses: { code: string; title: string; credits: number; required: boolean }[];
   sections: Section[]; metrics: Metrics; flags: Flag[]; explanation: string;
 };
@@ -46,3 +52,13 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
   if (!r.ok) throw new Error(`${path}: ${r.status}`);
   return r.json();
 }
+
+export type LeaveBy = {
+  class_id: string; course_code: string; day: string; class_start: string; leave_at: string; mode: "walk" | "bus";
+  probability_on_time: number; probability_label: string; destination: string; why: string; warnings: string[];
+  origin: { kind: "dorm" | "class"; code: string };
+  bus: { route_id: string; board_stop: string; alight_stop: string; scheduled_departure: string; gateway_eta: string | null } | null;
+  delay_model: { source: string; synthetic: boolean } | null;
+};
+export type AlertItem = { kind: string; route_specific: boolean; text: string; why: string; at?: string; url?: string };
+export type Alerts = { alerts: AlertItem[]; routes: string[]; notes: string[]; note_no_route_alerts: string };

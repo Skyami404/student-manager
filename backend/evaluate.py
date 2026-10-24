@@ -7,6 +7,8 @@ import statistics as st
 import time
 from pathlib import Path
 
+import db
+import delay_model
 from baselines import greedy_first_fit, random_valid
 from clients.catalog import SampleCatalogSource
 from locations import load_locations
@@ -31,6 +33,33 @@ def make_requests(courses, rng):
             earliest_start=rng.choice(["08:00", "09:00", "10:00"]), latest_end=rng.choice(["17:00", "18:00"]),
             walking_pace=rng.choice(["slow", "normal", "fast"]), time_limit_s=5))
     return reqs
+
+
+def delay_section() -> dict:
+    """Time-based split evaluation of the bus delay model vs the posted schedule (delay = 0)."""
+    db.init_db()
+    df, source, info = delay_model.training_data()
+    r = delay_model.evaluate_model(df, source) | {"real_data_available": info}
+    m, c = r["mae_seconds"], r["calibration"]
+    tag = "SYNTHETIC delay data (too little logged data)" if r["synthetic"] else "real logged data"
+    print(f"\nBus delay model: {tag}")
+    print(f"logged real trips: {info['real_trips']} over {info['real_days']} day(s); need {info['min_trips']} trips and {info['min_days']} days to use real data")
+    print(f"time-based split: train {r['n_train']} (earliest 70%), test {r['n_test']} (latest 30%)\n")
+    print(f"{'predictor':<42}{'MAE (s)':>9}")
+    print("-" * 51)
+    print(f"{'model median (quantile GBM)':<42}{m['model_median']:>9.1f}")
+    print(f"{'baseline: posted schedule (delay = 0)':<42}{m['baseline_posted_schedule_zero_delay']:>9.1f}")
+    print(f"{'baseline: constant train median':<42}{m['baseline_train_median_constant']:>9.1f}")
+    lo, hi = r["mae_improvement_ci95_seconds"]
+    print(f"\nMAE improvement vs posted schedule: {r['mae_improvement_vs_schedule_seconds']:.1f} s (95% bootstrap CI {lo:.1f} to {hi:.1f})")
+    print("calibration (share of test delays at or below each predicted quantile):")
+    print("  " + "  ".join(f"q{int(q * 100):02d}: {o:.2f}" for _, (q, o) in c["nominal_vs_observed_below_quantile"].items()))
+    print(f"  80% interval (q10-q90) covers {c['interval_10_90']['observed']:.0%} (nominal 80%); 90% interval (q05-q95) covers {c['interval_5_95']['observed']:.0%} (nominal 90%)")
+    if r["synthetic"]:
+        print("  NOTE: synthetic data follows a pattern I invented, so this shows the pipeline works, not real BU accuracy.")
+    else:
+        print("  NOTE: 'actual' delay is the last live prediction before arrival (no realized arrival time is exposed).")
+    return r
 
 
 def main():
@@ -104,7 +133,8 @@ def main():
 
     Path(__file__).with_name("eval_results.json").write_text(json.dumps(
         {"label": LABEL, "synthetic_catalog": True, "n_requests": N, "seed": SEED, "common_subset_size": len(common),
-         "summary_common_subset": summary, "solver_cost_matches_recomputed": check_fail == 0, "per_request": rows}, indent=1))
+         "summary_common_subset": summary, "solver_cost_matches_recomputed": check_fail == 0, "per_request": rows,
+         "delay_model": delay_section()}, indent=1))
 
 
 if __name__ == "__main__":

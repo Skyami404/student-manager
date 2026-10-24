@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import ScheduleResults from "@/components/ScheduleResults";
-import { apiGet, apiPost, type Course, type GenerateResult } from "@/lib/api";
+import { apiGet, apiPost, type Course, type GenerateResult, type Schedule } from "@/lib/api";
+import { saveSelected, useSelected } from "@/lib/selected";
 import { useProfile } from "@/lib/profile";
 
 const field = "mt-1 rounded border border-line bg-surface p-2";
 
 export default function BuildPage() {
   const { profile } = useProfile();
+  const selected = useSelected();
   const [required, setRequired] = useState<string[]>(() => profile?.requiredCourses ?? []);
   const [optional, setOptional] = useState<string[]>([]);
   const [minCr, setMinCr] = useState(Math.max(1, (profile?.targetCredits ?? 16) - 2));
@@ -53,6 +55,13 @@ export default function BuildPage() {
     } finally {
       setBusy(false);
     }
+  }
+
+  async function use(s: Schedule) {
+    saveSelected({ schedule: s, dormId: profile?.dormCode ?? null });
+    // tell the backend which dorm/buildings matter so the transit logger watches the right stops
+    const codes = [...new Set(s.sections.map((x) => x.building_code).filter((c): c is string => !!c))];
+    apiPost("/watch", { dorm_id: profile?.dormCode ?? null, building_codes: codes }).catch(() => {});
   }
 
   const chips = (list: string[], set: (l: string[]) => void, title: string) => (
@@ -115,7 +124,7 @@ export default function BuildPage() {
         </div>
       </div>
 
-      <div aria-live="polite">{out && <ScheduleResults result={out} />}</div>
+      <div aria-live="polite">{out && <ScheduleResults result={out} selectedId={selected?.schedule.id} onUse={use} />}</div>
     </section>
   );
 }
