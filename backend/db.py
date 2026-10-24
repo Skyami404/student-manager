@@ -63,11 +63,24 @@ class Dorm(Base):
 
 class User(Base):
     # Minimal personal data on purpose: no grades, no course names shared with friends.
+    # Email ownership is NOT verified (anyone can register any @bu.edu address).
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(unique=True, index=True)
+    password_hash: Mapped[str]
     display_name: Mapped[str | None]
     dorm_code: Mapped[str | None] = mapped_column(ForeignKey("dorms.code"))
+    share_free_time: Mapped[bool] = mapped_column(default=False)  # opt-in: friends may see shared free windows
+    active_schedule_id: Mapped[str | None]                         # key into the schedule store; only times are used
     created_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class AuthSession(Base):
+    __tablename__ = "auth_sessions"
+    token_hash: Mapped[str] = mapped_column(primary_key=True)  # sha256 of the bearer token
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    expires_at: Mapped[datetime]
 
 
 class Friendship(Base):
@@ -105,6 +118,10 @@ def init_db():
     # transit_log changed shape; it only ever held nothing useful before, so rebuild it.
     if insp.has_table("transit_log") and "scheduled_at" not in {c["name"] for c in insp.get_columns("transit_log")}:
         TransitLog.__table__.drop(engine)
+    # users changed shape (email/password); it was never populated, so rebuild it and its dependents.
+    if insp.has_table("users") and "email" not in {c["name"] for c in insp.get_columns("users")}:
+        Friendship.__table__.drop(engine, checkfirst=True)
+        User.__table__.drop(engine)
     Base.metadata.create_all(engine)
 
 

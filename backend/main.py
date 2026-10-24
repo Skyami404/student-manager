@@ -3,7 +3,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlalchemy import or_, select
@@ -13,6 +13,8 @@ import db
 from clients import dining, transit
 from clients.catalog import get_catalog_source
 import delay_model
+import ics
+import social
 import hub
 import meals
 import leaveby
@@ -35,6 +37,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Compass API", lifespan=lifespan)
+app.include_router(social.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
@@ -204,3 +207,15 @@ def hub_suggestions(schedule_id: str, completed: list[str] = Query(default=[]), 
     res = hub.suggestions(entry, completed, catalog.courses(), catalog.sections(), blds, dorms.get(entry.get("dorm_id")), max_credits, max(1, min(limit, 30)))
     res["synthetic_catalog"] = catalog.synthetic
     return res
+
+
+@app.get("/export.ics")
+def export_ics(schedule_id: str, meals: bool = True, weeks: int = 15, s: Session = Depends(db.get_session)):
+    """Weekly recurring class events (with a leave-by alarm) and optional meal-window events."""
+    entry = leaveby.load_schedule(schedule_id)
+    if entry is None:
+        raise HTTPException(404, "Unknown schedule_id (generate schedules first).")
+    dorms, blds = _coords(s)
+    body = ics.build(entry, blds, dorms, meals, max(1, min(weeks, 40)))
+    return Response(body, media_type="text/calendar; charset=utf-8",
+                    headers={"Content-Disposition": 'attachment; filename="compass-schedule.ics"'})

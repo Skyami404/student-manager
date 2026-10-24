@@ -54,7 +54,7 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
 }
 
 export type LeaveBy = {
-  class_id: string; course_code: string; day: string; class_start: string; leave_at: string; mode: "walk" | "bus";
+  class_id: string; course_code: string; day: string; class_start: string; leave_at: string; leave_at_iso: string; mode: "walk" | "bus";
   probability_on_time: number; probability_label: string; destination: string; why: string; warnings: string[];
   origin: { kind: "dorm" | "class"; code: string };
   bus: { route_id: string; board_stop: string; alight_stop: string; scheduled_departure: string; gateway_eta: string | null } | null;
@@ -77,3 +77,19 @@ export type HubSuggestion = { course: { code: string; title: string; credits: nu
   sections: Section[]; after: { tight_transitions: number; meal_window_days: number; class_days: number; added_travel_minutes: number; credits: number }; why: string };
 export type HubResult = { hub_units: string[]; completed: string[]; covered_by_schedule: string[]; remaining: string[];
   suggestions: HubSuggestion[]; total_found: number; rejected_courses: Record<string, number>; label: string };
+
+/** Authenticated JSON call; throws Error(message) using the server's detail text when available. */
+export async function authApi<T>(method: "GET" | "POST", path: string, token: string | null, body?: unknown): Promise<T> {
+  const r = await fetch(`${API}${path}`, {
+    method,
+    headers: { ...(body ? { "content-type": "application/json" } : {}), ...(token ? { authorization: `Bearer ${token}` } : {}) },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(typeof j.detail === "string" ? j.detail : j.detail?.[0]?.msg ?? `Request failed (${r.status})`);
+  return j as T;
+}
+export type Me = { id: number; email: string; display_name: string | null; share_free_time: boolean; has_schedule: boolean; email_verified: boolean };
+export type FriendRow = { id: number; display_name: string | null; email: string; shares_free_time: boolean };
+export type FriendsData = { friends: FriendRow[]; incoming: (FriendRow & { request_id: number })[]; outgoing: { request_id: number; email: string }[]; note: string };
+export type FreeGaps = { friend: { id: number; display_name: string | null }; windows: Record<string, { start: string; end: string; minutes: number }[]>; privacy: string };

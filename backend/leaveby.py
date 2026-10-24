@@ -74,10 +74,14 @@ def add_transition_risk(transitions: list[dict]) -> None:
         t["p_on_time"] = round(p, 2)
         t["risk"] = risk_level(p)
         t["risk_why"] = (f"{t['gap_minutes']} min between classes vs a walk of about {t['walk_minutes']} min "
-                         f"({t['from_building'] or '?'} to {t['to_building'] or '?'}): about {round(p * 20) * 5}% chance of arriving on time.")
+                         f"({t['from_building'] or '?'} to {t['to_building'] or '?'}): {label(p)} chance of arriving on time.")
 
 
 def label(p: float) -> str:
+    if p < 0.05:
+        return "under 5%"
+    if p > 0.95:
+        return "over 95%"
     return f"about {round(p * 20) * 5}%"
 
 

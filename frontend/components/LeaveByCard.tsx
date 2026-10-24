@@ -1,28 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { apiGet, type LeaveBy, type Schedule, type Section } from "@/lib/api";
+import { apiGet, type LeaveBy, type Schedule } from "@/lib/api";
+import { nextClass } from "@/lib/schedule";
 
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const mins = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
-
-/** Next upcoming meeting (browser local time) among timed sections. */
-function nextClass(sections: Section[], now = new Date()): { id: string; day: string } | null {
-  const today = (now.getDay() + 6) % 7; // Mon=0
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  let best: { id: string; day: string; at: number } | null = null;
-  for (const s of sections) {
-    if (!s.start || !s.days.length) continue;
-    for (const d of s.days) {
-      let delta = (DAYS.indexOf(d) - today + 7) % 7;
-      if (delta === 0 && mins(s.start) <= nowMin) delta = 7;
-      const at = delta * 1440 + mins(s.start) - nowMin;
-      if (!best || at < best.at) best = { id: s.id, day: d, at };
-    }
-  }
-  return best && { id: best.id, day: best.day };
-}
-
-export default function LeaveByCard({ schedule }: { schedule: Schedule }) {
+export default function LeaveByCard({ schedule, todayOnly = false, title }: { schedule: Schedule; todayOnly?: boolean; title?: string }) {
   const [data, setData] = useState<LeaveBy | null>(null);
   const [error, setError] = useState("");
   const [tick, setTick] = useState(0); // bump to refresh
@@ -30,11 +11,11 @@ export default function LeaveByCard({ schedule }: { schedule: Schedule }) {
   const busy = done !== tick;
 
   useEffect(() => {
-    const next = nextClass(schedule.sections);
+    const next = nextClass(schedule.sections, new Date(), todayOnly);
     let live = true;
     const finish = () => live && setDone(tick);
     if (!next) {
-      Promise.resolve().then(() => live && (setError("This schedule has no classes with fixed times."), finish()));
+      Promise.resolve().then(() => live && (setError(todayOnly ? "No more classes to leave for today." : "This schedule has no classes with fixed times."), finish()));
       return () => void (live = false);
     }
     apiGet<LeaveBy>(`/leave-by?schedule_id=${schedule.id}&class_id=${encodeURIComponent(next.id)}&day=${next.day}`)
@@ -42,12 +23,12 @@ export default function LeaveByCard({ schedule }: { schedule: Schedule }) {
       .catch(() => live && (setData(null), setError("Could not compute a leave-by time. The backend may be offline, or this schedule needs to be generated again.")))
       .finally(finish);
     return () => void (live = false);
-  }, [schedule, tick]);
+  }, [schedule, tick, todayOnly]);
 
   return (
     <section aria-labelledby="lb" className="rounded border border-line p-4">
       <div className="flex items-center justify-between gap-2">
-        <h2 id="lb" className="text-lg font-semibold">Leave-by: next class</h2>
+        <h2 id="lb" className="text-lg font-semibold">{title ?? "Leave-by: next class"}</h2>
         <button type="button" onClick={() => setTick((n) => n + 1)} disabled={busy} className="rounded border border-line bg-surface px-2 py-1 text-sm">
           <span aria-hidden="true">↻</span> {busy ? "Updating…" : "Refresh"}
         </button>

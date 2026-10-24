@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import DataBadge from "./DataBadge";
 import Onboarding from "./Onboarding";
+import PetWidget, { PetToggle } from "./Pet";
 import ThemeToggle from "./ThemeToggle";
 import { useProfile } from "@/lib/profile";
 
@@ -36,6 +37,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <span aria-hidden="true">✎</span> Edit profile
             </button>
           )}
+          <PetToggle />
           <ThemeToggle />
         </div>
         <nav aria-label="Main" className="mx-auto max-w-5xl px-4">
@@ -59,13 +61,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </ul>
         </nav>
       </header>
-      <main id="main" className="mx-auto max-w-5xl px-4 py-6">
+      <main id="main" className="mx-auto max-w-5xl px-4 pb-40 pt-6">
         {!ready ? null : showOnboarding ? (
           <Onboarding initial={profile} onDone={() => setEditing(false)} onCancel={profile ? () => setEditing(false) : undefined} />
         ) : (
           children
         )}
       </main>
+      <PetWidget />
     </>
   );
 }

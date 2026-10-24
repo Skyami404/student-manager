@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import AlertsCard from "@/components/AlertsCard";
+import FriendsPanel from "@/components/FriendsPanel";
+import IcsButton from "@/components/IcsButton";
 import LeaveByCard from "@/components/LeaveByCard";
 import ScheduleGrid, { RISK } from "@/components/ScheduleGrid";
 import { useSelected } from "@/lib/selected";
@@ -26,6 +28,7 @@ export default function WeekPage() {
   return (
     <section aria-labelledby="h" className="space-y-6">
       <h1 id="h" className="text-xl font-semibold">Week <span className="text-sm font-normal opacity-70">· {s.courses.map((c) => c.code).join(", ")} · sample (synthetic) catalog</span></h1>
+      <IcsButton scheduleId={s.id} />
       <div className="grid gap-4 md:grid-cols-2">
         <LeaveByCard schedule={s} />
         <AlertsCard />
@@ -54,6 +57,8 @@ export default function WeekPage() {
           </ul>
         </div>
       )}
+
+      <FriendsPanel schedule={s} />
     </section>
   );
 }
