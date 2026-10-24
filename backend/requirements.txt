@@ -4,3 +4,4 @@ SQLAlchemy==2.1.6
 pydantic==2.14.1
 requests==2.34.2
 python-dotenv==1.2.4
+ortools==9.15.6755

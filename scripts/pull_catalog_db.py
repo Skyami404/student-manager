@@ -114,3 +114,4 @@ for label, pat in {"meeting times": r"start|end|time|days|meet", "building/room"
                    "prerequisites": r"prereq|requisite", "term": r"term|semester", "instructor": r"instruct"}.items():
     m = sorted(c for c in cols if re.search(pat, c))[:6]
     print(f"{'OK ' if m else 'NO '} {label:15} {', '.join(m)}")
+    

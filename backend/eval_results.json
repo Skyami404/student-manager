@@ -1,0 +1,2179 @@
+{
+ "label": "evaluated on synthetic sample catalog",
+ "synthetic_catalog": true,
+ "n_requests": 50,
+ "seed": 42,
+ "common_subset_size": 43,
+ "summary_common_subset": {
+  "optimizer": {
+   "valid_schedules": "48/50",
+   "tight_transitions": 0,
+   "travel_minutes": 130.58,
+   "meal_window_days": 4.3,
+   "class_days": 4.3,
+   "no_meal_window_days": 0,
+   "cost": -17.35,
+   "ms": 48.41
+  },
+  "random": {
+   "valid_schedules": "48/50",
+   "tight_transitions": 0.07,
+   "travel_minutes": 150,
+   "meal_window_days": 4.6,
+   "class_days": 4.65,
+   "no_meal_window_days": 0.05,
+   "cost": 473.51,
+   "ms": 0.08
+  },
+  "greedy": {
+   "valid_schedules": "43/50",
+   "tight_transitions": 0.07,
+   "travel_minutes": 146.58,
+   "meal_window_days": 4.53,
+   "class_days": 4.58,
+   "no_meal_window_days": 0.05,
+   "cost": 489.51,
+   "ms": 0.04
+  }
+ },
+ "solver_cost_matches_recomputed": true,
+ "per_request": [
+  {
+   "request": 0,
+   "required": [
+    "MA 102",
+    "PH 201",
+    "PH 102"
+   ],
+   "optional": [
+    "CS 112",
+    "CS 105",
+    "HI 250"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 39.17325008660555,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 276,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 232.0,
+    "no_meal_window_days": 0,
+    "ms": 39.17325008660555
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 270,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 931.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06650015711784363
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 336,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1228.0,
+    "no_meal_window_days": 0,
+    "ms": 0.04216702654957771
+   }
+  },
+  {
+   "request": 1,
+   "required": [
+    "MA 310",
+    "CS 365",
+    "PH 101"
+   ],
+   "optional": [
+    "MA 102",
+    "PL 100",
+    "PH 102",
+    "HI 250",
+    "WR 110"
+   ],
+   "dorm": "MYL",
+   "optimizer_ms": 52.00187489390373,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 115,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -185.0,
+    "no_meal_window_days": 0,
+    "ms": 52.00187489390373
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 133,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 559.0,
+    "no_meal_window_days": 0,
+    "ms": 0.34445803612470627
+   },
+   "greedy": null
+  },
+  {
+   "request": 2,
+   "required": [
+    "WR 250",
+    "EC 301",
+    "PH 201"
+   ],
+   "optional": [
+    "CS 365",
+    "EC 340",
+    "MA 320"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 58.0417918972671,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 167,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -65.0,
+    "no_meal_window_days": 0,
+    "ms": 58.0417918972671
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 226,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1202.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06158323958516121
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 216,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1138.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03758305683732033
+   }
+  },
+  {
+   "request": 3,
+   "required": [
+    "PL 100",
+    "PH 151",
+    "MA 201",
+    "WR 110"
+   ],
+   "optional": [
+    "CS 111",
+    "WR 200",
+    "MA 320",
+    "PL 240",
+    "EC 102"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 75.88899973779917,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 104,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -122.0,
+    "no_meal_window_days": 0,
+    "ms": 75.88899973779917
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 122,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 712.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06466731429100037
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 88,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": 411.0,
+    "no_meal_window_days": 0,
+    "ms": 0.038875266909599304
+   }
+  },
+  {
+   "request": 4,
+   "required": [
+    "MA 201",
+    "PH 101",
+    "PH 230"
+   ],
+   "optional": [
+    "PH 151",
+    "CS 105",
+    "WR 250"
+   ],
+   "dorm": "CLF",
+   "optimizer_ms": 28.556582983583212,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 176,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -19.0,
+    "no_meal_window_days": 0,
+    "ms": 28.556582983583212
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 224,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 460.0,
+    "no_meal_window_days": 0,
+    "ms": 0.3300001844763756
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 223,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 234.0,
+    "no_meal_window_days": 0,
+    "ms": 0.054582953453063965
+   }
+  },
+  {
+   "request": 5,
+   "required": [
+    "EC 320",
+    "CS 365",
+    "PH 201",
+    "MA 301"
+   ],
+   "optional": [
+    "CS 330",
+    "PL 100",
+    "PH 230",
+    "PS 240",
+    "WR 300"
+   ],
+   "dorm": "CLF",
+   "optimizer_ms": 58.027833234518766,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 140,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -134.0,
+    "no_meal_window_days": 0,
+    "ms": 58.027833234518766
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 131,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 217.0,
+    "no_meal_window_days": 0,
+    "ms": 0.0604577362537384
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 106,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": -36.0,
+    "no_meal_window_days": 0,
+    "ms": 0.02858322113752365
+   }
+  },
+  {
+   "request": 6,
+   "required": [
+    "MA 211",
+    "PH 101",
+    "MA 201",
+    "EC 102"
+   ],
+   "optional": [
+    "EC 301",
+    "MA 320",
+    "PH 151",
+    "AR 100"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 10.602958034723997,
+   "optimizer_schedules": 0,
+   "optimizer": null,
+   "random": null,
+   "greedy": null
+  },
+  {
+   "request": 7,
+   "required": [
+    "CS 112",
+    "PH 151",
+    "CS 111",
+    "PH 102"
+   ],
+   "optional": [
+    "PL 240",
+    "PL 100",
+    "EC 102",
+    "PS 210",
+    "WR 110"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 42.046083137393,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 151,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 407.0,
+    "no_meal_window_days": 0,
+    "ms": 42.046083137393
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 142,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 575.0,
+    "no_meal_window_days": 0,
+    "ms": 0.08008303120732307
+   },
+   "greedy": null
+  },
+  {
+   "request": 8,
+   "required": [
+    "MA 310",
+    "MA 211",
+    "CS 105",
+    "CS 112"
+   ],
+   "optional": [
+    "PH 101",
+    "PS 210",
+    "MA 320",
+    "WR 300",
+    "PS 240"
+   ],
+   "dorm": "CLF",
+   "optimizer_ms": 65.72233280166984,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 81,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -305.0,
+    "no_meal_window_days": 0,
+    "ms": 65.72233280166984
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 119,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -63.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07400009781122208
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 89,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -213.0,
+    "no_meal_window_days": 0,
+    "ms": 0.02987496554851532
+   }
+  },
+  {
+   "request": 9,
+   "required": [
+    "PS 260",
+    "PH 201",
+    "EC 301"
+   ],
+   "optional": [
+    "EC 101",
+    "WR 110",
+    "CS 210"
+   ],
+   "dorm": "SHI",
+   "optimizer_ms": 49.995084293186665,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 107,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -215.0,
+    "no_meal_window_days": 0,
+    "ms": 49.995084293186665
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 102,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": 301.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06116693839430809
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 137,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1151.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03591645509004593
+   }
+  },
+  {
+   "request": 10,
+   "required": [
+    "PS 220",
+    "MA 320",
+    "AR 100"
+   ],
+   "optional": [
+    "PS 260",
+    "CS 365",
+    "CS 210",
+    "WR 100"
+   ],
+   "dorm": "SV2",
+   "optimizer_ms": 41.83312505483627,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 153,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": 124.0,
+    "no_meal_window_days": 0,
+    "ms": 41.83312505483627
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 196,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 569.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07187481969594955
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 189,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 703.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03204215317964554
+   }
+  },
+  {
+   "request": 11,
+   "required": [
+    "PS 210",
+    "MA 102",
+    "CS 105",
+    "EC 340"
+   ],
+   "optional": [
+    "PH 201",
+    "MA 301",
+    "AR 100",
+    "MA 320"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 29.915332794189453,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 256,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 645.0,
+    "no_meal_window_days": 0,
+    "ms": 29.915332794189453
+   },
+   "random": {
+    "tight_transitions": 3,
+    "travel_minutes": 340,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1688.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06187520921230316
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 256,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 905.0,
+    "no_meal_window_days": 0,
+    "ms": 0.030792318284511566
+   }
+  },
+  {
+   "request": 12,
+   "required": [
+    "CS 111",
+    "PS 101",
+    "PS 300"
+   ],
+   "optional": [
+    "PH 201",
+    "HI 150",
+    "WR 300"
+   ],
+   "dorm": "MYL",
+   "optimizer_ms": 34.01808300986886,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 62,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -39.0,
+    "no_meal_window_days": 0,
+    "ms": 34.01808300986886
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 79,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 862.0,
+    "no_meal_window_days": 0,
+    "ms": 0.08629215881228447
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 67,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 674.0,
+    "no_meal_window_days": 0,
+    "ms": 0.056708697229623795
+   }
+  },
+  {
+   "request": 13,
+   "required": [
+    "WR 150",
+    "EC 340",
+    "WR 300",
+    "PS 240"
+   ],
+   "optional": [
+    "CS 105",
+    "PH 102",
+    "PH 101",
+    "MA 301"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 48.780708108097315,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 168,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 52.0,
+    "no_meal_window_days": 0,
+    "ms": 48.780708108097315
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 152,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 670.0,
+    "no_meal_window_days": 0,
+    "ms": 0.09591691195964813
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 150,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 242.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03995886072516441
+   }
+  },
+  {
+   "request": 14,
+   "required": [
+    "MA 101",
+    "MA 301",
+    "AR 100"
+   ],
+   "optional": [
+    "PH 151",
+    "MA 320",
+    "MA 211"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 50.02229101955891,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 118,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -260.0,
+    "no_meal_window_days": 0,
+    "ms": 50.02229101955891
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 126,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": 117.0,
+    "no_meal_window_days": 0,
+    "ms": 0.1055002212524414
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 104,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -92.0,
+    "no_meal_window_days": 0,
+    "ms": 0.032874755561351776
+   }
+  },
+  {
+   "request": 15,
+   "required": [
+    "CS 365",
+    "PS 260",
+    "CS 111",
+    "HI 150"
+   ],
+   "optional": [
+    "PS 220",
+    "PH 201",
+    "WR 300",
+    "PH 101",
+    "MA 320"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 43.891750276088715,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 214,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 693.0,
+    "no_meal_window_days": 0,
+    "ms": 43.891750276088715
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 214,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1183.0,
+    "no_meal_window_days": 0,
+    "ms": 0.11562509462237358
+   },
+   "greedy": null
+  },
+  {
+   "request": 16,
+   "required": [
+    "WR 200",
+    "WR 110",
+    "MA 211",
+    "MA 320"
+   ],
+   "optional": [
+    "WR 300",
+    "EC 340",
+    "CS 111"
+   ],
+   "dorm": "MYL",
+   "optimizer_ms": 62.86245817318559,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 48,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -398.0,
+    "no_meal_window_days": 0,
+    "ms": 62.86245817318559
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 82,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -39.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07050018757581711
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 93,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": 145.0,
+    "no_meal_window_days": 0,
+    "ms": 0.039250124245882034
+   }
+  },
+  {
+   "request": 17,
+   "required": [
+    "CS 111",
+    "WR 250",
+    "CS 330",
+    "PH 201"
+   ],
+   "optional": [
+    "PH 230",
+    "MA 301",
+    "PS 220",
+    "PL 240"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 41.09675018116832,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 283,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 406.0,
+    "no_meal_window_days": 0,
+    "ms": 41.09675018116832
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 283,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1216.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06691599264740944
+   },
+   "greedy": null
+  },
+  {
+   "request": 18,
+   "required": [
+    "CS 210",
+    "WR 200",
+    "PS 210"
+   ],
+   "optional": [
+    "PH 101",
+    "WR 250",
+    "MA 211",
+    "CS 330"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 37.04079193994403,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 82,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -171.0,
+    "no_meal_window_days": 0,
+    "ms": 37.04079193994403
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 100,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 361.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06699981167912483
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 106,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 237.0,
+    "no_meal_window_days": 0,
+    "ms": 0.05120784044265747
+   }
+  },
+  {
+   "request": 19,
+   "required": [
+    "PH 230",
+    "WR 250",
+    "PS 300",
+    "PS 210"
+   ],
+   "optional": [
+    "CS 350",
+    "EC 101",
+    "CS 365"
+   ],
+   "dorm": "WAR",
+   "optimizer_ms": 33.91329199075699,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 54,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -39.0,
+    "no_meal_window_days": 0,
+    "ms": 33.91329199075699
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 56,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -39.0,
+    "no_meal_window_days": 0,
+    "ms": 0.062374863773584366
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 54,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1026.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03708386793732643
+   }
+  },
+  {
+   "request": 20,
+   "required": [
+    "MA 211",
+    "HI 250",
+    "PS 101",
+    "PS 220"
+   ],
+   "optional": [
+    "CS 330",
+    "MA 301",
+    "PS 300",
+    "MA 320",
+    "CS 350"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 44.256083201617,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 105,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -59.0,
+    "no_meal_window_days": 0,
+    "ms": 44.256083201617
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 135,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 470.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07612491026520729
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 135,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 470.0,
+    "no_meal_window_days": 0,
+    "ms": 0.04554120823740959
+   }
+  },
+  {
+   "request": 21,
+   "required": [
+    "WR 150",
+    "CS 105",
+    "HI 150"
+   ],
+   "optional": [
+    "AR 100",
+    "MA 201",
+    "MA 310"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 32.9406657256186,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 64,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -284.0,
+    "no_meal_window_days": 0,
+    "ms": 32.9406657256186
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 146,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 0.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06545800715684891
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 134,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 90.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03854185342788696
+   }
+  },
+  {
+   "request": 22,
+   "required": [
+    "EC 102",
+    "PH 102",
+    "PH 151"
+   ],
+   "optional": [
+    "CS 111",
+    "EC 320",
+    "PS 220",
+    "EC 340"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 41.4190418086946,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 170,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 302.0,
+    "no_meal_window_days": 0,
+    "ms": 41.4190418086946
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 187,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1273.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07191719487309456
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 198,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 946.0,
+    "no_meal_window_days": 0,
+    "ms": 0.050708651542663574
+   }
+  },
+  {
+   "request": 23,
+   "required": [
+    "MA 301",
+    "PS 260",
+    "CS 365"
+   ],
+   "optional": [
+    "PH 230",
+    "CS 112",
+    "WR 100",
+    "MA 310",
+    "PH 201"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 67.48325005173683,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 116,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -180.0,
+    "no_meal_window_days": 0,
+    "ms": 67.48325005173683
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 186,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 218.0,
+    "no_meal_window_days": 0,
+    "ms": 0.05720788612961769
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 194,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 354.0,
+    "no_meal_window_days": 0,
+    "ms": 0.030584167689085007
+   }
+  },
+  {
+   "request": 24,
+   "required": [
+    "PL 240",
+    "PS 240",
+    "MA 101",
+    "PS 300"
+   ],
+   "optional": [
+    "CS 105",
+    "CS 112",
+    "PH 201",
+    "CS 111"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 36.66704101487994,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 196,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 151.0,
+    "no_meal_window_days": 0,
+    "ms": 36.66704101487994
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 273,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1747.0,
+    "no_meal_window_days": 0,
+    "ms": 0.05879160016775131
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 203,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 570.0,
+    "no_meal_window_days": 0,
+    "ms": 0.030166935175657272
+   }
+  },
+  {
+   "request": 25,
+   "required": [
+    "PL 100",
+    "CS 365",
+    "EC 301",
+    "AR 100"
+   ],
+   "optional": [
+    "PS 260",
+    "PS 240",
+    "PH 201",
+    "MA 211"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 58.95233293995261,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 221,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 69.0,
+    "no_meal_window_days": 0,
+    "ms": 58.95233293995261
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 231,
+    "meal_window_days": 3,
+    "class_days": 5,
+    "cost": 362.0,
+    "no_meal_window_days": 2,
+    "ms": 0.08145766332745552
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 220,
+    "meal_window_days": 3,
+    "class_days": 5,
+    "cost": 671.0,
+    "no_meal_window_days": 2,
+    "ms": 0.03224983811378479
+   }
+  },
+  {
+   "request": 26,
+   "required": [
+    "MA 101",
+    "EC 301",
+    "CS 111"
+   ],
+   "optional": [
+    "PH 230",
+    "CS 350",
+    "PS 210",
+    "PL 100",
+    "PS 101"
+   ],
+   "dorm": "WAR",
+   "optimizer_ms": 54.82083419337869,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 60,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -136.0,
+    "no_meal_window_days": 0,
+    "ms": 54.82083419337869
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 48,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1085.0,
+    "no_meal_window_days": 0,
+    "ms": 0.12754183262586594
+   },
+   "greedy": {
+    "tight_transitions": 3,
+    "travel_minutes": 93,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1269.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03837514668703079
+   }
+  },
+  {
+   "request": 27,
+   "required": [
+    "PS 260",
+    "MA 201",
+    "EC 340"
+   ],
+   "optional": [
+    "PL 100",
+    "CS 210",
+    "WR 110",
+    "CS 112",
+    "MA 211"
+   ],
+   "dorm": "CLF",
+   "optimizer_ms": 77.2860418073833,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 127,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -95.0,
+    "no_meal_window_days": 0,
+    "ms": 77.2860418073833
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 169,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 595.0,
+    "no_meal_window_days": 0,
+    "ms": 0.08854223415255547
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 160,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 492.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03512483090162277
+   }
+  },
+  {
+   "request": 28,
+   "required": [
+    "PH 102",
+    "MA 320",
+    "EC 320"
+   ],
+   "optional": [
+    "WR 110",
+    "CS 210",
+    "PH 201",
+    "CS 330",
+    "CS 350"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 78.01012508571148,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 83,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -271.0,
+    "no_meal_window_days": 0,
+    "ms": 78.01012508571148
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 86,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 39.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07412489503622055
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 117,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 782.0,
+    "no_meal_window_days": 0,
+    "ms": 0.042208004742860794
+   }
+  },
+  {
+   "request": 29,
+   "required": [
+    "WR 200",
+    "PH 102",
+    "PH 201",
+    "CS 210"
+   ],
+   "optional": [
+    "MA 320",
+    "WR 300",
+    "MA 201",
+    "PS 260",
+    "PH 151"
+   ],
+   "dorm": "MYL",
+   "optimizer_ms": 55.019000079482794,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 61,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -173.0,
+    "no_meal_window_days": 0,
+    "ms": 55.019000079482794
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 71,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 595.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07004197686910629
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 88,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 354.0,
+    "no_meal_window_days": 0,
+    "ms": 0.04070904105901718
+   }
+  },
+  {
+   "request": 30,
+   "required": [
+    "PH 101",
+    "MA 102",
+    "CS 350"
+   ],
+   "optional": [
+    "WR 100",
+    "EC 102",
+    "MA 310",
+    "WR 150"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 7.046709302812815,
+   "optimizer_schedules": 0,
+   "optimizer": null,
+   "random": null,
+   "greedy": null
+  },
+  {
+   "request": 31,
+   "required": [
+    "PH 151",
+    "CS 330",
+    "HI 250"
+   ],
+   "optional": [
+    "MA 201",
+    "MA 320",
+    "WR 110",
+    "WR 100"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 48.44783432781696,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 90,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -109.0,
+    "no_meal_window_days": 0,
+    "ms": 48.44783432781696
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 132,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -26.0,
+    "no_meal_window_days": 0,
+    "ms": 0.12450013309717178
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 108,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -38.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03654230386018753
+   }
+  },
+  {
+   "request": 32,
+   "required": [
+    "PH 151",
+    "MA 201",
+    "WR 250"
+   ],
+   "optional": [
+    "HI 150",
+    "HI 250",
+    "CS 365"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 33.41237502172589,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 84,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -194.0,
+    "no_meal_window_days": 0,
+    "ms": 33.41237502172589
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 83,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -26.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07041636854410172
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 143,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 227.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03620842471718788
+   }
+  },
+  {
+   "request": 33,
+   "required": [
+    "PL 240",
+    "EC 102",
+    "CS 105",
+    "EC 101"
+   ],
+   "optional": [
+    "EC 320",
+    "WR 110",
+    "EC 340",
+    "WR 300",
+    "EC 301"
+   ],
+   "dorm": "SV2",
+   "optimizer_ms": 52.987417206168175,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 158,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -26.0,
+    "no_meal_window_days": 0,
+    "ms": 52.987417206168175
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 158,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -26.0,
+    "no_meal_window_days": 0,
+    "ms": 0.10720780119299889
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 137,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 151.0,
+    "no_meal_window_days": 0,
+    "ms": 0.035709235817193985
+   }
+  },
+  {
+   "request": 34,
+   "required": [
+    "CS 330",
+    "PL 240",
+    "HI 150",
+    "EC 101"
+   ],
+   "optional": [
+    "PL 100",
+    "MA 101",
+    "EC 301",
+    "EC 102"
+   ],
+   "dorm": "MYL",
+   "optimizer_ms": 37.03249990940094,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 74,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -226.0,
+    "no_meal_window_days": 0,
+    "ms": 37.03249990940094
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 84,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 290.0,
+    "no_meal_window_days": 0,
+    "ms": 0.08179107680916786
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 56,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": -54.0,
+    "no_meal_window_days": 0,
+    "ms": 0.036582816392183304
+   }
+  },
+  {
+   "request": 35,
+   "required": [
+    "WR 300",
+    "CS 365",
+    "PS 220",
+    "PS 101"
+   ],
+   "optional": [
+    "CS 210",
+    "MA 310",
+    "EC 101",
+    "HI 150",
+    "EC 320"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 103.17745804786682,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 218,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 80.0,
+    "no_meal_window_days": 0,
+    "ms": 103.17745804786682
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 206,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 233.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07891608402132988
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 275,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1340.0,
+    "no_meal_window_days": 0,
+    "ms": 0.039250124245882034
+   }
+  },
+  {
+   "request": 36,
+   "required": [
+    "CS 112",
+    "MA 102",
+    "MA 201"
+   ],
+   "optional": [
+    "PS 240",
+    "MA 320",
+    "PS 220"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 41.90454166382551,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 114,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -254.0,
+    "no_meal_window_days": 0,
+    "ms": 41.90454166382551
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 96,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -101.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06362516433000565
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 112,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -53.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03420934081077576
+   }
+  },
+  {
+   "request": 37,
+   "required": [
+    "PS 210",
+    "WR 150",
+    "PH 102",
+    "CS 112"
+   ],
+   "optional": [
+    "MA 101",
+    "MA 320",
+    "PS 101",
+    "PH 151",
+    "CS 350"
+   ],
+   "dorm": "SHI",
+   "optimizer_ms": 38.78549998626113,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 206,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 562.0,
+    "no_meal_window_days": 0,
+    "ms": 38.78549998626113
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 206,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 562.0,
+    "no_meal_window_days": 0,
+    "ms": 0.09999983012676239
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 203,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 818.0,
+    "no_meal_window_days": 0,
+    "ms": 0.043042004108428955
+   }
+  },
+  {
+   "request": 38,
+   "required": [
+    "CS 111",
+    "WR 110",
+    "PS 240",
+    "PS 300"
+   ],
+   "optional": [
+    "EC 301",
+    "PS 101",
+    "HI 150",
+    "WR 300",
+    "PL 240"
+   ],
+   "dorm": "SHI",
+   "optimizer_ms": 55.33058289438486,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 154,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -54.0,
+    "no_meal_window_days": 0,
+    "ms": 55.33058289438486
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 154,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 76.0,
+    "no_meal_window_days": 0,
+    "ms": 0.266083050519228
+   },
+   "greedy": null
+  },
+  {
+   "request": 39,
+   "required": [
+    "PH 102",
+    "AR 100",
+    "PH 201",
+    "PS 240"
+   ],
+   "optional": [
+    "PH 151",
+    "EC 101",
+    "PS 101",
+    "MA 301"
+   ],
+   "dorm": "CLF",
+   "optimizer_ms": 76.59170776605606,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 138,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": -152.0,
+    "no_meal_window_days": 0,
+    "ms": 76.59170776605606
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 178,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 155.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06949994713068008
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 165,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 399.0,
+    "no_meal_window_days": 0,
+    "ms": 0.04204176366329193
+   }
+  },
+  {
+   "request": 40,
+   "required": [
+    "PS 260",
+    "MA 310",
+    "CS 111",
+    "CS 112"
+   ],
+   "optional": [
+    "WR 250",
+    "CS 350",
+    "PH 151"
+   ],
+   "dorm": "SV1",
+   "optimizer_ms": 31.970124691724777,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 212,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 412.0,
+    "no_meal_window_days": 0,
+    "ms": 31.970124691724777
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 233,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 817.0,
+    "no_meal_window_days": 0,
+    "ms": 0.08187536150217056
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 215,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 715.0,
+    "no_meal_window_days": 0,
+    "ms": 0.042333267629146576
+   }
+  },
+  {
+   "request": 41,
+   "required": [
+    "WR 200",
+    "MA 211",
+    "CS 365",
+    "WR 100"
+   ],
+   "optional": [
+    "MA 102",
+    "AR 100",
+    "WR 300",
+    "PS 260",
+    "MA 101"
+   ],
+   "dorm": "RCH",
+   "optimizer_ms": 48.935375176370144,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 172,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -66.0,
+    "no_meal_window_days": 0,
+    "ms": 48.935375176370144
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 135,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 382.0,
+    "no_meal_window_days": 0,
+    "ms": 0.05825003609061241
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 169,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 96.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03174971789121628
+   }
+  },
+  {
+   "request": 42,
+   "required": [
+    "PS 210",
+    "PH 101",
+    "PH 201"
+   ],
+   "optional": [
+    "PS 260",
+    "MA 102",
+    "WR 200",
+    "EC 340"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 40.94887478277087,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 88,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 123.0,
+    "no_meal_window_days": 0,
+    "ms": 40.94887478277087
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 88,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 318.0,
+    "no_meal_window_days": 0,
+    "ms": 0.12029195204377174
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 64,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 212.0,
+    "no_meal_window_days": 0,
+    "ms": 0.04641665145754814
+   }
+  },
+  {
+   "request": 43,
+   "required": [
+    "PL 240",
+    "PS 260",
+    "MA 102"
+   ],
+   "optional": [
+    "AR 100",
+    "PL 100",
+    "MA 201",
+    "MA 320"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 33.74425042420626,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 180,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -80.0,
+    "no_meal_window_days": 0,
+    "ms": 33.74425042420626
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 211,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 391.0,
+    "no_meal_window_days": 0,
+    "ms": 0.05787517875432968
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 179,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 71.0,
+    "no_meal_window_days": 0,
+    "ms": 0.026999972760677338
+   }
+  },
+  {
+   "request": 44,
+   "required": [
+    "PH 151",
+    "WR 100",
+    "EC 102"
+   ],
+   "optional": [
+    "PS 220",
+    "EC 320",
+    "EC 340"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 37.941208109259605,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 97,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 87.0,
+    "no_meal_window_days": 0,
+    "ms": 37.941208109259605
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 108,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 136.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07850024849176407
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 141,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 809.0,
+    "no_meal_window_days": 0,
+    "ms": 0.04662526771426201
+   }
+  },
+  {
+   "request": 45,
+   "required": [
+    "PS 101",
+    "MA 102",
+    "PS 260"
+   ],
+   "optional": [
+    "EC 340",
+    "PH 102",
+    "MA 310"
+   ],
+   "dorm": "WAR",
+   "optimizer_ms": 27.50854194164276,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 102,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 34.0,
+    "no_meal_window_days": 0,
+    "ms": 27.50854194164276
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 145,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 205.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07704179733991623
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 127,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 406.0,
+    "no_meal_window_days": 0,
+    "ms": 0.036582816392183304
+   }
+  },
+  {
+   "request": 46,
+   "required": [
+    "PL 240",
+    "CS 112",
+    "PH 102"
+   ],
+   "optional": [
+    "PS 220",
+    "CS 105",
+    "PL 100"
+   ],
+   "dorm": "MYL",
+   "optimizer_ms": 37.84941602498293,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 69,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -9.0,
+    "no_meal_window_days": 0,
+    "ms": 37.84941602498293
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 89,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 827.0,
+    "no_meal_window_days": 0,
+    "ms": 0.09174970909953117
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 79,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 720.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03674998879432678
+   }
+  },
+  {
+   "request": 47,
+   "required": [
+    "PL 100",
+    "CS 105",
+    "CS 210"
+   ],
+   "optional": [
+    "MA 320",
+    "AR 100",
+    "MA 102",
+    "EC 301"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 41.07516724616289,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 95,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -297.0,
+    "no_meal_window_days": 0,
+    "ms": 41.07516724616289
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 106,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 32.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06866687908768654
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 93,
+    "meal_window_days": 3,
+    "class_days": 3,
+    "cost": -149.0,
+    "no_meal_window_days": 0,
+    "ms": 0.03483286127448082
+   }
+  },
+  {
+   "request": 48,
+   "required": [
+    "MA 320",
+    "EC 101",
+    "PL 100"
+   ],
+   "optional": [
+    "PL 240",
+    "MA 201",
+    "WR 100"
+   ],
+   "dorm": "DAN",
+   "optimizer_ms": 50.87904166430235,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 132,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": -140.0,
+    "no_meal_window_days": 0,
+    "ms": 50.87904166430235
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 152,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 425.0,
+    "no_meal_window_days": 0,
+    "ms": 0.06937514990568161
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 110,
+    "meal_window_days": 4,
+    "class_days": 4,
+    "cost": 620.0,
+    "no_meal_window_days": 0,
+    "ms": 0.04008272662758827
+   }
+  },
+  {
+   "request": 49,
+   "required": [
+    "MA 101",
+    "WR 200",
+    "PS 210",
+    "MA 320"
+   ],
+   "optional": [
+    "WR 150",
+    "PS 240",
+    "CS 330",
+    "PS 101"
+   ],
+   "dorm": "SV2",
+   "optimizer_ms": 37.611457984894514,
+   "optimizer_schedules": 3,
+   "optimizer": {
+    "tight_transitions": 0,
+    "travel_minutes": 191,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 899.0,
+    "no_meal_window_days": 0,
+    "ms": 37.611457984894514
+   },
+   "random": {
+    "tight_transitions": 0,
+    "travel_minutes": 183,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1434.0,
+    "no_meal_window_days": 0,
+    "ms": 0.07037492468953133
+   },
+   "greedy": {
+    "tight_transitions": 0,
+    "travel_minutes": 171,
+    "meal_window_days": 5,
+    "class_days": 5,
+    "cost": 1008.0,
+    "no_meal_window_days": 0,
+    "ms": 0.042667146772146225
+   }
+  }
+ ]
+}

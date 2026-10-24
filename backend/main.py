@@ -1,7 +1,7 @@
 import time
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
@@ -10,6 +10,7 @@ import db
 from clients import dining, transit
 from clients.catalog import get_catalog_source
 from locations import load_locations
+from optimizer import ScheduleRequest, generate
 
 catalog = get_catalog_source()
 
@@ -25,7 +26,7 @@ app = FastAPI(title="Compass API", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -86,3 +87,15 @@ def data_status():
     }
     _status_cache = (time.time(), result)
     return result
+
+
+@app.post("/schedules/generate")
+def schedules_generate(req: ScheduleRequest, s: Session = Depends(db.get_session)):
+    """Top schedules from the CP-SAT optimizer, built only from the CatalogSource models."""
+    if req.min_credits > req.max_credits:
+        raise HTTPException(422, "min_credits must not exceed max_credits")
+    coords = {b.code: (b.lat, b.lon) for b in s.scalars(select(db.Building))}
+    dorm = s.get(db.Dorm, req.dorm_id) if req.dorm_id else None
+    res = generate(catalog.courses(), catalog.sections(), req, coords, (dorm.lat, dorm.lon) if dorm else None)
+    res["synthetic_catalog"] = catalog.synthetic
+    return res
