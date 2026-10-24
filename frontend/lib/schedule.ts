@@ -1,3 +1,4 @@
+import { useMemo, useSyncExternalStore } from "react";
 import type { Section } from "./api";
 
 export const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -24,3 +25,19 @@ export function nextClass(sections: Section[], now = new Date(), todayOnly = fal
 
 export const classesOn = (sections: Section[], day: string) =>
   sections.filter((s) => s.start && s.end && s.days.includes(day)).sort((a, b) => mins(a.start!) - mins(b.start!));
+
+const noopSubscribe = () => () => {};
+/** The current time (minute precision). null on the server and while hydrating, so pages never call
+ *  new Date() during prerender (Next.js Cache Components rejects that). */
+export function useNow(): Date | null {
+  const iso = useSyncExternalStore(
+    noopSubscribe,
+    () => {
+      const d = new Date();
+      d.setSeconds(0, 0);
+      return d.toISOString();
+    },
+    () => null,
+  );
+  return useMemo(() => (iso ? new Date(iso) : null), [iso]);
+}

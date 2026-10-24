@@ -5,7 +5,7 @@ import AlertsCard from "@/components/AlertsCard";
 import LeaveByCard from "@/components/LeaveByCard";
 import { RISK } from "@/components/ScheduleGrid";
 import { apiGet, type Meals } from "@/lib/api";
-import { classesOn, mins, todayName } from "@/lib/schedule";
+import { classesOn, mins, todayName, useNow } from "@/lib/schedule";
 import { useSelected } from "@/lib/selected";
 
 const card = "rounded border border-line p-4";
@@ -45,7 +45,15 @@ function MealsToday({ sid, day }: { sid: string; day: string }) {
 
 export default function BriefingPage() {
   const sel = useSelected();
-  const [now] = useState(() => new Date());
+  const now = useNow();
+  if (!now) {
+    return (
+      <section aria-labelledby="h" className="mx-auto max-w-xl">
+        <h1 id="h" className="text-xl font-semibold">Briefing</h1>
+        <p className="mt-2 text-sm opacity-70">Loading…</p>
+      </section>
+    );
+  }
   const day = todayName(now);
   const label = now.toLocaleDateString([], { weekday: "long", month: "short", day: "numeric" });
 

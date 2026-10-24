@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
+import BuildPage from "./build/page";
 
-export const instant = false;
+// "/" renders the Build tab directly (no redirect), so Next.js can render and validate this segment.
 export default function Home() {
-  redirect("/build");
+  return <BuildPage />;
 }

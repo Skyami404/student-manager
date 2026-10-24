@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { apiGet, type Meals } from "@/lib/api";
+import { useNow, todayName } from "@/lib/schedule";
 import { useSelected } from "@/lib/selected";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -10,13 +11,16 @@ const ICON: Record<string, string> = { vegetarian: "🥕", vegan: "🌱", gluten
 export default function EatPage() {
   const sel = useSelected();
   const sid = sel?.schedule.id;
-  const [day, setDay] = useState(DAYS[(new Date().getDay() + 6) % 7]);
+  const now = useNow();
+  const [picked, setPicked] = useState<string | null>(null);
+  const day = picked ?? (now ? todayName(now) : null); // null until the browser clock is available
   const [diet, setDiet] = useState<string[]>([]);
   const key = `${sid}|${day}|${diet.join(",")}`;
   const [res, setRes] = useState<{ key: string; data: Meals | null; failed: boolean }>({ key: "", data: null, failed: false });
   const [filters, setFilters] = useState<Meals["diet_filters_available"]>([]);
 
   useEffect(() => {
+    if (!day) return;
     let live = true;
     const q = new URLSearchParams({ day, diet: diet.join(",") });
     if (sid) q.set("schedule_id", sid);
@@ -37,7 +41,7 @@ export default function EatPage() {
 
       <div role="group" aria-label="Day" className="flex flex-wrap gap-1">
         {DAYS.map((x) => (
-          <button key={x} type="button" aria-pressed={day === x} onClick={() => setDay(x)}
+          <button key={x} type="button" aria-pressed={day === x} onClick={() => setPicked(x)}
             className={`rounded border px-3 py-1 text-sm ${day === x ? "border-accent bg-accent font-semibold text-white dark:text-black" : "border-line bg-surface"}`}>
             {day === x && <span aria-hidden="true">✓ </span>}{x}
           </button>
