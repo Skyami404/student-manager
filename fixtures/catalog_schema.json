@@ -1,0 +1,252 @@
+{
+ "courses": {
+  "columns": [
+   {
+    "name": "course_key",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "academic_career",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "term_code",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "course_id",
+    "type": "INTEGER",
+    "nullable": true
+   },
+   {
+    "name": "session_code",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "display_code",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "subject",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "catalog_number",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "title",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "description",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "college",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "units_minimum",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "units_maximum",
+    "type": "TEXT",
+    "nullable": true
+   }
+  ],
+  "primary_key": [],
+  "foreign_keys": [],
+  "row_count": 11637
+ },
+ "dataset_info": {
+  "columns": [
+   {
+    "name": "contract_version",
+    "type": "INTEGER",
+    "nullable": true
+   },
+   {
+    "name": "refreshed_at",
+    "type": "TIMESTAMP",
+    "nullable": true
+   },
+   {
+    "name": "terms",
+    "type": "ARRAY",
+    "nullable": true
+   },
+   {
+    "name": "coverage",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "refresh_mode",
+    "type": "TEXT",
+    "nullable": true
+   }
+  ],
+  "primary_key": [],
+  "foreign_keys": [],
+  "row_count": 1
+ },
+ "meetings": {
+  "columns": [
+   {
+    "name": "section_key",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "meeting_index",
+    "type": "BIGINT",
+    "nullable": true
+   },
+   {
+    "name": "day",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "start_time",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "end_time",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "building_code",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "building",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "room",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "facility_code",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "facility",
+    "type": "TEXT",
+    "nullable": true
+   }
+  ],
+  "primary_key": [],
+  "foreign_keys": [],
+  "row_count": 29891
+ },
+ "sections": {
+  "columns": [
+   {
+    "name": "section_key",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "course_key",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "class_number",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "section",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "credits",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "section_type",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "instruction_type",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "start_date",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "end_date",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "campus",
+    "type": "TEXT",
+    "nullable": true
+   }
+  ],
+  "primary_key": [],
+  "foreign_keys": [],
+  "row_count": 28946
+ },
+ "terms": {
+  "columns": [
+   {
+    "name": "academic_career",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "term_code",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "description",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "begin_date",
+    "type": "TEXT",
+    "nullable": true
+   },
+   {
+    "name": "end_date",
+    "type": "TEXT",
+    "nullable": true
+   }
+  ],
+  "primary_key": [],
+  "foreign_keys": [],
+  "row_count": 12
+ }
+}

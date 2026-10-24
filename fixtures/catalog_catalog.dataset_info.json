@@ -1,0 +1,12 @@
+[
+ {
+  "contract_version": 1,
+  "refreshed_at": "2026-10-12T20:52:33.629075+00:00",
+  "terms": [
+   "2268",
+   "2271"
+  ],
+  "coverage": "Active course offerings for Fall 2026 and Spring 2027; not a complete historical/Bulletin catalog.",
+  "refresh_mode": "fdw"
+ }
+]

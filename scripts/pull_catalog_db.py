@@ -21,7 +21,14 @@ SYSTEM = {"information_schema", "mysql", "performance_schema", "sys", "pg_catalo
 
 # After reading catalog_schema.json, restrict big tables to the current term, e.g.
 # FILTERS = {"sections": "term_code = '2026FALL'"}   (raw SQL WHERE, your own words)
-FILTERS = {}
+TERM = 2271 
+FILTERS = {
+    "terms":    f"term_code = '{TERM}'",
+    "courses":  f"term_code = '{TERM}'",
+    "sections": f"course_key IN (SELECT course_key FROM catalog.courses WHERE term_code = '{TERM}')",
+    "meetings": f"section_key IN (SELECT s.section_key FROM catalog.sections s "
+                f"JOIN catalog.courses c ON c.course_key = s.course_key WHERE c.term_code = '{TERM}')",
+}
 
 def pick_engine():
     e = os.environ.get("DB_ENGINE", "auto").lower()

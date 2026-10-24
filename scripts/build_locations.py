@@ -11,6 +11,7 @@ FIX.mkdir(exist_ok=True)
 OUT = FIX / "locations.csv"
 
 # Edit this list: dorm name -> search text. Add or remove to match your app.
+
 DORMS = {
     "Warren Towers": "Warren Towers, 700 Commonwealth Ave",
     "Myles Standish Hall": "Myles Standish Hall, 610 Beacon St",
@@ -18,6 +19,42 @@ DORMS = {
     "Student Village 2 (StuVi2)": "33 Harry Agganis Way",
     "Kilachand Hall": "Kilachand Hall, 91 Bay State Rd",
     "Claflin Hall": "Claflin Hall, 100 Bay State Rd",
+}
+
+# Codes to skip entirely
+SKIP = {"NO", "MAS", "INS", "HOU", "EVN", "CTC", "ABG", "XBG", "RBN"}
+
+# code -> street address. From memory: VERIFY on the map.
+ADDRESSES = {
+    "CAS": "725 Commonwealth Ave",
+    "COM": "640 Commonwealth Ave",
+    "CFA": "855 Commonwealth Ave",
+    "CGS": "871 Commonwealth Ave",
+    "SAR": "635 Commonwealth Ave",
+    "STH": "745 Commonwealth Ave",
+    "LAW": "765 Commonwealth Ave",
+    "SSW": "264 Bay State Rd",
+    "KHC": "91 Bay State Rd",
+    "YAW": "100 Bay State Rd",
+    "ENG": "110 Cummington Mall",
+    "EPC": "750 Commonwealth Ave",
+    "ERB": "44 Cummington Mall",
+    "MCS": "111 Cummington Mall",
+    "PSY": "64 Cummington Mall",
+    "SOC": "100 Cummington Mall",
+    "EMB": "15 Saint Mary's St",
+    "PHO": "8 Saint Mary's St",
+    "FLR": "808 Commonwealth Ave",
+    "SHA": "928 Commonwealth Ave",
+    "CLN": "900 Commonwealth Ave",
+    "MET": "1010 Commonwealth Ave",
+    "PTH": "949 Commonwealth Ave",
+    "HIS": "226 Bay State Rd",
+    "EGL": "236 Bay State Rd",
+    "PLS": "232 Bay State Rd",
+    "REL": "145 Bay State Rd",
+    "AAS": "138 Mountfort St",
+    "GDP": "53 Bay State Rd",
 }
 
 # Rough BU-area box (left, top, right, bottom) used to bias search and sanity-check results
@@ -69,9 +106,11 @@ if __name__ == "__main__":
     items = buildings_from_db() + [(n, q, "dorm") for n, q in DORMS.items()]
     rows = []
     for code, name, kind in items:
+        if code in SKIP:
+            print(f"SKIP  {code}"); continue
         if code in kept:
             rows.append(kept[code]); print(f"KEEP  {code} (verified)"); continue
-        query = DORMS.get(code, name)
+        query = ADDRESSES.get(code) or DORMS.get(code, name)
         hit = geocode(query)
         lat, lon = (f"{hit[0]:.6f}", f"{hit[1]:.6f}") if hit else ("", "")
         status = "MISS " if not hit else ("FAR  " if not in_box(*hit) else "OK   ")
