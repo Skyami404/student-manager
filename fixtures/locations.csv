@@ -1,0 +1,67 @@
+code,name,lat,lon,kind,verified,check_link
+MAS,Medical Affiliate Site,,,building,NO,https://www.google.com/maps/search/?api=1&query=Medical+Affiliate+Site+Boston+University
+CAS,College of Arts & Sciences Bld,,,building,NO,https://www.google.com/maps/search/?api=1&query=College+of+Arts+&+Sciences+Bld+Boston+University
+HAR,Rafik B. Hariri Bldg,42.349640,-71.099732,building,NO,"https://www.google.com/maps/search/?api=1&query=42.349640,-71.099732"
+CFA,College of Fine Arts Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=College+of+Fine+Arts+Bldg+Boston+University
+SCI,Metcalf Science Center,42.348452,-71.100163,building,NO,"https://www.google.com/maps/search/?api=1&query=42.348452,-71.100163"
+INS,BUMC Instructional Building,,,building,NO,https://www.google.com/maps/search/?api=1&query=BUMC+Instructional+Building+Boston+University
+COM,College of Communication Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=College+of+Communication+Bldg+Boston+University
+PSY,Psychology Bldg,42.406286,-71.116068,building,NO,"https://www.google.com/maps/search/?api=1&query=42.406286,-71.116068"
+CDS,Computing & Data Sciences,42.350023,-71.103111,building,NO,"https://www.google.com/maps/search/?api=1&query=42.350023,-71.103111"
+CGS,College of General Studies Bld,,,building,NO,https://www.google.com/maps/search/?api=1&query=College+of+General+Studies+Bld+Boston+University
+FLR,Fuller Building,,,building,NO,https://www.google.com/maps/search/?api=1&query=Fuller+Building+Boston+University
+NO,No Room - in-person,,,building,NO,https://www.google.com/maps/search/?api=1&query=No+Room+-+in-person+Boston+University
+STH,School of Theology Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=School+of+Theology+Bldg+Boston+University
+PHO,Photonics Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Photonics+Bldg+Boston+University
+THA,Joan & Edgar Booth Theatre,42.350105,-71.112444,building,NO,"https://www.google.com/maps/search/?api=1&query=42.350105,-71.112444"
+SAR,Sargent College Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Sargent+College+Bldg+Boston+University
+EPC,ENG Product Innovation Center,,,building,NO,https://www.google.com/maps/search/?api=1&query=ENG+Product+Innovation+Center+Boston+University
+WED,Wheelock College Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Wheelock+College+Bldg+Boston+University
+EOP,Center for English Lang & Ori,,,building,NO,https://www.google.com/maps/search/?api=1&query=Center+for+English+Lang+&+Ori+Boston+University
+SOC,Sociology Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Sociology+Bldg+Boston+University
+KCB,Kenmore Classroom Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Kenmore+Classroom+Bldg+Boston+University
+SHA,School of Hospitality Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=School+of+Hospitality+Bldg+Boston+University
+PRB,Physics Research Bldg,42.348651,-71.101265,building,NO,"https://www.google.com/maps/search/?api=1&query=42.348651,-71.101265"
+MCS,Math & Computer Science Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Math+&+Computer+Science+Bldg+Boston+University
+STO,Stone Science Bldg,42.350653,-71.104219,building,NO,"https://www.google.com/maps/search/?api=1&query=42.350653,-71.104219"
+HOU,BUMC Housman Building,,,building,NO,https://www.google.com/maps/search/?api=1&query=BUMC+Housman+Building+Boston+University
+BRB,Biology Research Bldg,42.348651,-71.101265,building,NO,"https://www.google.com/maps/search/?api=1&query=42.348651,-71.101265"
+SSW,School of Social Work Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=School+of+Social+Work+Bldg+Boston+University
+BAB,Babcock Street Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Babcock+Street+Bldg+Boston+University
+EVN,BUMC Evans Building,,,building,NO,https://www.google.com/maps/search/?api=1&query=BUMC+Evans+Building+Boston+University
+YAW,Yawkey Center for Student Srvc,,,building,NO,https://www.google.com/maps/search/?api=1&query=Yawkey+Center+for+Student+Srvc+Boston+University
+HIS,History & ANES Depts,,,building,NO,https://www.google.com/maps/search/?api=1&query=History+&+ANES+Depts+Boston+University
+ENG,College of Engineering Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=College+of+Engineering+Bldg+Boston+University
+JSC,Elie Wiesel Center,42.350522,-71.100096,building,NO,"https://www.google.com/maps/search/?api=1&query=42.350522,-71.100096"
+CTC,BUMC Crosstown Center,,,building,NO,https://www.google.com/maps/search/?api=1&query=BUMC+Crosstown+Center+Boston+University
+LSE,Life Science & Eng. Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Life+Science+&+Eng.+Bldg+Boston+University
+IRC,International Relations Center,,,building,NO,https://www.google.com/maps/search/?api=1&query=International+Relations+Center+Boston+University
+PLS,"Anthro, Philo, & Poli Sci Bldg",,,building,NO,"https://www.google.com/maps/search/?api=1&query=Anthro,+Philo,+&+Poli+Sci+Bldg+Boston+University"
+IRB,International Relations Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=International+Relations+Bldg+Boston+University
+MUG,Mugar Library,42.351012,-71.107992,building,NO,"https://www.google.com/maps/search/?api=1&query=42.351012,-71.107992"
+KHC,Kilachand Honors College Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Kilachand+Honors+College+Bldg+Boston+University
+REL,CAS Religion Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=CAS+Religion+Bldg+Boston+University
+EGL,English Faculty Offices,,,building,NO,https://www.google.com/maps/search/?api=1&query=English+Faculty+Offices+Boston+University
+MOR,Morse Auditorium,42.348917,-71.100928,building,NO,"https://www.google.com/maps/search/?api=1&query=42.348917,-71.100928"
+AAS,African American Studies Bld,,,building,NO,https://www.google.com/maps/search/?api=1&query=African+American+Studies+Bld+Boston+University
+ABG,BUMC A Building,,,building,NO,https://www.google.com/maps/search/?api=1&query=BUMC+A+Building+Boston+University
+ERB,Engineering Research Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Engineering+Research+Bldg+Boston+University
+LAW,School of Law Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=School+of+Law+Bldg+Boston+University
+CLN,900-940 Commonwealth Avenue,,,building,NO,https://www.google.com/maps/search/?api=1&query=900-940+Commonwealth+Avenue+Boston+University
+XBG,BUMC X Building,,,building,NO,https://www.google.com/maps/search/?api=1&query=BUMC+X+Building+Boston+University
+EMB,Engineering Manufacturing Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Engineering+Manufacturing+Bldg+Boston+University
+ERA,Engineering Research Annex,,,building,NO,https://www.google.com/maps/search/?api=1&query=Engineering+Research+Annex+Boston+University
+MET,Metropolitan College Bldg,,,building,NO,https://www.google.com/maps/search/?api=1&query=Metropolitan+College+Bldg+Boston+University
+CRB,Army ROTC - Pershing House,,,building,NO,https://www.google.com/maps/search/?api=1&query=Army+ROTC+-+Pershing+House+Boston+University
+GDP,Global Dev't Policy Center,,,building,NO,https://www.google.com/maps/search/?api=1&query=Global+Dev't+Policy+Center+Boston+University
+FRC,Fitness & Recreation Center,42.351820,-71.116462,building,NO,"https://www.google.com/maps/search/?api=1&query=42.351820,-71.116462"
+EMA,Engineering Manufacturing Annx,,,building,NO,https://www.google.com/maps/search/?api=1&query=Engineering+Manufacturing+Annx+Boston+University
+MCH,Marsh Chapel,42.350662,-71.106438,building,NO,"https://www.google.com/maps/search/?api=1&query=42.350662,-71.106438"
+RBN,BUMC Robinson Building,,,building,NO,https://www.google.com/maps/search/?api=1&query=BUMC+Robinson+Building+Boston+University
+PTH,Playwrights' Theatre,,,building,NO,https://www.google.com/maps/search/?api=1&query=Playwrights'+Theatre+Boston+University
+Warren Towers,"Warren Towers, 700 Commonwealth Ave",42.349333,-71.104020,dorm,NO,"https://www.google.com/maps/search/?api=1&query=42.349333,-71.104020"
+Myles Standish Hall,"Myles Standish Hall, 610 Beacon St",42.349683,-71.094515,dorm,NO,"https://www.google.com/maps/search/?api=1&query=42.349683,-71.094515"
+Student Village 1 (StuVi1),10 Buick St,42.352395,-71.115990,dorm,NO,"https://www.google.com/maps/search/?api=1&query=42.352395,-71.115990"
+Student Village 2 (StuVi2),33 Harry Agganis Way,42.353285,-71.117798,dorm,NO,"https://www.google.com/maps/search/?api=1&query=42.353285,-71.117798"
+Kilachand Hall,"Kilachand Hall, 91 Bay State Rd",42.350320,-71.097003,dorm,NO,"https://www.google.com/maps/search/?api=1&query=42.350320,-71.097003"
+Claflin Hall,"Claflin Hall, 100 Bay State Rd",,,dorm,NO,"https://www.google.com/maps/search/?api=1&query=Claflin+Hall,+100+Bay+State+Rd+Boston+University"
