@@ -8,3 +8,4 @@ node_modules/
 *.db
 .cache/
 .DS_Store
+scripts/terms_output.txt
