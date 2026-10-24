@@ -3,7 +3,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlalchemy import or_, select
@@ -13,6 +13,8 @@ import db
 from clients import dining, transit
 from clients.catalog import get_catalog_source
 import delay_model
+import hub
+import meals
 import leaveby
 import transit_logger
 from locations import load_locations
@@ -170,3 +172,35 @@ def alerts(routes: str | None = None, s: Session = Depends(db.get_session)):
         d, b = _coords(s)
         ids = watched(net, d, b)["routes"] if net else []
     return leaveby.alerts_for(ids, net)
+
+
+@app.get("/meals")
+def meals_endpoint(day: str | None = None, schedule_id: str | None = None, diet: str = "", meal_minutes: int = 30,
+                   s: Session = Depends(db.get_session)):
+    """Schedule gaps that fit a meal (>= meal_minutes + walking) at dining halls open then.
+    diet: comma list of vegetarian,vegan,gluten_free,halal. schedule_id optional (halls/hours only without it)."""
+    if day is None:
+        day = meals.DAYS[datetime.now(ZoneInfo("America/New_York")).weekday()]
+    if day not in meals.DAYS:
+        raise HTTPException(422, "day must be one of " + ", ".join(meals.DAYS))
+    entry = None
+    if schedule_id:
+        entry = leaveby.load_schedule(schedule_id)
+        if entry is None:
+            raise HTTPException(404, "Unknown schedule_id (generate schedules first).")
+    dorms, blds = _coords(s)
+    return meals.find_meals(entry, day, [d for d in diet.split(",") if d], max(10, min(meal_minutes, 120)), blds, dorms)
+
+
+@app.get("/hub/suggestions")
+def hub_suggestions(schedule_id: str, completed: list[str] = Query(default=[]), max_credits: int | None = None,
+                    limit: int = 8, s: Session = Depends(db.get_session)):
+    """Courses covering Hub units you still need that fit the schedule without tight transitions
+    or losing a lunch window. completed: repeat the param for each finished Hub unit."""
+    entry = leaveby.load_schedule(schedule_id)
+    if entry is None:
+        raise HTTPException(404, "Unknown schedule_id (generate schedules first).")
+    dorms, blds = _coords(s)
+    res = hub.suggestions(entry, completed, catalog.courses(), catalog.sections(), blds, dorms.get(entry.get("dorm_id")), max_credits, max(1, min(limit, 30)))
+    res["synthetic_catalog"] = catalog.synthetic
+    return res

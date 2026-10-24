@@ -62,3 +62,18 @@ export type LeaveBy = {
 };
 export type AlertItem = { kind: string; route_specific: boolean; text: string; why: string; at?: string; url?: string };
 export type Alerts = { alerts: AlertItem[]; routes: string[]; notes: string[]; note_no_route_alerts: string };
+
+export type MealOption = { hall_id: string; hall: string; meal: string; walk_to_min: number; walk_from_min: number; start_between: [string, string];
+  matching_items: number | null; total_items: number | null; examples: string[]; open_now: boolean | null };
+export type MealGap = { kind: "before_first" | "between" | "after_last"; start: string; end: string; minutes: number; fits: boolean; options: MealOption[]; why: string };
+export type Hall = { id: string; name: string; short_name: string; campus: string; address: string; open_now: boolean | null; status_text: string | null;
+  meals: { meal: string; opens_at: string; closes_at: string; matching_items: number | null; total_items: number | null }[] };
+export type Meals = {
+  day: string; hours_source: "today" | "last_observed" | "unavailable"; hours_date: string | null; data_status: string; diet: string[];
+  diet_filters_available: { id: string; label: string }[]; allergen_filter: { available: boolean; reason: string };
+  disclaimer: string; allergy_notice: string; halls: Hall[]; gaps: MealGap[]; notes: string[]; meal_minutes: number;
+};
+export type HubSuggestion = { course: { code: string; title: string; credits: number; hub_units: string[]; prerequisites: string[] }; covers: string[];
+  sections: Section[]; after: { tight_transitions: number; meal_window_days: number; class_days: number; added_travel_minutes: number; credits: number }; why: string };
+export type HubResult = { hub_units: string[]; completed: string[]; covered_by_schedule: string[]; remaining: string[];
+  suggestions: HubSuggestion[]; total_found: number; rejected_courses: Record<string, number>; label: string };

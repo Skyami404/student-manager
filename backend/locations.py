@@ -63,9 +63,31 @@ def load_locations() -> tuple[list[tuple], list[tuple], str]:
         with CSV_PATH.open(newline="") as f:
             for r in csv.DictReader(f):
                 row = (r["code"].strip(), r["name"].strip(), float(r["lat"]), float(r["lon"]))
-                (d if (r.get("kind") or "").strip().lower() == "dorm" else b).append(row)
+                kind = (r.get("kind") or "").strip().lower()
+                if kind != "dining":
+                    (d if kind == "dorm" else b).append(row)
         return b, d, "csv"
     return BUILDINGS, DORMS, "synthetic-seed"
+
+
+# Dining hall coordinates (the dining API has addresses only). APPROXIMATE / SYNTHETIC SEED:
+# keys are the gateway's dining location ids. Needs human verification, like the buildings above.
+DINING = {
+    "marciano": (42.3492, -71.1008),  # 100 Bay State Road
+    "warren": (42.3516, -71.1048),    # 700 Commonwealth Ave (same site as the Warren Towers dorm seed)
+    "west": (42.3518, -71.1175),      # 275 Babcock Street
+}
+
+
+def dining_coords() -> dict[str, tuple[float, float]]:
+    """fixtures/locations.csv rows with kind=dining override the seed (columns code,name,lat,lon,kind)."""
+    out = dict(DINING)
+    if CSV_PATH.exists():
+        with CSV_PATH.open(newline="") as f:
+            for r in csv.DictReader(f):
+                if (r.get("kind") or "").strip().lower() == "dining":
+                    out[r["code"].strip()] = (float(r["lat"]), float(r["lon"]))
+    return out
 
 
 def walking_seconds(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

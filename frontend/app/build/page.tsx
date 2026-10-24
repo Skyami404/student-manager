@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import HubPanel from "@/components/HubPanel";
 import ScheduleResults from "@/components/ScheduleResults";
 import { apiGet, apiPost, type Course, type GenerateResult, type Schedule } from "@/lib/api";
 import { saveSelected, useSelected } from "@/lib/selected";
@@ -123,6 +124,8 @@ export default function BuildPage() {
           {error && <p role="alert" className="text-sm text-warn"><span aria-hidden="true">⚠</span> {error}</p>}
         </div>
       </div>
+
+      <HubPanel maxCredits={maxCr + 4} />
 
       <div aria-live="polite">{out && <ScheduleResults result={out} selectedId={selected?.schedule.id} onUse={use} />}</div>
     </section>

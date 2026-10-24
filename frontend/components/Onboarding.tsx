@@ -9,6 +9,7 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
   const [dorm, setDorm] = useState(initial?.dormCode ?? "");
   const [codes, setCodes] = useState<string[]>(initial?.requiredCourses ?? []);
   const [target, setTarget] = useState(String(initial?.targetCredits ?? 16));
+  const [hubDone, setHubDone] = useState<string[]>(initial?.completedHub ?? []);
   const [draft, setDraft] = useState("");
   const [error, setError] = useState("");
 
@@ -20,6 +21,7 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
   }, []);
 
   const known = new Set((catalog ?? []).map((c) => c.code));
+  const hubUnits = [...new Set((catalog ?? []).flatMap((c) => c.hub_units))].sort();
   const norm = (s: string) => s.trim().toUpperCase().replace(/\s+/g, " ");
 
   function add() {
@@ -34,7 +36,7 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
     const credits = Number(target);
     if (!dorm) return setError("Pick a dorm.");
     if (!Number.isFinite(credits) || credits < 1 || credits > 200) return setError("Target credits must be between 1 and 200.");
-    saveProfile({ dormCode: dorm, requiredCourses: codes, targetCredits: credits });
+    saveProfile({ dormCode: dorm, requiredCourses: codes, targetCredits: credits, completedHub: hubDone });
     onDone();
   }
 
@@ -88,6 +90,26 @@ export default function Onboarding({ initial, onDone, onCancel }: { initial: Pro
         <label htmlFor="target" className="block text-sm font-medium">Target credit total</label>
         <input id="target" type="number" min={1} max={200} value={target} onChange={(e) => setTarget(e.target.value)} className="mt-1 w-28 rounded border border-line bg-surface p-2" />
       </div>
+
+      <fieldset>
+        <legend className="text-sm font-medium">Hub tracker: check the Hub areas you have already completed</legend>
+        <p className="text-xs opacity-70">Area names come from the sample (synthetic) catalog.</p>
+        {catalog === null && <p className="mt-1 text-sm opacity-70">Loading Hub areas…</p>}
+        <ul className="mt-2 grid gap-1 sm:grid-cols-2">
+          {hubUnits.map((u) => (
+            <li key={u}>
+              <label className="flex items-center gap-2 rounded border border-line px-3 py-1.5 text-sm">
+                <input
+                  type="checkbox"
+                  checked={hubDone.includes(u)}
+                  onChange={(e) => setHubDone(e.target.checked ? [...hubDone, u] : hubDone.filter((x) => x !== u))}
+                />
+                <span aria-hidden="true">{hubDone.includes(u) ? "✓" : "○"}</span> {u}
+              </label>
+            </li>
+          ))}
+        </ul>
+      </fieldset>
 
       {error && <p role="alert" className="text-sm text-warn"><span aria-hidden="true">⚠</span> {error}</p>}
       <div className="flex gap-2">

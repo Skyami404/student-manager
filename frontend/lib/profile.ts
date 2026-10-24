@@ -1,6 +1,6 @@
 import { useMemo, useSyncExternalStore } from "react";
 
-export type Profile = { dormCode: string; requiredCourses: string[]; targetCredits: number };
+export type Profile = { dormCode: string; requiredCourses: string[]; targetCredits: number; completedHub?: string[] };
 
 const KEY = "compass.profile.v1";
 const listeners = new Set<() => void>();
