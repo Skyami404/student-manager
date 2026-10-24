@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/* class-based dark mode; the layout script applies .dark before first paint */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Okabe-Ito based, color-blind-safe. Status is always paired with an icon + text. */
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --surface: #f3f4f6;
+  --border: #c7cbd1;
+  --accent: #0072b2;
+  --warn: #8a5a00;
+}
+.dark {
+  --background: #111418;
+  --foreground: #ededed;
+  --surface: #1c2128;
+  --border: #3b434d;
+  --accent: #56b4e9;
+  --warn: #e69f00;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-warn: var(--warn);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}

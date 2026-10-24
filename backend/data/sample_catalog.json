@@ -1,0 +1,2168 @@
+{
+ "synthetic": true,
+ "label": "Sample data (synthetic): fictional courses, not real BU offerings",
+ "courses": [
+  {
+   "code": "MA 101",
+   "title": "Sample Calculus I",
+   "credits": 4,
+   "hub_units": [
+    "Quantitative Reasoning I"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "MA 102",
+   "title": "Sample Calculus II",
+   "credits": 4,
+   "hub_units": [
+    "Quantitative Reasoning II"
+   ],
+   "prerequisites": [
+    "MA 101"
+   ]
+  },
+  {
+   "code": "MA 201",
+   "title": "Sample Linear Algebra",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "MA 102"
+   ]
+  },
+  {
+   "code": "MA 211",
+   "title": "Sample Statistics",
+   "credits": 4,
+   "hub_units": [
+    "Quantitative Reasoning II"
+   ],
+   "prerequisites": [
+    "MA 101"
+   ]
+  },
+  {
+   "code": "MA 301",
+   "title": "Sample Probability Theory",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "MA 201",
+    "MA 211"
+   ]
+  },
+  {
+   "code": "MA 310",
+   "title": "Sample Discrete Math",
+   "credits": 4,
+   "hub_units": [
+    "Quantitative Reasoning I"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "MA 320",
+   "title": "Sample Numerical Methods",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "MA 102"
+   ]
+  },
+  {
+   "code": "CS 105",
+   "title": "Sample Computing Online",
+   "credits": 2,
+   "hub_units": [
+    "Digital/Multimedia Expression"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "CS 111",
+   "title": "Sample Intro to Programming",
+   "credits": 4,
+   "hub_units": [
+    "Quantitative Reasoning I",
+    "Digital/Multimedia Expression"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "CS 112",
+   "title": "Sample Data Structures",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "CS 111"
+   ]
+  },
+  {
+   "code": "CS 210",
+   "title": "Sample Computer Systems",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "CS 112"
+   ]
+  },
+  {
+   "code": "CS 330",
+   "title": "Sample Algorithms",
+   "credits": 4,
+   "hub_units": [
+    "Quantitative Reasoning II"
+   ],
+   "prerequisites": [
+    "CS 112",
+    "MA 310"
+   ]
+  },
+  {
+   "code": "CS 350",
+   "title": "Sample Databases",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "CS 112"
+   ]
+  },
+  {
+   "code": "CS 365",
+   "title": "Sample Human-Computer Interaction",
+   "credits": 4,
+   "hub_units": [
+    "Creativity/Innovation"
+   ],
+   "prerequisites": [
+    "CS 111"
+   ]
+  },
+  {
+   "code": "PH 101",
+   "title": "Sample Physics I",
+   "credits": 4,
+   "hub_units": [
+    "Scientific Inquiry I"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "PH 102",
+   "title": "Sample Physics II",
+   "credits": 4,
+   "hub_units": [
+    "Scientific Inquiry I"
+   ],
+   "prerequisites": [
+    "PH 101"
+   ]
+  },
+  {
+   "code": "PH 151",
+   "title": "Sample Astronomy",
+   "credits": 4,
+   "hub_units": [
+    "Scientific Inquiry I"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "PH 201",
+   "title": "Sample Optics",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "PH 102"
+   ]
+  },
+  {
+   "code": "PH 230",
+   "title": "Sample Thermodynamics",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "PH 102",
+    "MA 102"
+   ]
+  },
+  {
+   "code": "EC 101",
+   "title": "Sample Microeconomics",
+   "credits": 4,
+   "hub_units": [
+    "Social Inquiry I"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "EC 102",
+   "title": "Sample Macroeconomics",
+   "credits": 4,
+   "hub_units": [
+    "Social Inquiry I"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "EC 301",
+   "title": "Sample Econometrics",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "EC 101",
+    "MA 211"
+   ]
+  },
+  {
+   "code": "EC 320",
+   "title": "Sample Game Theory",
+   "credits": 4,
+   "hub_units": [
+    "Quantitative Reasoning II"
+   ],
+   "prerequisites": [
+    "EC 101"
+   ]
+  },
+  {
+   "code": "EC 340",
+   "title": "Sample Behavioral Economics",
+   "credits": 4,
+   "hub_units": [
+    "Individual in Community"
+   ],
+   "prerequisites": [
+    "EC 101"
+   ]
+  },
+  {
+   "code": "WR 100",
+   "title": "Sample Writing Seminar I",
+   "credits": 4,
+   "hub_units": [
+    "Writing-Intensive Course"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "WR 150",
+   "title": "Sample Writing Seminar II",
+   "credits": 4,
+   "hub_units": [
+    "Writing-Intensive Course"
+   ],
+   "prerequisites": [
+    "WR 100"
+   ]
+  },
+  {
+   "code": "WR 200",
+   "title": "Sample Argument and Rhetoric",
+   "credits": 4,
+   "hub_units": [
+    "Writing-Intensive Course",
+    "Philosophical Inquiry and Life's Meanings"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "WR 250",
+   "title": "Sample Creative Nonfiction",
+   "credits": 4,
+   "hub_units": [
+    "Creativity/Innovation"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "WR 300",
+   "title": "Sample Technical Writing",
+   "credits": 2,
+   "hub_units": [],
+   "prerequisites": [
+    "WR 150"
+   ]
+  },
+  {
+   "code": "WR 110",
+   "title": "Sample Public Speaking",
+   "credits": 2,
+   "hub_units": [],
+   "prerequisites": []
+  },
+  {
+   "code": "PS 101",
+   "title": "Sample Intro to Psychology",
+   "credits": 4,
+   "hub_units": [
+    "Social Inquiry I"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "PS 210",
+   "title": "Sample Research Methods",
+   "credits": 4,
+   "hub_units": [
+    "Quantitative Reasoning II"
+   ],
+   "prerequisites": [
+    "PS 101"
+   ]
+  },
+  {
+   "code": "PS 220",
+   "title": "Sample Social Psychology",
+   "credits": 4,
+   "hub_units": [
+    "Individual in Community"
+   ],
+   "prerequisites": [
+    "PS 101"
+   ]
+  },
+  {
+   "code": "PS 240",
+   "title": "Sample Cognitive Science",
+   "credits": 4,
+   "hub_units": [
+    "Scientific Inquiry I"
+   ],
+   "prerequisites": [
+    "PS 101"
+   ]
+  },
+  {
+   "code": "PS 260",
+   "title": "Sample Developmental Psychology",
+   "credits": 4,
+   "hub_units": [],
+   "prerequisites": [
+    "PS 101"
+   ]
+  },
+  {
+   "code": "PS 300",
+   "title": "Sample Abnormal Psychology",
+   "credits": 4,
+   "hub_units": [
+    "Historical Consciousness"
+   ],
+   "prerequisites": [
+    "PS 101"
+   ]
+  },
+  {
+   "code": "HI 150",
+   "title": "Sample World History",
+   "credits": 4,
+   "hub_units": [
+    "Historical Consciousness"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "HI 250",
+   "title": "Sample History of Science",
+   "credits": 4,
+   "hub_units": [
+    "Historical Consciousness",
+    "Scientific Inquiry I"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "PL 100",
+   "title": "Sample Intro Philosophy",
+   "credits": 4,
+   "hub_units": [
+    "Philosophical Inquiry and Life's Meanings"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "PL 240",
+   "title": "Sample Ethics",
+   "credits": 4,
+   "hub_units": [
+    "Philosophical Inquiry and Life's Meanings",
+    "Individual in Community"
+   ],
+   "prerequisites": []
+  },
+  {
+   "code": "AR 100",
+   "title": "Sample Studio Art",
+   "credits": 2,
+   "hub_units": [
+    "Creativity/Innovation"
+   ],
+   "prerequisites": []
+  }
+ ],
+ "sections": [
+  {
+   "id": "MA101-A1",
+   "course_code": "MA 101",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "09:05",
+   "end": "09:55",
+   "building_code": "CGS",
+   "room": "B12",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "MA101-A2",
+   "course_code": "MA 101",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "09:05",
+   "end": "09:55",
+   "building_code": "CAS",
+   "room": "314",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "MA101-A3",
+   "course_code": "MA 101",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "CAS",
+   "room": "302",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "MA102-A1",
+   "course_code": "MA 102",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "08:50",
+   "building_code": "CAS",
+   "room": "102",
+   "seats_open": 0,
+   "component": "lecture"
+  },
+  {
+   "id": "MA102-A2",
+   "course_code": "MA 102",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CGS",
+   "room": "B19",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "MA201-A1",
+   "course_code": "MA 201",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "13:25",
+   "end": "14:15",
+   "building_code": "CAS",
+   "room": "B18",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "MA201-A2",
+   "course_code": "MA 201",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "15:35",
+   "end": "16:25",
+   "building_code": "CAS",
+   "room": "325",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "MA201-A3",
+   "course_code": "MA 201",
+   "section_label": "A3",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "MCS",
+   "room": "106",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "MA211-A1",
+   "course_code": "MA 211",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "13:25",
+   "end": "14:15",
+   "building_code": "SAR",
+   "room": "310",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "MA211-A2",
+   "course_code": "MA 211",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CAS",
+   "room": "205",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "MA301-A1",
+   "course_code": "MA 301",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "13:25",
+   "end": "14:40",
+   "building_code": "MCS",
+   "room": "220",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "MA301-A2",
+   "course_code": "MA 301",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "MCS",
+   "room": "323",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "MA301-A3",
+   "course_code": "MA 301",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "15:35",
+   "end": "16:25",
+   "building_code": "MCS",
+   "room": "223",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "MA310-A1",
+   "course_code": "MA 310",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "10:10",
+   "end": "11:25",
+   "building_code": "MCS",
+   "room": "B16",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "MA310-A2",
+   "course_code": "MA 310",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CAS",
+   "room": "113",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "MA310-A3",
+   "course_code": "MA 310",
+   "section_label": "A3",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "15:35",
+   "end": "16:50",
+   "building_code": "CAS",
+   "room": "318",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "MA320-A1",
+   "course_code": "MA 320",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "14:30",
+   "end": "15:20",
+   "building_code": "EPC",
+   "room": "222",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "MA320-A2",
+   "course_code": "MA 320",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "10:10",
+   "end": "11:25",
+   "building_code": "MCS",
+   "room": "108",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "MA320-A3",
+   "course_code": "MA 320",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "MCS",
+   "room": "210",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "CS105-O1",
+   "course_code": "CS 105",
+   "section_label": "O1",
+   "days": [],
+   "start": null,
+   "end": null,
+   "building_code": null,
+   "room": null,
+   "seats_open": null,
+   "component": "lecture"
+  },
+  {
+   "id": "CS105-O2",
+   "course_code": "CS 105",
+   "section_label": "O2",
+   "days": [],
+   "start": null,
+   "end": null,
+   "building_code": null,
+   "room": null,
+   "seats_open": null,
+   "component": "lecture"
+  },
+  {
+   "id": "CS111-A1",
+   "course_code": "CS 111",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "15:35",
+   "end": "16:50",
+   "building_code": "CDS",
+   "room": "313",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "CS111-A2",
+   "course_code": "CS 111",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "14:30",
+   "end": "15:45",
+   "building_code": "CDS",
+   "room": "B07",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "CS111-B1",
+   "course_code": "CS 111",
+   "section_label": "B1",
+   "days": [
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "09:15",
+   "building_code": "CDS",
+   "room": "118",
+   "seats_open": 4,
+   "component": "lab"
+  },
+  {
+   "id": "CS111-B2",
+   "course_code": "CS 111",
+   "section_label": "B2",
+   "days": [
+    "Tue"
+   ],
+   "start": "08:00",
+   "end": "09:15",
+   "building_code": "EPC",
+   "room": "B07",
+   "seats_open": 15,
+   "component": "lab"
+  },
+  {
+   "id": "CS112-A1",
+   "course_code": "CS 112",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "13:25",
+   "end": "14:15",
+   "building_code": "EPC",
+   "room": "304",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "CS112-A2",
+   "course_code": "CS 112",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "15:35",
+   "end": "16:25",
+   "building_code": "EPC",
+   "room": "310",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "CS112-A3",
+   "course_code": "CS 112",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "13:25",
+   "end": "14:15",
+   "building_code": "CDS",
+   "room": "216",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "CS210-A1",
+   "course_code": "CS 210",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CDS",
+   "room": "B25",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "CS210-A2",
+   "course_code": "CS 210",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "10:10",
+   "end": "11:25",
+   "building_code": "CDS",
+   "room": "225",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "CS330-A1",
+   "course_code": "CS 330",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "14:30",
+   "end": "15:45",
+   "building_code": "CDS",
+   "room": "107",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "CS330-A2",
+   "course_code": "CS 330",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "CDS",
+   "room": "309",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "CS350-A1",
+   "course_code": "CS 350",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "09:05",
+   "end": "10:20",
+   "building_code": "EPC",
+   "room": "104",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "CS350-A2",
+   "course_code": "CS 350",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "13:25",
+   "end": "14:15",
+   "building_code": "EPC",
+   "room": "116",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "CS365-A1",
+   "course_code": "CS 365",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "14:30",
+   "end": "15:45",
+   "building_code": "CDS",
+   "room": "116",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "CS365-A2",
+   "course_code": "CS 365",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "09:05",
+   "end": "09:55",
+   "building_code": "COM",
+   "room": "315",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PH101-A1",
+   "course_code": "PH 101",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "SCI",
+   "room": "B05",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "PH101-A2",
+   "course_code": "PH 101",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "10:10",
+   "end": "11:25",
+   "building_code": "PHO",
+   "room": "101",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PH101-B1",
+   "course_code": "PH 101",
+   "section_label": "B1",
+   "days": [
+    "Tue"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "PHO",
+   "room": "125",
+   "seats_open": 4,
+   "component": "lab"
+  },
+  {
+   "id": "PH101-B2",
+   "course_code": "PH 101",
+   "section_label": "B2",
+   "days": [
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:55",
+   "building_code": "PHO",
+   "room": "305",
+   "seats_open": 9,
+   "component": "lab"
+  },
+  {
+   "id": "PH102-A1",
+   "course_code": "PH 102",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "16:40",
+   "end": "17:55",
+   "building_code": "PHO",
+   "room": "117",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "PH102-A2",
+   "course_code": "PH 102",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "08:50",
+   "building_code": "PHO",
+   "room": "106",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "PH102-B1",
+   "course_code": "PH 102",
+   "section_label": "B1",
+   "days": [
+    "Tue"
+   ],
+   "start": "09:05",
+   "end": "10:20",
+   "building_code": "PHO",
+   "room": "B11",
+   "seats_open": 15,
+   "component": "lab"
+  },
+  {
+   "id": "PH102-B2",
+   "course_code": "PH 102",
+   "section_label": "B2",
+   "days": [
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:55",
+   "building_code": "PHO",
+   "room": "B08",
+   "seats_open": 4,
+   "component": "lab"
+  },
+  {
+   "id": "PH151-A1",
+   "course_code": "PH 151",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "16:40",
+   "end": "17:55",
+   "building_code": "SCI",
+   "room": "B25",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "PH151-A2",
+   "course_code": "PH 151",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "CAS",
+   "room": "123",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PH201-A1",
+   "course_code": "PH 201",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "16:40",
+   "end": "17:55",
+   "building_code": "PHO",
+   "room": "115",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PH201-A2",
+   "course_code": "PH 201",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "14:30",
+   "end": "15:20",
+   "building_code": "PHO",
+   "room": "311",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "PH201-A3",
+   "course_code": "PH 201",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "09:05",
+   "end": "09:55",
+   "building_code": "PHO",
+   "room": "122",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "PH230-A1",
+   "course_code": "PH 230",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "SCI",
+   "room": "205",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PH230-A2",
+   "course_code": "PH 230",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "15:35",
+   "end": "16:50",
+   "building_code": "SCI",
+   "room": "122",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "PH230-A3",
+   "course_code": "PH 230",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "SCI",
+   "room": "311",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "EC101-A1",
+   "course_code": "EC 101",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "09:05",
+   "end": "09:55",
+   "building_code": "CAS",
+   "room": "201",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "EC101-A2",
+   "course_code": "EC 101",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "14:30",
+   "end": "15:45",
+   "building_code": "CAS",
+   "room": "217",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "EC101-B1",
+   "course_code": "EC 101",
+   "section_label": "B1",
+   "days": [
+    "Thu"
+   ],
+   "start": "12:20",
+   "end": "13:10",
+   "building_code": "SMG",
+   "room": "114",
+   "seats_open": 4,
+   "component": "discussion"
+  },
+  {
+   "id": "EC101-B2",
+   "course_code": "EC 101",
+   "section_label": "B2",
+   "days": [
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CAS",
+   "room": "323",
+   "seats_open": 9,
+   "component": "discussion"
+  },
+  {
+   "id": "EC102-A1",
+   "course_code": "EC 102",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CAS",
+   "room": "303",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "EC102-A2",
+   "course_code": "EC 102",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "09:05",
+   "end": "10:20",
+   "building_code": "SMG",
+   "room": "103",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "EC102-B1",
+   "course_code": "EC 102",
+   "section_label": "B1",
+   "days": [
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "SMG",
+   "room": "104",
+   "seats_open": 4,
+   "component": "discussion"
+  },
+  {
+   "id": "EC102-B2",
+   "course_code": "EC 102",
+   "section_label": "B2",
+   "days": [
+    "Tue"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CAS",
+   "room": "110",
+   "seats_open": 4,
+   "component": "discussion"
+  },
+  {
+   "id": "EC301-A1",
+   "course_code": "EC 301",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "SMG",
+   "room": "109",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "EC301-A2",
+   "course_code": "EC 301",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "08:00",
+   "end": "09:15",
+   "building_code": "SMG",
+   "room": "B24",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "EC301-A3",
+   "course_code": "EC 301",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "15:35",
+   "end": "16:25",
+   "building_code": "SMG",
+   "room": "B22",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "EC320-A1",
+   "course_code": "EC 320",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "11:15",
+   "end": "12:30",
+   "building_code": "CAS",
+   "room": "207",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "EC320-A2",
+   "course_code": "EC 320",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "08:50",
+   "building_code": "CAS",
+   "room": "101",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "EC320-A3",
+   "course_code": "EC 320",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CAS",
+   "room": "B03",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "EC340-A1",
+   "course_code": "EC 340",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "15:35",
+   "end": "16:50",
+   "building_code": "SMG",
+   "room": "106",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "EC340-A2",
+   "course_code": "EC 340",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "13:25",
+   "end": "14:40",
+   "building_code": "SMG",
+   "room": "218",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "EC340-A3",
+   "course_code": "EC 340",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "11:15",
+   "end": "12:30",
+   "building_code": "SMG",
+   "room": "206",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "WR100-A1",
+   "course_code": "WR 100",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "CGS",
+   "room": "108",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "WR100-A2",
+   "course_code": "WR 100",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "09:05",
+   "end": "09:55",
+   "building_code": "CGS",
+   "room": "113",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "WR150-A1",
+   "course_code": "WR 150",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "11:15",
+   "end": "12:30",
+   "building_code": "COM",
+   "room": "B19",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "WR150-A2",
+   "course_code": "WR 150",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "15:35",
+   "end": "16:25",
+   "building_code": "COM",
+   "room": "110",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "WR200-A1",
+   "course_code": "WR 200",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "STH",
+   "room": "B22",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "WR200-A2",
+   "course_code": "WR 200",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "08:50",
+   "building_code": "COM",
+   "room": "121",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "WR250-A1",
+   "course_code": "WR 250",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "CAS",
+   "room": "B21",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "WR250-A2",
+   "course_code": "WR 250",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "12:20",
+   "end": "13:10",
+   "building_code": "COM",
+   "room": "B15",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "WR250-A3",
+   "course_code": "WR 250",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "15:35",
+   "end": "16:25",
+   "building_code": "COM",
+   "room": "203",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "WR300-A1",
+   "course_code": "WR 300",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "15:35",
+   "end": "16:25",
+   "building_code": "COM",
+   "room": "313",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "WR300-A2",
+   "course_code": "WR 300",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "08:50",
+   "building_code": "COM",
+   "room": "103",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "WR300-A3",
+   "course_code": "WR 300",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "12:20",
+   "end": "13:10",
+   "building_code": "COM",
+   "room": "101",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "WR110-A1",
+   "course_code": "WR 110",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "09:05",
+   "end": "09:55",
+   "building_code": "GSU",
+   "room": "122",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "WR110-A2",
+   "course_code": "WR 110",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "15:35",
+   "end": "16:50",
+   "building_code": "GSU",
+   "room": "325",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "WR110-A3",
+   "course_code": "WR 110",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "09:05",
+   "end": "09:55",
+   "building_code": "COM",
+   "room": "301",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PS101-A1",
+   "course_code": "PS 101",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "14:30",
+   "end": "15:45",
+   "building_code": "CAS",
+   "room": "107",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PS101-A2",
+   "course_code": "PS 101",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "SAR",
+   "room": "212",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "PS101-B1",
+   "course_code": "PS 101",
+   "section_label": "B1",
+   "days": [
+    "Thu"
+   ],
+   "start": "10:10",
+   "end": "11:00",
+   "building_code": "CAS",
+   "room": "B16",
+   "seats_open": 4,
+   "component": "discussion"
+  },
+  {
+   "id": "PS101-B2",
+   "course_code": "PS 101",
+   "section_label": "B2",
+   "days": [
+    "Fri"
+   ],
+   "start": "12:20",
+   "end": "13:10",
+   "building_code": "CAS",
+   "room": "114",
+   "seats_open": 9,
+   "component": "discussion"
+  },
+  {
+   "id": "PS210-A1",
+   "course_code": "PS 210",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "08:00",
+   "end": "09:15",
+   "building_code": "SAR",
+   "room": "225",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PS210-A2",
+   "course_code": "PS 210",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "08:00",
+   "end": "09:15",
+   "building_code": "SAR",
+   "room": "209",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "PS210-B1",
+   "course_code": "PS 210",
+   "section_label": "B1",
+   "days": [
+    "Thu"
+   ],
+   "start": "09:05",
+   "end": "10:20",
+   "building_code": "SAR",
+   "room": "B22",
+   "seats_open": 9,
+   "component": "lab"
+  },
+  {
+   "id": "PS210-B2",
+   "course_code": "PS 210",
+   "section_label": "B2",
+   "days": [
+    "Thu"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "SAR",
+   "room": "317",
+   "seats_open": 4,
+   "component": "lab"
+  },
+  {
+   "id": "PS220-A1",
+   "course_code": "PS 220",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "08:50",
+   "building_code": "CAS",
+   "room": "318",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "PS220-A2",
+   "course_code": "PS 220",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "14:30",
+   "end": "15:20",
+   "building_code": "SAR",
+   "room": "320",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "PS220-A3",
+   "course_code": "PS 220",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "08:50",
+   "building_code": "CAS",
+   "room": "106",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "PS240-A1",
+   "course_code": "PS 240",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "KCB",
+   "room": "213",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PS240-A2",
+   "course_code": "PS 240",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "KCB",
+   "room": "304",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "PS240-A3",
+   "course_code": "PS 240",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "11:15",
+   "end": "12:05",
+   "building_code": "SAR",
+   "room": "318",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "PS260-A1",
+   "course_code": "PS 260",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "10:10",
+   "end": "11:25",
+   "building_code": "SAR",
+   "room": "108",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "PS260-A2",
+   "course_code": "PS 260",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "SAR",
+   "room": "B11",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PS300-A1",
+   "course_code": "PS 300",
+   "section_label": "A1",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "14:30",
+   "end": "15:45",
+   "building_code": "SAR",
+   "room": "314",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "PS300-A2",
+   "course_code": "PS 300",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "13:25",
+   "end": "14:15",
+   "building_code": "CAS",
+   "room": "B16",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "HI150-A1",
+   "course_code": "HI 150",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "CAS",
+   "room": "113",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "HI150-A2",
+   "course_code": "HI 150",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "08:00",
+   "end": "09:15",
+   "building_code": "STH",
+   "room": "102",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "HI150-A3",
+   "course_code": "HI 150",
+   "section_label": "A3",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "09:05",
+   "end": "10:20",
+   "building_code": "STH",
+   "room": "317",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "HI250-A1",
+   "course_code": "HI 250",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "10:10",
+   "end": "11:25",
+   "building_code": "CAS",
+   "room": "117",
+   "seats_open": 12,
+   "component": "lecture"
+  },
+  {
+   "id": "HI250-A2",
+   "course_code": "HI 250",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "16:40",
+   "end": "17:30",
+   "building_code": "KCB",
+   "room": "B01",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "HI250-A3",
+   "course_code": "HI 250",
+   "section_label": "A3",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "12:20",
+   "end": "13:10",
+   "building_code": "CAS",
+   "room": "121",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "PL100-A1",
+   "course_code": "PL 100",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "12:20",
+   "end": "13:35",
+   "building_code": "STH",
+   "room": "113",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "PL100-A2",
+   "course_code": "PL 100",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "16:40",
+   "end": "17:55",
+   "building_code": "STH",
+   "room": "215",
+   "seats_open": 3,
+   "component": "lecture"
+  },
+  {
+   "id": "PL100-A3",
+   "course_code": "PL 100",
+   "section_label": "A3",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "16:40",
+   "end": "17:55",
+   "building_code": "STH",
+   "room": "118",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "PL240-A1",
+   "course_code": "PL 240",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "08:00",
+   "end": "08:50",
+   "building_code": "CAS",
+   "room": "B07",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "PL240-A2",
+   "course_code": "PL 240",
+   "section_label": "A2",
+   "days": [
+    "Tue",
+    "Thu"
+   ],
+   "start": "11:15",
+   "end": "12:30",
+   "building_code": "STH",
+   "room": "312",
+   "seats_open": 25,
+   "component": "lecture"
+  },
+  {
+   "id": "AR100-A1",
+   "course_code": "AR 100",
+   "section_label": "A1",
+   "days": [
+    "Mon",
+    "Wed"
+   ],
+   "start": "13:25",
+   "end": "14:40",
+   "building_code": "GSU",
+   "room": "307",
+   "seats_open": 40,
+   "component": "lecture"
+  },
+  {
+   "id": "AR100-A2",
+   "course_code": "AR 100",
+   "section_label": "A2",
+   "days": [
+    "Mon",
+    "Wed",
+    "Fri"
+   ],
+   "start": "11:15",
+   "end": "12:05",
+   "building_code": "GSU",
+   "room": "307",
+   "seats_open": 3,
+   "component": "lecture"
+  }
+ ]
+}
