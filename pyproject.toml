@@ -1,0 +1,12 @@
+# Tool configuration only (the backend is not a packaged project).
+
+[tool.ruff]
+extend-exclude = ["backend/cache_seed", "student-manager"]
+
+[tool.ruff.lint]
+# Real bugs only: pyflakes (unused imports/variables, undefined names) and syntax errors.
+select = ["F", "E9"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+pythonpath = ["backend"]
