@@ -8,11 +8,11 @@ import PetWidget, { PetToggle } from "./Pet";
 import ThemeToggle from "./ThemeToggle";
 import { useProfile } from "@/lib/profile";
 
-const TABS = [
+const TABS: { href: string; label: string; icon: string; also?: string[] }[] = [
   { href: "/build", label: "Build", icon: "▦" },
   { href: "/week", label: "Week", icon: "▤" },
   { href: "/briefing", label: "Briefing", icon: "☰" },
-  { href: "/eat", label: "Eat", icon: "◒" },
+  { href: "/menus", label: "Eat", icon: "◒", also: ["/eat"] },
 ];
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -44,7 +44,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <nav aria-label="Main" className="mx-auto max-w-5xl px-4">
           <ul className="flex gap-1">
             {TABS.map((t) => {
-              const active = path === t.href || (t.href === "/build" && path === "/");
+              const active = path === t.href || (t.also ?? []).includes(path);
               return (
                 <li key={t.href}>
                   <Link
@@ -63,14 +63,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
       </header>
       <main id="main" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-6">
-        {ready && showOnboarding && (
+        {!ready ? null : showOnboarding ? (
           <Onboarding initial={profile} onDone={() => setEditing(false)} onCancel={profile ? () => setEditing(false) : undefined} />
+        ) : (
+          children
         )}
-        {/* Always rendered so Next.js can render and validate every tab's segment on the server (hiding it
-            instead of dropping it). Keyed so a page re-initializes from the profile once it has loaded. */}
-        <div key={`${ready}-${showOnboarding}`} hidden={!ready || showOnboarding}>
-          {children}
-        </div>
       </main>
       <footer className="mx-auto max-w-5xl px-4 pb-40 pt-4 text-sm">
         <Link href="/about" aria-current={path === "/about" ? "page" : undefined} className="text-accent underline">About and limitations</Link>
