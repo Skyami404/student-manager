@@ -22,7 +22,7 @@ import meals
 import leaveby
 import transit_logger
 from locations import load_locations
-from transit_net import get_watch, network, set_watch, watched
+from transit_net import network, set_watch, watched
 from optimizer import ScheduleRequest, generate
 
 catalog = get_catalog_source()

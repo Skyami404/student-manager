@@ -1,10 +1,9 @@
 """SQLAlchemy + SQLite models. Local app DB only; nothing is ever written to external DBs."""
-import json
 from datetime import datetime, timezone
 from pathlib import Path
 
 from sqlalchemy import ForeignKey, create_engine, delete
-from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 from sqlalchemy.types import JSON
 
 DB_PATH = Path(__file__).resolve().parent / "compass.db"

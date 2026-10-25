@@ -1,7 +1,6 @@
 """Bus network helpers built from the real /routes response, plus the user's watch list."""
 import json
 import time
-from pathlib import Path
 
 from clients import transit
 from clients.bu_http import CACHE_DIR

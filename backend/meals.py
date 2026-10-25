@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo
 from clients import dining
 from clients.bu_http import CACHE_DIR
 from locations import LocationInfo, dining_coords, walking_seconds
-from optimizer import PACE, fmt, hm, timed
+from optimizer import PACE, fmt, hm
 
 TZ = ZoneInfo("America/New_York")
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
