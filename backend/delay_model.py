@@ -52,7 +52,7 @@ def load_real() -> pd.DataFrame:
 
 def add_time_features(df: pd.DataFrame) -> pd.DataFrame:
     df["hour"] = df["time"].dt.hour + df["time"].dt.minute / 60
-    df["dow"] = df["time"].dt.dayofweek
+    df["dow"] = df["time"].dt.day_of_week
     return df
 
 
@@ -69,7 +69,7 @@ def synthetic_dataset(route_stops: list[tuple[str, str]] | None = None, days: in
             t = day + pd.Timedelta(hours=float(h))
             rush = np.exp(-((h - 8.5) ** 2) / 2) + np.exp(-((h - 17) ** 2) / 2)
             for k, (route, stop) in enumerate(pairs):
-                base = 60 + 240 * rush * (day.dayofweek < 5) + 40 * (route == "1") + 25 * (k % 4)
+                base = 60 + 240 * rush * (day.day_of_week < 5) + 40 * (route == "1") + 25 * (k % 4)
                 delay = -90 + rng.lognormal(np.log(base), 0.6)
                 if rng.random() < 0.03:
                     delay += rng.uniform(300, 900)
@@ -114,7 +114,7 @@ class DelayModel:
 
     def range(self, route: str, stop: str, when_local) -> dict:
         t = pd.Timestamp(when_local)
-        row = pd.DataFrame({"hour": [t.hour + t.minute / 60], "dow": [t.dayofweek], "route": [str(route)], "stop": [str(stop)]})
+        row = pd.DataFrame({"hour": [t.hour + t.minute / 60], "dow": [t.day_of_week], "route": [str(route)], "stop": [str(stop)]})
         qs = self.quantiles(row)[0]
         return {f"q{int(q * 100):02d}": float(v) for q, v in zip(QUANTILES, qs)} | {"synthetic": self.synthetic, "source": self.source}
 
