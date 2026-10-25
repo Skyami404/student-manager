@@ -45,6 +45,26 @@ main:focus { outline: none; } /* programmatic focus target for the skip link */
   outline-offset: 2px;
 }
 
+/* Pet widget: SVG sprite sheet of 4 frames (64x64 each, 256x64 total) shown at 96px.
+   Swap the three files in /public/pet to change the art; keep the 4-frame layout. */
+.pet-sprite {
+  width: 96px;
+  height: 96px;
+  background-repeat: no-repeat;
+  background-size: 384px 96px;
+  animation: pet-frames var(--pet-dur, 0.8s) steps(4) infinite;
+}
+.pet-sprite[data-state="idle"] { background-image: url("/pet/idle.svg"); --pet-dur: 1.2s; }
+.pet-sprite[data-state="walking"] { background-image: url("/pet/walking.svg"); --pet-dur: 0.6s; }
+.pet-sprite[data-state="sleeping"] { background-image: url("/pet/sleeping.svg"); --pet-dur: 2.4s; }
+@keyframes pet-frames {
+  from { background-position: 0 0; }
+  to { background-position: -384px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pet-sprite { animation: none; }
+}
+
 /* Form controls and buttons need a boundary that meets 3:1 non-text contrast.
    Unlayered, so it wins over Tailwind's border-line utility; accent-filled controls keep their own border. */
 :where(input, select, textarea, button):not([class*="border-accent"], [class*="border-warn"]) {

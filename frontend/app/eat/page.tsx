@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { apiGet, type Meals } from "@/lib/api";
+import { useNow, todayName } from "@/lib/schedule";
 import { useSelected } from "@/lib/selected";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -10,13 +11,16 @@ const ICON: Record<string, string> = { vegetarian: "🥕", vegan: "🌱", gluten
 export default function EatPage() {
   const sel = useSelected();
   const sid = sel?.schedule.id;
-  const [day, setDay] = useState(DAYS[(new Date().getDay() + 6) % 7]);
+  const now = useNow();
+  const [picked, setPicked] = useState<string | null>(null);
+  const day = picked ?? (now ? todayName(now) : null); // null until the browser clock is available
   const [diet, setDiet] = useState<string[]>([]);
   const key = `${sid}|${day}|${diet.join(",")}`;
   const [res, setRes] = useState<{ key: string; data: Meals | null; failed: boolean }>({ key: "", data: null, failed: false });
   const [filters, setFilters] = useState<Meals["diet_filters_available"]>([]);
 
   useEffect(() => {
+    if (!day) return;
     let live = true;
     const q = new URLSearchParams({ day, diet: diet.join(",") });
     if (sid) q.set("schedule_id", sid);
@@ -32,15 +36,12 @@ export default function EatPage() {
 
   return (
     <section aria-labelledby="h" className="space-y-5">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 id="h" className="text-xl font-semibold">Eat</h1>
-        <Link href="/menus" className="text-sm text-accent underline">← Today&apos;s dining hall menus</Link>
-      </div>
+      <h1 id="h" className="text-xl font-semibold">Eat</h1>
       <p role="note" className="rounded border border-warn p-2 text-sm"><span aria-hidden="true">⚠</span> Dietary info may be outdated; confirm with dining staff.</p>
 
       <div role="group" aria-label="Day" className="flex flex-wrap gap-1">
         {DAYS.map((x) => (
-          <button key={x} type="button" aria-pressed={day === x} onClick={() => setDay(x)}
+          <button key={x} type="button" aria-pressed={day === x} onClick={() => setPicked(x)}
             className={`rounded border px-3 py-1 text-sm ${day === x ? "border-accent bg-accent font-semibold text-white dark:text-black" : "border-line bg-surface"}`}>
             {day === x && <span aria-hidden="true">✓ </span>}{x}
           </button>
@@ -93,7 +94,7 @@ export default function EatPage() {
               {d.gaps.map((g) => (
                 <li key={g.kind + g.start} className="rounded border border-line p-3 text-sm">
                   <div className="font-medium">
-                    <span aria-hidden="true">{g.fits ? "✓" : "✕"}</span> {g.start}–{g.end} ({g.kind.replace("_", " ")}) · {g.fits ? "a meal fits" : "no meal fits"}
+                    <span aria-hidden="true">{g.fits === null ? "?" : g.fits ? "✓" : "✕"}</span> {g.start}–{g.end} ({g.kind.replace("_", " ")}) · {g.fits === null ? "location unknown, can't tell if a meal fits" : g.fits ? "a meal fits" : "no meal fits"}
                   </div>
                   <p className="text-xs opacity-80">{g.why}</p>
                   <ul className="mt-2 space-y-1">

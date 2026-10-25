@@ -7,7 +7,7 @@ from contextlib import asynccontextmanager
 from fastapi import Depends, FastAPI, HTTPException, Query, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from sqlalchemy import or_, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
 import db
@@ -57,12 +57,18 @@ def health():
 
 
 @app.get("/courses")
-def courses(q: str = "", s: Session = Depends(db.get_session)):
+def courses(q: str = "", limit: int = 100, s: Session = Depends(db.get_session)):
+    """Search by code or title. Codes match with or without spaces ("CASMA123" finds "CAS MA 123").
+    limit <= 0 returns everything (used by onboarding to validate codes and list Hub areas)."""
     stmt = select(db.Course).order_by(db.Course.code)
     q = q.strip()
     if q:
-        like = "%" + q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
-        stmt = stmt.where(or_(db.Course.code.ilike(like, escape="\\"), db.Course.title.ilike(like, escape="\\")))
+        esc = lambda x: x.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+        no_space = esc(q.upper().replace(" ", ""))
+        stmt = stmt.where(or_(func.replace(func.upper(db.Course.code), " ", "").like(f"%{no_space}%", escape="\\"),
+                              db.Course.title.ilike(f"%{esc(q)}%", escape="\\")))
+    if limit > 0:
+        stmt = stmt.limit(min(limit, 5000))
     return [_row(c) for c in s.scalars(stmt)]
 
 
@@ -85,6 +91,17 @@ def dorms(s: Session = Depends(db.get_session)):
 _status_cache: tuple[float, dict] = (0.0, {})
 
 
+def _location_quality() -> dict:
+    """How trustworthy walking times are: unverified or missing buildings make them approximate."""
+    from locations import LocationInfo
+    with db.SessionLocal() as s:
+        coords = {b.code: (b.lat, b.lon) for b in s.scalars(select(db.Building))}
+    info = LocationInfo(coords)
+    return {"buildings_in_table": len(coords), "buildings_verified": len(info.verified & set(coords)),
+            "approximate": len(info.verified & set(coords)) < len(coords),
+            "medical_or_no_room_codes": sorted(info.medical | info.no_room)}
+
+
 @app.get("/data-status")
 def data_status():
     """Per-source status: live | cached | sample | unavailable. Probed at most once a minute."""
@@ -96,10 +113,11 @@ def data_status():
     _, d = dining.locations()
     locs = load_locations()[2]
     result = {
-        "catalog": {"status": "sample" if catalog.synthetic else "live", "synthetic": catalog.synthetic, "label": catalog.label},
+        "catalog": {"status": catalog.status, "synthetic": catalog.synthetic, "label": catalog.label, "as_of": catalog.as_of,
+                    "term": getattr(catalog, "term_label", None)},
         "transit": {"status": t},
         "dining": {"status": d},
-        "locations": {"status": "sample", "source": locs, "synthetic": locs != "csv"},
+        "locations": {"status": "sample", "source": locs, "synthetic": locs != "csv", **_location_quality()},
         "delay_model": delay_model.status() | {"logger": transit_logger.STATE | {"rows": transit_logger.total_rows()}},
     }
     _status_cache = (time.time(), result)
@@ -114,7 +132,7 @@ def schedules_generate(req: ScheduleRequest, s: Session = Depends(db.get_session
     coords = {b.code: (b.lat, b.lon) for b in s.scalars(select(db.Building))}
     dorm = s.get(db.Dorm, req.dorm_id) if req.dorm_id else None
     res = generate(catalog.courses(), catalog.sections(), req, coords, (dorm.lat, dorm.lon) if dorm else None)
-    res["synthetic_catalog"] = catalog.synthetic
+    res["synthetic_catalog"], res["label"] = catalog.synthetic, catalog.label
     for sch in res["schedules"]:
         leaveby.add_transition_risk(sch["metrics"]["transitions"])
         sch["id"] = leaveby.save_schedule(sch, req.dorm_id, req.walking_pace)
@@ -196,22 +214,6 @@ def meals_endpoint(day: str | None = None, schedule_id: str | None = None, diet:
     return meals.find_meals(entry, day, [d for d in diet.split(",") if d], max(10, min(meal_minutes, 120)), blds, dorms)
 
 
-@app.get("/dining/halls")
-def dining_halls():
-    """Dining halls from the BU gateway, for the menu page's dropdown."""
-    data, status = dining.locations()
-    return {"status": status, "halls": (data or {}).get("locations", [])}
-
-
-@app.get("/dining/menu/{hall_id}")
-def dining_menu(hall_id: str):
-    """Today's menu for one hall (the gateway only publishes today). Needs BU_BASE + BU_API_KEY in backend/.env."""
-    data, status = dining.menu(hall_id)
-    if not isinstance(data, dict):
-        raise HTTPException(503, "Menu unavailable. Check BU_BASE and BU_API_KEY in backend/.env.")
-    return {**data, "data_status": status}
-
-
 @app.get("/hub/suggestions")
 def hub_suggestions(schedule_id: str, completed: list[str] = Query(default=[]), max_credits: int | None = None,
                     limit: int = 8, s: Session = Depends(db.get_session)):
@@ -222,7 +224,7 @@ def hub_suggestions(schedule_id: str, completed: list[str] = Query(default=[]), 
         raise HTTPException(404, "Unknown schedule_id (generate schedules first).")
     dorms, blds = _coords(s)
     res = hub.suggestions(entry, completed, catalog.courses(), catalog.sections(), blds, dorms.get(entry.get("dorm_id")), max_credits, max(1, min(limit, 30)))
-    res["synthetic_catalog"] = catalog.synthetic
+    res["synthetic_catalog"], res["label"] = catalog.synthetic, catalog.label
     return res
 
 
@@ -233,6 +235,6 @@ def export_ics(schedule_id: str, meals: bool = True, weeks: int = 15, s: Session
     if entry is None:
         raise HTTPException(404, "Unknown schedule_id (generate schedules first).")
     dorms, blds = _coords(s)
-    body = ics.build(entry, blds, dorms, meals, max(1, min(weeks, 40)))
+    body = ics.build(entry, blds, dorms, meals, max(1, min(weeks, 40)), synthetic=catalog.synthetic)
     return Response(body, media_type="text/calendar; charset=utf-8",
                     headers={"Content-Disposition": 'attachment; filename="compass-schedule.ics"'})
