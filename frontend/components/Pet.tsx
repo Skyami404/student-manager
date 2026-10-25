@@ -1,8 +1,5 @@
 "use client";
-import { useEffect, useState, useSyncExternalStore } from "react";
-import { apiGet, type LeaveBy } from "@/lib/api";
-import { nextClass } from "@/lib/schedule";
-import { useSelected } from "@/lib/selected";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const KEY = "compass.pet.hidden";
 const listeners = new Set<() => void>();
@@ -15,44 +12,6 @@ function setHidden(v: boolean) {
   listeners.forEach((l) => l());
 }
 
-type PetState = "idle" | "walking" | "sleeping";
-const LABEL: Record<PetState, string> = { idle: "Idle", walking: "Walking: time to head out", sleeping: "Sleeping: no classes to go to" };
-
-/** sleeping: no classes left today. walking: leave-by is 15 min away or less (or overdue). idle: otherwise. */
-function usePetState(): { state: PetState; note: string } {
-  const sel = useSelected();
-  const [s, setS] = useState<{ state: PetState; note: string }>({ state: "sleeping", note: "" });
-
-  useEffect(() => {
-    let live = true;
-    const run = async () => {
-      const sections = sel?.schedule.sections ?? [];
-      const next = nextClass(sections, new Date(), true);
-      if (!sel || !next) {
-        if (live) setS({ state: "sleeping", note: sel ? "No more classes today" : "No schedule selected" });
-        return;
-      }
-      try {
-        const lb = await apiGet<LeaveBy>(`/leave-by?schedule_id=${sel.schedule.id}&class_id=${encodeURIComponent(next.id)}&day=${next.day}`);
-        if (!live) return;
-        if (!lb.leave_at_iso) return setS({ state: "idle", note: "Location unknown" });
-        const m = Math.round((new Date(lb.leave_at_iso).getTime() - Date.now()) / 60000);
-        setS(m <= 15 ? { state: "walking", note: m <= 0 ? "Leave now" : `Leave in ${m} min` } : { state: "idle", note: `Leave by ${lb.leave_at}` });
-      } catch {
-        if (live) setS({ state: "idle", note: "" });
-      }
-    };
-    run();
-    const id = setInterval(run, 60_000);
-    return () => {
-      live = false;
-      clearInterval(id);
-    };
-  }, [sel]);
-
-  return s;
-}
-
 export function PetToggle() {
   const hidden = useHidden();
   return (
@@ -62,20 +21,205 @@ export function PetToggle() {
   );
 }
 
+/* Shimeji-style dog. Sprites live in /public/pet/shimeN.png (128x160, feet at bottom centre, facing left).
+   Runs at 25 ticks a second like Shimeji, so frame timings match the desktop version's actions.xml. */
+const SIZE = 0.75; // 1 = full 128x160 sprite
+const W = 128 * SIZE;
+const H = 160 * SIZE;
+const TICK = 40;
+const GRAVITY = 1.2;
+const PET_AT = 150; // how much petting it takes before he gets happy
+
+type Mode = "stand" | "sit" | "walk" | "run" | "sleep" | "eat" | "pet" | "drag" | "fall" | "bounce";
+type Sim = {
+  x: number; // left edge, px
+  y: number; // height above the bottom of the window, px
+  vx: number;
+  vy: number;
+  mode: Mode;
+  t: number; // ticks spent in the current mode
+  dur: number;
+  targetX: number;
+  facingRight: boolean;
+  petting: number;
+  onHead: boolean;
+  grab: { dx: number; dy: number; lastX: number; lastY: number } | null;
+};
+type View = { x: number; y: number; frame: number; facingRight: boolean; mode: Mode };
+
+const SPRITES = [1, 2, 3, 4, 5, 6, 10, 11, 18, 19, 26, 27, 28, 29, 30, 31, 32, 33];
+const LABEL: Record<Mode, string> = {
+  stand: "Standing", sit: "Sitting", walk: "Walking", run: "Running", sleep: "Sleeping", eat: "Eating",
+  pet: "Happy: being petted", drag: "Being carried", fall: "Falling", bounce: "Landing",
+};
+
+function frameFor(s: Sim): number {
+  const t = s.t;
+  switch (s.mode) {
+    case "walk": return Math.floor(t / 6) % 2 ? 3 : 2;
+    case "run": return Math.floor(t / 3) % 2 ? 3 : 2;
+    case "sit": return 10;
+    case "pet": return 11;
+    case "sleep": return [26, 27, 28, 29][Math.floor(t / 15) % 4];
+    case "eat": return t < 10 ? (t < 5 ? 30 : 31) : Math.floor(t / 5) % 2 ? 33 : 32;
+    case "drag": return Math.floor(t / 5) % 2 ? 6 : 5;
+    case "fall": return 4;
+    case "bounce": return t < 4 ? 18 : 19;
+    default: return 1;
+  }
+}
+
+const rand = (a: number, b: number) => a + Math.random() * (b - a);
+const DURATION: Partial<Record<Mode, [number, number]>> = { stand: [100, 200], sit: [250, 500], sleep: [600, 1500], eat: [140, 280] };
+
+function setMode(s: Sim, mode: Mode) {
+  s.mode = mode;
+  s.t = 0;
+  const d = DURATION[mode];
+  s.dur = d ? rand(d[0], d[1]) : 0;
+}
+
+function pickNext(s: Sim, still: boolean) {
+  // Same weights as the desktop behaviors.xml.
+  const weights: [Mode, number][] = [
+    ["stand", 200], ["sit", 200], ["sleep", 150], ["eat", 150],
+    ["walk", still ? 0 : 300], ["run", still ? 0 : 100],
+  ];
+  let r = Math.random() * weights.reduce((n, [, w]) => n + w, 0);
+  setMode(s, weights.find(([, w]) => (r -= w) < 0)?.[0] ?? "stand");
+  if (s.mode === "walk" || s.mode === "run") {
+    s.targetX = rand(0, Math.max(0, window.innerWidth - W));
+    s.facingRight = s.targetX > s.x;
+  }
+}
+
 export default function PetWidget() {
   const hidden = useHidden();
-  const { state, note } = usePetState();
-  if (hidden) return null;
+  const sim = useRef<Sim | null>(null);
+  const [view, setView] = useState<View | null>(null);
+
+  useEffect(() => {
+    if (hidden) return;
+    SPRITES.forEach((n) => (new Image().src = `/pet/shime${n}.png`));
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const s: Sim = sim.current ?? {
+      x: window.innerWidth - W - 24, y: 0, vx: 0, vy: 0, mode: "stand", t: 0, dur: 50,
+      targetX: 0, facingRight: false, petting: 0, onHead: false, grab: null,
+    };
+    sim.current = s;
+
+    const id = setInterval(() => {
+      const maxX = Math.max(0, window.innerWidth - W);
+      s.t++;
+      // Petting builds up while the mouse is on his head (faster if it moves) and slowly wears off.
+      s.petting = Math.max(0, s.petting + (s.onHead ? 3 : 0) - 1.5);
+      if (s.onHead && s.petting > 40 && (s.mode === "walk" || s.mode === "run")) setMode(s, "stand");
+      if (s.petting >= PET_AT && !["drag", "fall", "bounce", "pet"].includes(s.mode)) setMode(s, "pet");
+
+      switch (s.mode) {
+        case "drag":
+          break;
+        case "fall":
+          s.vy -= GRAVITY;
+          s.y += s.vy;
+          s.x += s.vx;
+          s.vx *= 0.97;
+          if (s.x < 0 || s.x > maxX) s.vx = -s.vx * 0.5;
+          if (s.y <= 0) {
+            s.y = s.vx = s.vy = 0;
+            setMode(s, "bounce");
+          }
+          break;
+        case "bounce":
+          if (s.t >= 8) setMode(s, "stand");
+          break;
+        case "walk":
+        case "run": {
+          const step = s.mode === "run" ? 4 : 2;
+          const d = s.targetX - s.x;
+          s.x += Math.sign(d) * Math.min(step, Math.abs(d));
+          if (Math.abs(d) <= step) pickNext(s, still);
+          break;
+        }
+        case "pet":
+          // Stay happy while he's being petted, then 2 more seconds.
+          if (s.onHead) s.t = 0;
+          if (s.t >= 50) {
+            s.petting = 0;
+            pickNext(s, still);
+          }
+          break;
+        default:
+          if (s.t >= s.dur) pickNext(s, still);
+      }
+      s.x = Math.min(maxX, Math.max(0, s.x));
+      setView({ x: s.x, y: s.y, frame: frameFor(s), facingRight: s.facingRight, mode: s.mode });
+    }, TICK);
+    return () => clearInterval(id);
+  }, [hidden]);
+
+  if (hidden || !view) return null;
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    const s = sim.current;
+    if (!s) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    s.grab = { dx: e.clientX - s.x, dy: window.innerHeight - e.clientY - s.y, lastX: e.clientX, lastY: e.clientY };
+    s.petting = 0;
+    setMode(s, "drag");
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    const s = sim.current;
+    if (!s) return;
+    if (s.grab) {
+      s.vx = (e.clientX - s.grab.lastX) * 0.5;
+      s.vy = (s.grab.lastY - e.clientY) * 0.5;
+      s.grab.lastX = e.clientX;
+      s.grab.lastY = e.clientY;
+      s.x = e.clientX - s.grab.dx;
+      s.y = Math.max(0, window.innerHeight - e.clientY - s.grab.dy);
+      return;
+    }
+    // His head is roughly the top 45% of the picture.
+    s.onHead = e.clientY - (window.innerHeight - s.y - H) < H * 0.45;
+    if (s.onHead) s.petting += Math.min(20, Math.hypot(e.movementX, e.movementY)) * 0.15;
+  };
+  const onPointerUp = () => {
+    const s = sim.current;
+    if (!s?.grab) return;
+    s.grab = null;
+    setMode(s, "fall");
+  };
+  const onPointerLeave = () => {
+    if (sim.current) sim.current.onHead = false;
+  };
+
   return (
-    <aside aria-label="Pet" className="fixed bottom-3 right-3 z-20 flex flex-col items-center" data-testid="pet" data-state={state}>
-      {note && (
-        <span className="mb-1 rounded-full border border-line bg-background px-2 py-0.5 text-xs shadow" aria-live="polite">
-          {state === "sleeping" ? "💤 " : state === "walking" ? "🚶 " : ""}{note}
-        </span>
+    <aside aria-label="Pet" className="group pointer-events-none fixed bottom-0 left-0 z-20" style={{ transform: `translate(${view.x}px, ${-view.y}px)`, width: W }} data-testid="pet" data-mode={view.mode}>
+      {view.mode === "pet" && (
+        <span className="absolute bottom-full left-1/2 -translate-x-1/2 animate-bounce text-xl" aria-hidden="true">💕</span>
       )}
-      <div className="pet-sprite" data-state={state} role="img" aria-label={`Boston Terrier pet. ${LABEL[state]}`} />
-      <button type="button" onClick={() => setHidden(true)} className="mt-0.5 rounded border border-line bg-surface px-1.5 text-xs" aria-label="Hide pet">
-        <span aria-hidden="true">✕</span> Hide
+      <div
+        role="img"
+        aria-label={`Boston Terrier pet. ${LABEL[view.mode]}`}
+        className="pointer-events-auto touch-none select-none"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onPointerLeave={onPointerLeave}
+        style={{
+          width: W,
+          height: H,
+          cursor: view.mode === "drag" ? "grabbing" : "grab",
+          backgroundImage: `url(/pet/shime${view.frame}.png)`,
+          backgroundSize: "100% 100%",
+          imageRendering: "pixelated",
+          transform: view.facingRight ? "scaleX(-1)" : undefined,
+        }}
+      />
+      <button type="button" onClick={() => setHidden(true)} className="pointer-events-auto absolute right-0 top-0 rounded border border-line bg-surface px-1.5 text-xs opacity-0 group-hover:opacity-100 focus:opacity-100" aria-label="Hide pet">
+        <span aria-hidden="true">✕</span>
       </button>
     </aside>
   );
