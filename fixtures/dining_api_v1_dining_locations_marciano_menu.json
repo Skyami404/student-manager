@@ -1,0 +1,150 @@
+{
+ "status": "Sample menu",
+ "open_now": null,
+ "schedules": [
+  {
+   "meal": "Breakfast",
+   "opens_at": "07:00",
+   "closes_at": "10:30"
+  },
+  {
+   "meal": "Lunch",
+   "opens_at": "11:00",
+   "closes_at": "15:00"
+  },
+  {
+   "meal": "Dinner",
+   "opens_at": "16:30",
+   "closes_at": "20:00"
+  }
+ ],
+ "meals": [
+  {
+   "name": "Breakfast",
+   "stations": [
+    {
+     "name": "Grill",
+     "items": [
+      {
+       "id": "15",
+       "name": "Scrambled Eggs",
+       "vegetarian": true,
+       "gluten_free": true
+      },
+      {
+       "id": "16",
+       "name": "Turkey Sausage",
+       "halal": true
+      },
+      {
+       "id": "17",
+       "name": "Hash Browns",
+       "vegetarian": true,
+       "vegan": true,
+       "gluten_free": true
+      }
+     ]
+    },
+    {
+     "name": "Bakery",
+     "items": [
+      {
+       "id": "18",
+       "name": "Blueberry Muffins",
+       "vegetarian": true
+      },
+      {
+       "id": "19",
+       "name": "Oatmeal Bar",
+       "vegetarian": true,
+       "vegan": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Lunch",
+   "stations": [
+    {
+     "name": "Pizza",
+     "items": [
+      {
+       "id": "20",
+       "name": "Cheese Pizza",
+       "vegetarian": true
+      },
+      {
+       "id": "21",
+       "name": "Pepperoni Pizza"
+      }
+     ]
+    },
+    {
+     "name": "Deli",
+     "items": [
+      {
+       "id": "22",
+       "name": "Turkey Club"
+      },
+      {
+       "id": "23",
+       "name": "Hummus Wrap",
+       "vegetarian": true,
+       "vegan": true
+      }
+     ]
+    },
+    {
+     "name": "Salad Bar",
+     "items": [
+      {
+       "id": "24",
+       "name": "Garden Salad",
+       "vegetarian": true,
+       "vegan": true,
+       "gluten_free": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Dinner",
+   "stations": [
+    {
+     "name": "Entr\u00e9es",
+     "items": [
+      {
+       "id": "25",
+       "name": "Grilled Chicken",
+       "halal": true,
+       "gluten_free": true
+      },
+      {
+       "id": "26",
+       "name": "Vegetable Stir Fry",
+       "vegetarian": true,
+       "vegan": true
+      },
+      {
+       "id": "27",
+       "name": "Pasta Marinara",
+       "vegetarian": true
+      }
+     ]
+    },
+    {
+     "name": "Desserts",
+     "items": [
+      {
+       "id": "28",
+       "name": "Chocolate Chip Cookies",
+       "vegetarian": true
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

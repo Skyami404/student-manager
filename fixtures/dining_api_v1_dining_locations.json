@@ -1,0 +1,32 @@
+{
+ "locations": [
+  {
+   "id": "warren",
+   "name": "Warren Towers Dining Hall",
+   "short_name": "Warren",
+   "campus": "Central",
+   "address": "700 Commonwealth Ave"
+  },
+  {
+   "id": "marciano",
+   "name": "Marciano Commons",
+   "short_name": "Marciano",
+   "campus": "Central",
+   "address": "100 Bay State Rd"
+  },
+  {
+   "id": "west",
+   "name": "West Campus Dining Hall",
+   "short_name": "West",
+   "campus": "West",
+   "address": "277 Babcock St"
+  },
+  {
+   "id": "granby",
+   "name": "Granby Commons",
+   "short_name": "Granby",
+   "campus": "East",
+   "address": "10 Buick St"
+  }
+ ]
+}

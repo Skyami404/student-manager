@@ -41,6 +41,8 @@ def _load_today() -> dict:
         out["status"] = s if s != "live" else out["status"]
         out["halls"][loc["id"]] = {"info": loc, "status_text": m.get("status"), "open_now": m.get("open_now"),
                                    "schedules": m.get("schedules", []), "meals": m.get("meals", []), "stale": m.get("stale", False)}
+    if out["status"] == "sample" and not out["date"]:
+        out["date"] = datetime.now(TZ).date().isoformat()  # demo menus have no date: show them as today's
     if out["date"]:
         out["weekday"] = DAYS[datetime.fromisoformat(out["date"]).weekday()]
         if out["status"] == "live":
@@ -61,7 +63,7 @@ def _remember_hours(today: dict) -> None:
 
 def _hours_for(day: str, today: dict) -> tuple[dict, str | None, str]:
     """({hall_id: schedules}, observed_date, source) where source is today | last_observed | unavailable."""
-    if today.get("weekday") == day:
+    if today.get("weekday") == day or (today.get("status") == "sample" and today["halls"]):
         return {h: v["schedules"] for h, v in today["halls"].items()}, today["date"], "today"
     try:
         rec = json.loads(HOURS_STORE.read_text()).get(day)
@@ -114,7 +116,9 @@ def find_meals(entry: dict | None, day: str, diet: list[str], meal_minutes: int,
         notes.add(f"Dining hours for {day} are not published yet; showing hours last seen on {hours_date}. Menus are only available for today, so dietary matches are unknown.")
     elif hours_source == "unavailable":
         notes.add(f"Dining hours for {day} are not published (the dining API only covers today) and none were seen before. Check bu.edu/dining.")
-    if today["status"] != "live":
+    if today["status"] == "sample":
+        notes.add("Demo data: BU dining is not reachable, so these halls, hours and menus are examples.")
+    elif today["status"] != "live":
         notes.add(f"Dining data is {today['status']}, not live; hours may be out of date.")
     if diet and not is_today:
         notes.add("Dietary filtering needs a published menu, which exists for today only.")

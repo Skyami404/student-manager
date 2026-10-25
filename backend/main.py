@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
+import assignments
 import db
 from clients import dining, transit
 from clients.catalog import get_catalog_source
@@ -212,6 +213,12 @@ def meals_endpoint(day: str | None = None, schedule_id: str | None = None, diet:
             raise HTTPException(404, "Unknown schedule_id (generate schedules first).")
     dorms, blds = _coords(s)
     return meals.find_meals(entry, day, [d for d in diet.split(",") if d], max(10, min(meal_minutes, 120)), blds, dorms)
+
+
+@app.get("/assignments")
+def assignments_due(days: int = 14):
+    """Assignments due soon from the Blackboard / Gradescope calendar links in backend/.env (sample list if none set)."""
+    return assignments.upcoming(max(1, min(days, 60)))
 
 
 @app.get("/hub/suggestions")

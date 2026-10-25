@@ -13,6 +13,7 @@ const TABS = [
   { href: "/week", label: "Week", icon: "▤" },
   { href: "/briefing", label: "Briefing", icon: "☰" },
   { href: "/eat", label: "Eat", icon: "◒" },
+  { href: "/productivity", label: "Productivity", icon: "✓" },
 ];
 
 export default function AppShell({ children }: { children: React.ReactNode }) {

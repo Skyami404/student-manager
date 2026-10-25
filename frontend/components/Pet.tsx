@@ -28,7 +28,7 @@ const W = 128 * SIZE;
 const H = 160 * SIZE;
 const TICK = 40;
 const GRAVITY = 1.2;
-const PET_AT = 150; // how much petting it takes before he gets happy
+const PET_AT = 90; // how much petting it takes before he gets happy
 
 type Mode = "stand" | "sit" | "walk" | "run" | "sleep" | "eat" | "pet" | "drag" | "fall" | "bounce";
 type Sim = {
@@ -44,6 +44,7 @@ type Sim = {
   petting: number;
   onHead: boolean;
   grab: { dx: number; dy: number; lastX: number; lastY: number } | null;
+  press?: { x: number; y: number } | null; // button held but not moved far yet: still petting, not dragging
 };
 type View = { x: number; y: number; frame: number; facingRight: boolean; mode: Mode };
 
@@ -164,13 +165,20 @@ export default function PetWidget() {
     const s = sim.current;
     if (!s) return;
     e.currentTarget.setPointerCapture(e.pointerId);
+    s.press = { x: e.clientX, y: e.clientY };
+  };
+  const startDrag = (s: Sim, e: React.PointerEvent) => {
+    s.press = null;
     s.grab = { dx: e.clientX - s.x, dy: window.innerHeight - e.clientY - s.y, lastX: e.clientX, lastY: e.clientY };
     s.petting = 0;
+    s.onHead = false;
     setMode(s, "drag");
   };
   const onPointerMove = (e: React.PointerEvent) => {
     const s = sim.current;
     if (!s) return;
+    // Holding the button and moving a long way picks him up; a click or a short rub is petting.
+    if (s.press && Math.hypot(e.clientX - s.press.x, e.clientY - s.press.y) > 40) startDrag(s, e);
     if (s.grab) {
       s.vx = (e.clientX - s.grab.lastX) * 0.5;
       s.vy = (s.grab.lastY - e.clientY) * 0.5;
@@ -180,12 +188,14 @@ export default function PetWidget() {
       s.y = Math.max(0, window.innerHeight - e.clientY - s.grab.dy);
       return;
     }
-    // His head is roughly the top 45% of the picture.
-    s.onHead = e.clientY - (window.innerHeight - s.y - H) < H * 0.45;
+    // His head is roughly the top 60% of the picture (measured on screen, so zoom and size changes don't matter).
+    const box = e.currentTarget.getBoundingClientRect();
+    s.onHead = e.clientY - box.top < box.height * 0.6;
     if (s.onHead) s.petting += Math.min(20, Math.hypot(e.movementX, e.movementY)) * 0.15;
   };
   const onPointerUp = () => {
     const s = sim.current;
+    if (s) s.press = null;
     if (!s?.grab) return;
     s.grab = null;
     setMode(s, "fall");
