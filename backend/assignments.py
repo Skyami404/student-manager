@@ -3,7 +3,7 @@
 - Blackboard: Calendar > Settings > Share calendar gives a private .ics link -> BLACKBOARD_ICS_URL.
 - Gradescope has no feed of its own. Any .ics link works for GRADESCOPE_ICS_URL (for example a
   Google Calendar "secret address in iCal format" that a Gradescope-to-calendar tool fills).
-  Otherwise students add Gradescope items by hand on the Briefing page (stored in the browser).
+  Otherwise students add Gradescope items by hand on the Productivity tab (stored in the browser).
 
 Links are secrets (anyone with one can read the calendar): they live in backend/.env only and are
 never returned or logged. Fallback order per feed: live -> disk cache (backend/.cache) -> skipped.
