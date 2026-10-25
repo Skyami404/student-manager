@@ -6,17 +6,17 @@ A BU student manager and schedule optimizer, built as a hackathon prototype. It 
 
 ## Contents
 
-[What it does](#what-it-does) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Getting started](#getting-started) · [Configuration](#configuration) · [API overview](#api-overview) · [Course catalog](#course-catalog) · [Locations and walking times](#locations-and-walking-times) · [Assignments](#assignments) · [Evaluation](#evaluation) · [Tests and CI](#tests-and-ci) · [Deployment](#deployment) · [Scripts](#scripts) · [Privacy](#privacy) · [Known limitations](#known-limitations) · [Contributing](#contributing) · [License](#license)
+[What it does](#what-it-does) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Getting started](#getting-started) · [Configuration](#configuration) · [API overview](#api-overview) · [Course catalog](#course-catalog) · [Locations and walking times](#locations-and-walking-times) · [Assignments](#assignments) · [Evaluation](#evaluation) · [Tests and CI](#tests-and-ci) · [Deployment](#deployment) · [Scripts](#scripts) · [Privacy](#privacy) · [Known limitations](#known-limitations) · [Conhtributing](#contributing) · [License](#license)
 
 ## What it does
 
-| Tab | Features |
-|---|---|
-| **Build** | Search the catalog, mark courses required or optional, set a credit range, earliest start, latest end and walking pace, then generate the top 3 distinct schedules (OR-Tools CP-SAT) shown as weekly grids with metrics and plain-language explanations. A Hub panel suggests courses that cover Hub areas you still need without creating tight transitions or removing a lunch window. |
-| **Week** | Your selected schedule with a transition-risk badge on each class (green, amber, red, or unknown, each with an icon), a Leave-By card for your next class, service alerts, `.ics` download, and the friends panel. |
-| **Briefing** | One mobile-friendly screen: today's classes, first-class leave-by time, alerts, meal windows and a transit-risk summary. |
-| **Eat** | Open dining halls, meal windows that fit your schedule gaps, and dietary filters (vegetarian, vegan, gluten-free, halal). |
-| **Productivity** | Assignments due (from your Blackboard and Gradescope calendar links, plus items you add by hand), a to-do list, and a Pomodoro timer. See [Assignments](#assignments). |
+| Tab              | Features                                                                                                                                                                                                                                                                                                                                                                                 |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Build**        | Search the catalog, mark courses required or optional, set a credit range, earliest start, latest end and walking pace, then generate the top 3 distinct schedules (OR-Tools CP-SAT) shown as weekly grids with metrics and plain-language explanations. A Hub panel suggests courses that cover Hub areas you still need without creating tight transitions or removing a lunch window. |
+| **Week**         | Your selected schedule with a transition-risk badge on each class (green, amber, red, or unknown, each with an icon), a Leave-By card for your next class, service alerts, `.ics` download, and the friends panel.                                                                                                                                                                       |
+| **Briefing**     | One mobile-friendly screen: today's classes, first-class leave-by time, alerts, meal windows and a transit-risk summary.                                                                                                                                                                                                                                                                 |
+| **Eat**          | Open dining halls, meal windows that fit your schedule gaps, and dietary filters (vegetarian, vegan, gluten-free, halal).                                                                                                                                                                                                                                                                |
+| **Productivity** | Assignments due (from your Blackboard and Gradescope calendar links, plus items you add by hand), a to-do list, and a Pomodoro timer. See [Assignments](#assignments).                                                                                                                                                                                                                   |
 
 Also: onboarding (dorm, required course codes, target credits, completed Hub areas), dark mode, a Boston Terrier that wanders the screen (you can pet or drag him, and hide him; he does not follow your schedule), keyboard navigation and a color-blind-safe palette. Every status uses an icon and text, never color alone.
 
@@ -103,37 +103,37 @@ The browser talks to the API through a same-origin proxy (`/backend/...`, forwar
 
 Secrets come only from environment variables; never commit real values. See `backend/.env.example` and `frontend/.env.example`.
 
-| Variable | Where | Purpose |
-|---|---|---|
-| `BU_BASE`, `BU_API_KEY`, `BU_AUTH`, `BU_TOKEN` | backend | BU API gateway address and credentials (`BU_AUTH` = `x-api-key`, `bearer`, `query:<param>` or `none`) |
-| `DB_ENGINE`, `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_SSL` | backend, scripts | Read-only catalog database (PostgreSQL). The app only runs SELECTs, in a read-only session |
-| `CATALOG_TERM` | backend | Term to list: `2271` = Spring 2027 (default), `2268` = Fall 2026 |
-| `BLACKBOARD_ICS_URL`, `GRADESCOPE_ICS_URL` | backend | Private calendar links for [Assignments](#assignments). Treat them as secrets |
-| `CORS_ORIGINS` | backend | Browser origins allowed to call the API directly (default: `http://localhost:3000,http://127.0.0.1:3000`). Not needed with the `/backend` proxy |
-| `COMPASS_LOGGER` | backend | Set to `0` to turn off the 2-minute transit logger |
-| `BACKEND_URL` | frontend | Where Next.js forwards `/backend/...` (default `http://127.0.0.1:8000`). Baked in at **build** time |
-| `NEXT_PUBLIC_API_URL` | frontend | Optional. Call a backend directly from the browser instead of using the proxy. Baked in at **build** time |
-| `BU_SPEC_URL` | scripts only | Optional OpenAPI spec URL for `scripts/pull_bu_api.py` |
+| Variable                                                                         | Where            | Purpose                                                                                                                                         |
+| -------------------------------------------------------------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BU_BASE`, `BU_API_KEY`, `BU_AUTH`, `BU_TOKEN`                                   | backend          | BU API gateway address and credentials (`BU_AUTH` = `x-api-key`, `bearer`, `query:<param>` or `none`)                                           |
+| `DB_ENGINE`, `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_SSL` | backend, scripts | Read-only catalog database (PostgreSQL). The app only runs SELECTs, in a read-only session                                                      |
+| `CATALOG_TERM`                                                                   | backend          | Term to list: `2271` = Spring 2027 (default), `2268` = Fall 2026                                                                                |
+| `BLACKBOARD_ICS_URL`, `GRADESCOPE_ICS_URL`                                       | backend          | Private calendar links for [Assignments](#assignments). Treat them as secrets                                                                   |
+| `CORS_ORIGINS`                                                                   | backend          | Browser origins allowed to call the API directly (default: `http://localhost:3000,http://127.0.0.1:3000`). Not needed with the `/backend` proxy |
+| `COMPASS_LOGGER`                                                                 | backend          | Set to `0` to turn off the 2-minute transit logger                                                                                              |
+| `BACKEND_URL`                                                                    | frontend         | Where Next.js forwards `/backend/...` (default `http://127.0.0.1:8000`). Baked in at **build** time                                             |
+| `NEXT_PUBLIC_API_URL`                                                            | frontend         | Optional. Call a backend directly from the browser instead of using the proxy. Baked in at **build** time                                       |
+| `BU_SPEC_URL`                                                                    | scripts only     | Optional OpenAPI spec URL for `scripts/pull_bu_api.py`                                                                                          |
 
 ## API overview
 
 Interactive docs are at `/docs` when the backend is running. The frontend also has an **About and limitations** page at `/about`.
 
-| Route | Purpose |
-|---|---|
-| `GET /health`, `GET /data-status` | Liveness; which sources are live, cached or sample |
-| `GET /courses?q=&limit=`, `GET /sections?course_id=` | Catalog search (codes match with or without spaces; `limit=0` returns all) and sections |
-| `GET /buildings`, `GET /dorms` | Lookup tables |
-| `POST /schedules/generate` | Top 3 schedules with metrics, flags and explanations |
-| `GET /leave-by?schedule_id=&class_id=` | Leave time, on-time probability, and why |
-| `GET /alerts` | Service alerts for your routes (empty list if none) |
-| `GET /meals?schedule_id=&day=&diet=` | Meal gaps that fit, with open dining halls |
-| `GET /hub/suggestions?schedule_id=&completed=` | Courses covering remaining Hub areas that fit your schedule |
-| `GET /export.ics?schedule_id=` | Weekly recurring calendar with leave-by alarms and optional meal windows |
-| `GET /assignments?days=` | Assignments due soon from your calendar links (a labelled sample list if none are set) |
-| `POST /watch` | Tells the transit logger which dorm and buildings matter |
-| `POST /auth/register`, `/auth/login`, `/auth/logout`, `GET /me`, `POST /me/settings`, `POST /me/schedule` | Optional accounts (`@bu.edu` email, hashed password, bearer session) |
-| `POST /friends/request`, `/friends/accept`, `GET /friends`, `GET /friends/free-gaps?friend_id=` | Friends: shared free windows only, never course names |
+| Route                                                                                                     | Purpose                                                                                 |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `GET /health`, `GET /data-status`                                                                         | Liveness; which sources are live, cached or sample                                      |
+| `GET /courses?q=&limit=`, `GET /sections?course_id=`                                                      | Catalog search (codes match with or without spaces; `limit=0` returns all) and sections |
+| `GET /buildings`, `GET /dorms`                                                                            | Lookup tables                                                                           |
+| `POST /schedules/generate`                                                                                | Top 3 schedules with metrics, flags and explanations                                    |
+| `GET /leave-by?schedule_id=&class_id=`                                                                    | Leave time, on-time probability, and why                                                |
+| `GET /alerts`                                                                                             | Service alerts for your routes (empty list if none)                                     |
+| `GET /meals?schedule_id=&day=&diet=`                                                                      | Meal gaps that fit, with open dining halls                                              |
+| `GET /hub/suggestions?schedule_id=&completed=`                                                            | Courses covering remaining Hub areas that fit your schedule                             |
+| `GET /export.ics?schedule_id=`                                                                            | Weekly recurring calendar with leave-by alarms and optional meal windows                |
+| `GET /assignments?days=`                                                                                  | Assignments due soon from your calendar links (a labelled sample list if none are set)  |
+| `POST /watch`                                                                                             | Tells the transit logger which dorm and buildings matter                                |
+| `POST /auth/register`, `/auth/login`, `/auth/logout`, `GET /me`, `POST /me/settings`, `POST /me/schedule` | Optional accounts (`@bu.edu` email, hashed password, bearer session)                    |
+| `POST /friends/request`, `/friends/accept`, `GET /friends`, `GET /friends/free-gaps?friend_id=`           | Friends: shared free windows only, never course names                                   |
 
 ## Course catalog
 
@@ -178,11 +178,11 @@ Runs 50 simulated course requests through the optimizer and two baselines (rando
 
 Latest run (synthetic sample catalog, 50 requests, seed 42; metrics averaged over the 39 requests where all three methods found a valid schedule):
 
-| method | valid | tight transitions | travel min/week | meal-window days | class days |
-|---|---|---|---|---|---|
-| optimizer | 48/50 | 0 | 138.1 | 4.23 | 4.23 |
-| random valid | 48/50 | 0 | 148.8 | 4.56 | 4.62 |
-| greedy first-fit | 39/50 | 0 | 146.3 | 4.49 | 4.54 |
+| method           | valid | tight transitions | travel min/week | meal-window days | class days |
+| ---------------- | ----- | ----------------- | --------------- | ---------------- | ---------- |
+| optimizer        | 48/50 | 0                 | 138.1           | 4.23             | 4.23       |
+| random valid     | 48/50 | 0                 | 148.8           | 4.56             | 4.62       |
+| greedy first-fit | 39/50 | 0                 | 146.3           | 4.49             | 4.54       |
 
 The optimizer walks less than both baselines and finds a valid schedule wherever one exists; greedy first-fit fails when it cannot backtrack. Every schedule it returns is re-scored independently of the solver and the two costs match.
 
